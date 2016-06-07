@@ -18,7 +18,7 @@ namespace Model
 		public Guid TeamId { get; set; }
 		public Guid CurrentUserTeamId { get; set; }
 
-		[ForeignKey("TeamId")]
+		//[ForeignKey("TeamId")]
 		public virtual Team Team { get; set; }
 		public virtual ICollection<Task> Tasks { get; set; }
 		public virtual ICollection<UserTeam> UserTeams { get; set; }
