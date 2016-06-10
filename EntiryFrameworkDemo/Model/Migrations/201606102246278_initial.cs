@@ -15,10 +15,10 @@ namespace Model.Migrations
                         TaskId = c.Guid(nullable: false),
                         StartTime = c.DateTime(nullable: false),
                         DurationInMin = c.Int(nullable: false),
-                        IsSuccessfull = c.Boolean(nullable: false),
+                        IsSuccessfull = c.Boolean(),
                     })
                 .PrimaryKey(t => t.PomodoroId)
-                .ForeignKey("dbo.Tasks", t => t.TaskId, cascadeDelete: false)
+                .ForeignKey("dbo.Tasks", t => t.TaskId, cascadeDelete: true)
                 .Index(t => t.TaskId);
             
             CreateTable(
@@ -26,14 +26,14 @@ namespace Model.Migrations
                 c => new
                     {
                         TaskId = c.Guid(nullable: false),
-                        Name = c.String(),
+                        Name = c.String(maxLength: 50),
                         PomodoroCount = c.Int(nullable: false),
                         UserId = c.Guid(nullable: false),
                         ProjectId = c.Guid(nullable: false),
                     })
                 .PrimaryKey(t => t.TaskId)
-                .ForeignKey("dbo.Projects", t => t.ProjectId, cascadeDelete: false)
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: false)
+                .ForeignKey("dbo.Projects", t => t.ProjectId, cascadeDelete: true)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.ProjectId);
             
@@ -42,7 +42,7 @@ namespace Model.Migrations
                 c => new
                     {
                         ProjectId = c.Guid(nullable: false),
-                        Name = c.String(),
+                        Name = c.String(maxLength: 50),
                     })
                 .PrimaryKey(t => t.ProjectId);
             
@@ -51,15 +51,15 @@ namespace Model.Migrations
                 c => new
                     {
                         UserId = c.Guid(nullable: false),
-                        UserName = c.String(),
-                        Password = c.String(),
+                        UserName = c.String(maxLength: 20),
+                        Password = c.String(maxLength: 20),
                         ShowWarningAfterPomodoroExpires = c.Boolean(nullable: false),
                         PomodoroDurationInMin = c.Int(nullable: false),
-                        TeamId = c.Guid(nullable: true),
-                        CurrentUserTeamId = c.Guid(nullable: true),
+                        TeamId = c.Guid(),
+                        CurrentUserTeamId = c.Guid(),
                     })
                 .PrimaryKey(t => t.UserId)
-                //.ForeignKey("dbo.Teams", t => t.TeamId)
+                .ForeignKey("dbo.Teams", t => t.TeamId)
                 .Index(t => t.TeamId);
             
             CreateTable(
@@ -67,7 +67,7 @@ namespace Model.Migrations
                 c => new
                     {
                         TeamId = c.Guid(nullable: false),
-                        Name = c.String(),
+                        Name = c.String(maxLength: 20),
                     })
                 .PrimaryKey(t => t.TeamId);
             
@@ -76,14 +76,14 @@ namespace Model.Migrations
                 c => new
                     {
                         UserTeamId = c.Guid(nullable: false),
-                        TeamId = c.Guid(nullable: false),
+                        TeamId = c.Guid(),
                         UserId = c.Guid(nullable: false),
-                        StartTime = c.DateTime(nullable: false),
-                        StopTime = c.DateTime(nullable: false),
+                        StartTime = c.DateTime(),
+                        StopTime = c.DateTime(),
                     })
                 .PrimaryKey(t => t.UserTeamId)
                 .ForeignKey("dbo.Teams", t => t.TeamId)
-                .ForeignKey("dbo.Users", t => t.UserId)
+                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.TeamId)
                 .Index(t => t.UserId);
             
@@ -93,7 +93,7 @@ namespace Model.Migrations
         {
             DropForeignKey("dbo.UserTeams", "UserId", "dbo.Users");
             DropForeignKey("dbo.UserTeams", "TeamId", "dbo.Teams");
-            //DropForeignKey("dbo.Users", "TeamId", "dbo.Teams");
+            DropForeignKey("dbo.Users", "TeamId", "dbo.Teams");
             DropForeignKey("dbo.Tasks", "UserId", "dbo.Users");
             DropForeignKey("dbo.Tasks", "ProjectId", "dbo.Projects");
             DropForeignKey("dbo.Pomodoroes", "TaskId", "dbo.Tasks");

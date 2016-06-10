@@ -14,6 +14,7 @@ namespace EntiryFrameworkDemo
 				var input = Console.ReadLine();
 				User user = null;
 				var users = from u in db.Users where u.UserName == input select u;
+
 				foreach (var u in users)
 				{
 					user = u;
@@ -86,7 +87,6 @@ namespace EntiryFrameworkDemo
 				};
 
 				db.Tasks.Add(task);
-
 				db.SaveChanges();
 
 				// Display all users from the database 
@@ -99,9 +99,9 @@ namespace EntiryFrameworkDemo
 				Console.WriteLine("-----------------------------------");
 				foreach (var item in query)
 				{
-					Console.WriteLine("User name: {0} working on:", item.UserName);
+					Console.WriteLine("User '{0}' works on:", item.UserName);
 					foreach (var t in item.Tasks)
-						Console.WriteLine("   Task name: {0}. Project: {1}", t.Name, t.Project.Name);
+						Console.WriteLine("  Task '{0}' in project '{1}'", t.Name, t.Project.Name);
 				}
 
 				Console.WriteLine("Press any key to exit...");

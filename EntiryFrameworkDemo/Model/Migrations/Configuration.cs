@@ -1,11 +1,8 @@
 namespace Model.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+	using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Model.PomodoroContext>
+	internal sealed class Configuration : DbMigrationsConfiguration<Model.PomodoroContext>
     {
         public Configuration()
         {

@@ -6,8 +6,9 @@ namespace Model
 {
 	public class Team
 	{
-		[Key]
 		public Guid TeamId { get; set; }
+
+		[MaxLength(20)]
 		public string Name { get; set; }
 
 		public virtual ICollection<User> Users { get; set; }

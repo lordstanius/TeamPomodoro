@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace Model
 {
@@ -17,7 +12,7 @@ namespace Model
 		public DbSet<UserTeam> UserTeams { get; set; }
 
 		public PomodoroContext() :
-			base("Data Source=.\\sqlexpress; Initial Catalog = TeamPomodoro; Integrated Security = True; MultipleActiveResultSets = True")
+			base("name=TeamPomodoro")
 		{
 		}
 	}
