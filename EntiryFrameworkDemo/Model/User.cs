@@ -18,9 +18,9 @@ namespace Model
 		public Guid? TeamId { get; set; }
 		public Guid? CurrentUserTeamId { get; set; }
 
-		public virtual Team Team { get; set; }
-		public virtual ICollection<Task> Tasks { get; set; }
-		public virtual ICollection<UserTeam> UserTeams { get; set; }
+		public Team Team { get; set; }
+		public ICollection<Task> Tasks { get; set; }
+		public ICollection<UserTeam> UserTeams { get; set; }
 
 	}
 }

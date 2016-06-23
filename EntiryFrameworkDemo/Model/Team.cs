@@ -11,7 +11,7 @@ namespace Model
 		[MaxLength(20)]
 		public string Name { get; set; }
 
-		public virtual ICollection<User> Users { get; set; }
-		public virtual ICollection<UserTeam> UserTeams { get; set; }
+		public ICollection<User> Users { get; set; }
+		public ICollection<UserTeam> UserTeams { get; set; }
 	}
 }

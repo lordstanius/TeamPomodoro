@@ -9,7 +9,7 @@ namespace Model
 		public Guid UserId { get; set; }
 		public DateTime? StartTime { get; set; }
 		public DateTime? StopTime { get; set; }
-		public virtual User User { get; set; }
-		public virtual Team Team { get; set; }
+		public User User { get; set; }
+		public Team Team { get; set; }
 	}
 }

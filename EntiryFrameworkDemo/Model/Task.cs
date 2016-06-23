@@ -14,8 +14,8 @@ namespace Model
 		public Guid UserId { get; set; }
 		public Guid ProjectId { get; set; }
 
-		public virtual User User { get; set; }
-		public virtual Project Project { get; set; }
-		public virtual ICollection<Pomodoro> Pomodoros { get; set; }
+		public User User { get; set; }
+		public Project Project { get; set; }
+		public ICollection<Pomodoro> Pomodoros { get; set; }
 	}
 }

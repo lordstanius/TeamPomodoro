@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[Pomodoroes] (
+﻿CREATE TABLE [dbo].[Pomodoroes] (
     [PomodoroId] [uniqueidentifier] NOT NULL,
     [TaskId] [uniqueidentifier] NOT NULL,
     [StartTime] [datetime],

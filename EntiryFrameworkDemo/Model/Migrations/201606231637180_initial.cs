@@ -13,7 +13,7 @@ namespace Model.Migrations
                     {
                         PomodoroId = c.Guid(nullable: false),
                         TaskId = c.Guid(nullable: false),
-                        StartTime = c.DateTime(nullable: false),
+                        StartTime = c.DateTime(),
                         DurationInMin = c.Int(nullable: false),
                         IsSuccessfull = c.Boolean(),
                     })
