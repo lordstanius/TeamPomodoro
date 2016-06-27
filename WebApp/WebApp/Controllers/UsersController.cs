@@ -22,9 +22,9 @@ namespace WebApp.Controllers
 		}
 
 		[ResponseType(typeof(User))]
-		public IHttpActionResult Get(string userName)
+		public IHttpActionResult Get(Guid id)
 		{
-			User user = db.Users.FirstOrDefault(u => u.UserName == userName);
+			var user = db.Users.Find(id);
 			if (user != null)
 				return Ok(user);
 
@@ -88,9 +88,9 @@ namespace WebApp.Controllers
 
 		// DELETE api/<controller>/5
 		[ResponseType(typeof(User))]
-		public IHttpActionResult Delete(string userName)
+		public IHttpActionResult Delete(Guid id)
 		{
-			User user = db.Users.FirstOrDefault(u => u.UserName == userName);
+			var user = db.Users.Find(id);
 			if (user == null)
 				return NotFound();
 
