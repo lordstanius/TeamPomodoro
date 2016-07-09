@@ -56,7 +56,7 @@ namespace WebApp.Controllers
 		}
 
 		// PUT api/<controller>/5
-		[ResponseType(typeof(void))]
+		[ResponseType(typeof(User))]
 		public IHttpActionResult Put(User user)
 		{
 			if (!ModelState.IsValid)
