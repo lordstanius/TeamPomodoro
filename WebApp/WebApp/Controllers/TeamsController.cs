@@ -46,7 +46,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateException)
+			catch (DbUpdateConcurrencyException)
 			{
 				if (!TeamExists(team.TeamId))
 					return NotFound();
@@ -59,16 +59,10 @@ namespace WebApp.Controllers
 
 		// POST: api/Teams
 		[ResponseType(typeof(Team))]
-		public IHttpActionResult PutTeam(string teamName)
+		public IHttpActionResult PutTeam(Team team)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
-
-			var team = new Team
-			{
-				TeamId = Guid.NewGuid(),
-				Name = teamName,
-			};
 
 			db.Teams.Add(team);
 
@@ -76,7 +70,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateConcurrencyException)
+			catch (DbUpdateException)
 			{
 				if (TeamExists(team.TeamId))
 					return Conflict();

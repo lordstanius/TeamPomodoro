@@ -46,7 +46,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateException)
+			catch (DbUpdateConcurrencyException)
 			{
 				if (!PomodoroExists(pomodoro.PomodoroId))
 					return NotFound();
@@ -59,17 +59,10 @@ namespace WebApp.Controllers
 
 		// POST: api/Pomodoroes
 		[ResponseType(typeof(Pomodoro))]
-		public IHttpActionResult PutPomodoro(Guid taskId, int durationInMin)
+		public IHttpActionResult PutPomodoro(Pomodoro pomodoro)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
-
-			var pomodoro = new Pomodoro
-			{
-				PomodoroId = Guid.NewGuid(),
-				TaskId = taskId,
-				DurationInMin = durationInMin
-			};
 
 			db.Pomodoros.Add(pomodoro);
 
@@ -77,7 +70,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateConcurrencyException)
+			catch (DbUpdateException)
 			{
 				if (PomodoroExists(pomodoro.PomodoroId))
 					return Conflict();

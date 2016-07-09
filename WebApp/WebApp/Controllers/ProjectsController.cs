@@ -46,7 +46,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateException)
+			catch (DbUpdateConcurrencyException)
 			{
 				if (!ProjectExists(project.ProjectId))
 					return NotFound();
@@ -59,16 +59,10 @@ namespace WebApp.Controllers
 
 		// POST: api/Projects
 		[ResponseType(typeof(Project))]
-		public IHttpActionResult PutProject(string projectName)
+		public IHttpActionResult PutProject(Project project)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
-
-			var project = new Project
-			{
-				ProjectId = Guid.NewGuid(),
-				Name = projectName,
-			};
 
 			db.Projects.Add(project);
 
@@ -76,7 +70,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateConcurrencyException)
+			catch (DbUpdateException)
 			{
 				if (ProjectExists(project.ProjectId))
 					return Conflict();

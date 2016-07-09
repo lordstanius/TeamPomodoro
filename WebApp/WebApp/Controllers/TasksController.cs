@@ -46,7 +46,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateException)
+			catch (DbUpdateConcurrencyException)
 			{
 				if (!TaskExists(task.TaskId))
 					return NotFound();
@@ -59,19 +59,10 @@ namespace WebApp.Controllers
 
 		// POST: api/Tasks
 		[ResponseType(typeof(Task))]
-		public IHttpActionResult PutTask(Guid projectId, Guid userId, string taskName)
+		public IHttpActionResult PutTask(Task task)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
-
-			var task = new Task
-			{
-				TaskId = Guid.NewGuid(),
-				Name = taskName,
-				ProjectId = projectId,
-				UserId = userId,
-				PomodoroCount = 1
-			};
 
 			db.Tasks.Add(task);
 
@@ -79,7 +70,7 @@ namespace WebApp.Controllers
 			{
 				db.SaveChanges();
 			}
-			catch (DbUpdateConcurrencyException)
+			catch (DbUpdateException)
 			{
 				if (TaskExists(task.TaskId))
 					return Conflict();

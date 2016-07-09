@@ -57,17 +57,10 @@ namespace WebApp.Controllers
 
 		// PUT api/<controller>/5
 		[ResponseType(typeof(void))]
-		public IHttpActionResult Put(string userName)
+		public IHttpActionResult Put(User user)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
-
-			var user = new User
-			{
-				UserName = userName,
-				UserId = Guid.NewGuid(),
-				PomodoroDurationInMin = 30,
-			};
 
 			db.Users.Add(user);
 
