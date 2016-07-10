@@ -19,8 +19,22 @@ namespace Model
 		public Guid? CurrentUserTeamId { get; set; }
 
 		public Team Team { get; set; }
-		public ICollection<Task> Tasks { get; set; }
+		public ICollection<User> Users { get; set; }
 		public ICollection<UserTeam> UserTeams { get; set; }
 
+		public override bool Equals(object obj)
+		{
+			return ((User)obj).UserId == UserId;
+		}
+
+		public bool Equals(User user)
+		{
+			return user.UserId == UserId;
+		}
+
+		public override int GetHashCode()
+		{
+			return BitConverter.ToInt32(UserId.ToByteArray(), 0);
+		}
 	}
 }

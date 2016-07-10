@@ -12,5 +12,20 @@ namespace Model
 		public string Name { get; set; }
 
 		public ICollection<Task> Tasks { get; set; }
+
+		public override bool Equals(object obj)
+		{
+			return ((Project)obj).ProjectId == ProjectId;
+		}
+
+		public bool Equals(Project project)
+		{
+			return project.ProjectId == ProjectId;
+		}
+
+		public override int GetHashCode()
+		{
+			return BitConverter.ToInt32(ProjectId.ToByteArray(), 0);
+		}
 	}
 }
