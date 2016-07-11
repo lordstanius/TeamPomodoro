@@ -21,6 +21,6 @@ namespace DataAccess.Core
 		IRepositoryAsync<UserTeam> UserTeamsAsync { get; }
 
 		int SaveChanges();
-		int SaveChangesAsync();
+		System.Threading.Tasks.Task<int> SaveChangesAsync();
 	}
 }

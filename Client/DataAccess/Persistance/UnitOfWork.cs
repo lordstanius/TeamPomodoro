@@ -25,12 +25,12 @@ namespace DataAccess.Persistance
 		public IRepository<Project> Projects { get { return _projectsRepo; } }
 		public IRepository<Pomodoro> Pomodoroes { get { return _pomodoroesRepo; } }
 		public IRepository<UserTeam> UserTeams { get { return _userTeamsRepo; } }
-		public IRepositoryAsync<Task> AsyncTasks { get { return _tasksRepo; } }
-		public IRepositoryAsync<User> AsyncUsers { get { return _usersRepo; } }
-		public IRepositoryAsync<Team> AsyncTeams { get { return _teamsRepo; } }
-		public IRepositoryAsync<Project> AsyncProjects { get { return _projectsRepo; } }
-		public IRepositoryAsync<Pomodoro> AsyncPomodoroes { get { return _pomodoroesRepo; } }
-		public IRepositoryAsync<UserTeam> AsyncUserTeams { get { return _userTeamsRepo; } }
+		public IRepositoryAsync<Task> TasksAsync { get { return _tasksRepo; } }
+		public IRepositoryAsync<User> UsersAsync { get { return _usersRepo; } }
+		public IRepositoryAsync<Team> TeamsAsync { get { return _teamsRepo; } }
+		public IRepositoryAsync<Project> ProjectsAsync { get { return _projectsRepo; } }
+		public IRepositoryAsync<Pomodoro> PomodoroesAsync { get { return _pomodoroesRepo; } }
+		public IRepositoryAsync<UserTeam> UserTeamsAsync { get { return _userTeamsRepo; } }
 
 		public int SaveChanges()
 		{
