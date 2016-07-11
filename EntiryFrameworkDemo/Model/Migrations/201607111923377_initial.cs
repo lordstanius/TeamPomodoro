@@ -27,18 +27,15 @@ namespace Model.Migrations
                     {
                         TaskId = c.Guid(nullable: false),
                         Name = c.String(maxLength: 50),
-                        TaskCount = c.Int(nullable: false),
+                        PomodoroCount = c.Int(nullable: false),
                         UserId = c.Guid(nullable: false),
                         ProjectId = c.Guid(nullable: false),
-                        Task_TaskId = c.Guid(),
                     })
                 .PrimaryKey(t => t.TaskId)
                 .ForeignKey("dbo.Projects", t => t.ProjectId, cascadeDelete: true)
-                .ForeignKey("dbo.Tasks", t => t.Task_TaskId)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
-                .Index(t => t.ProjectId)
-                .Index(t => t.Task_TaskId);
+                .Index(t => t.ProjectId);
             
             CreateTable(
                 "dbo.Projects",
@@ -97,19 +94,17 @@ namespace Model.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Pomodoroes", "TaskId", "dbo.Tasks");
             DropForeignKey("dbo.Tasks", "UserId", "dbo.Users");
             DropForeignKey("dbo.Users", "User_UserId", "dbo.Users");
             DropForeignKey("dbo.UserTeams", "UserId", "dbo.Users");
             DropForeignKey("dbo.UserTeams", "TeamId", "dbo.Teams");
             DropForeignKey("dbo.Users", "TeamId", "dbo.Teams");
-            DropForeignKey("dbo.Tasks", "Task_TaskId", "dbo.Tasks");
             DropForeignKey("dbo.Tasks", "ProjectId", "dbo.Projects");
+            DropForeignKey("dbo.Pomodoroes", "TaskId", "dbo.Tasks");
             DropIndex("dbo.UserTeams", new[] { "UserId" });
             DropIndex("dbo.UserTeams", new[] { "TeamId" });
             DropIndex("dbo.Users", new[] { "User_UserId" });
             DropIndex("dbo.Users", new[] { "TeamId" });
-            DropIndex("dbo.Tasks", new[] { "Task_TaskId" });
             DropIndex("dbo.Tasks", new[] { "ProjectId" });
             DropIndex("dbo.Tasks", new[] { "UserId" });
             DropIndex("dbo.Pomodoroes", new[] { "TaskId" });

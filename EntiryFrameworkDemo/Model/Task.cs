@@ -10,13 +10,13 @@ namespace Model
 
 		[MaxLength(50)]
 		public string Name { get; set; }
-		public int TaskCount { get; set; }
+		public int PomodoroCount { get; set; }
 		public Guid UserId { get; set; }
 		public Guid ProjectId { get; set; }
 
 		public User User { get; set; }
 		public Project Project { get; set; }
-		public ICollection<Task> Tasks { get; set; }
+		public ICollection<Pomodoro> Pomodoroes { get; set; }
 
 		public override bool Equals(object obj)
 		{
