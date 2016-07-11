@@ -22,6 +22,7 @@ namespace DataAccess.Persistance.Repositories
 		{
 			_client = client;
 			Uri = uri;
+			Entities = new List<TEntity>();
 		}
 
 		public void Add(TEntity entity)
@@ -33,9 +34,7 @@ namespace DataAccess.Persistance.Repositories
 		{
 			Task<TEntity> task = GetAsync(id);
 			task.Wait();
-			TEntity entity = task.Result;
-			UpdateEntities(entity);
-			return entity;
+			return task.Result;
 		}
 
 		public IEnumerable<TEntity> GetAll()
@@ -68,7 +67,8 @@ namespace DataAccess.Persistance.Repositories
 			{
 				string content = await message.Content.ReadAsStringAsync();
 				TEntity entity = JsonConvert.DeserializeObject<TEntity>(content);
-				UpdateEntities(entity);
+				if (entity != null)
+					UpdateEntities(entity);
 				return entity;
 			}
 		}
