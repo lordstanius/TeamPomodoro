@@ -13,15 +13,15 @@ namespace DataAccess.Persistance.Repositories
 	public class Repository<TEntity> :
 		IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class
 	{ 
-		string _uri;
+		internal string Uri { get; private set; }
+		internal List<TEntity> Entities { get; private set; }
+
 		HttpClient _client;
-		List<TEntity> _entities;
 
 		internal Repository(HttpClient client, string uri)
 		{
 			_client = client;
-			_uri = uri;
-			_entities = new List<TEntity>(GetAll());
+			Uri = uri;
 		}
 
 		public void Add(TEntity entity)
@@ -29,22 +29,22 @@ namespace DataAccess.Persistance.Repositories
 			AddAsync(entity).Wait();
 		}
 
-		public TEntity Find(Func<TEntity, bool> predicate)
-		{
-			throw new NotImplementedException();
-		}
-
 		public TEntity Get(Guid id)
 		{
 			Task<TEntity> task = GetAsync(id);
 			task.Wait();
-			return task.Result;
+			TEntity entity = task.Result;
+			UpdateEntities(entity);
+			return entity;
 		}
 
 		public IEnumerable<TEntity> GetAll()
 		{
 			Task<IEnumerable<TEntity>> task = GetAllAsync();
 			task.Wait();
+			foreach (var entity in task.Result)
+				UpdateEntities(entity);
+
 			return task.Result;
 		}
 
@@ -57,39 +57,56 @@ namespace DataAccess.Persistance.Repositories
 		{
 			string content = JsonConvert.SerializeObject(entity);
 			using (HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json"))
-			using (HttpResponseMessage message = await _client.PutAsync(_uri, httpContent))
+			using (HttpResponseMessage message = await _client.PutAsync(Uri, httpContent))
 				if (message.StatusCode != HttpStatusCode.Created)
 					throw new ArgumentException(string.Format("Failed to add entity with status {0} ({1}): ", message.StatusCode, (int)message.StatusCode));
 		}
 
-		public Task<TEntity> FindAsync(Func<TEntity, bool> predicate)
-		{
-			throw new NotImplementedException();
-		}
-
 		public async Task<TEntity> GetAsync(Guid id)
 		{
-			using (HttpResponseMessage message = await _client.GetAsync(_uri + id))
+			using (HttpResponseMessage message = await _client.GetAsync(Uri + id))
 			{
 				string content = await message.Content.ReadAsStringAsync();
-				return JsonConvert.DeserializeObject<TEntity>(content);
+				TEntity entity = JsonConvert.DeserializeObject<TEntity>(content);
+				UpdateEntities(entity);
+				return entity;
 			}
 		}
 
 		public async Task<IEnumerable<TEntity>> GetAllAsync()
 		{
-			using (HttpResponseMessage message = await _client.GetAsync(_uri))
+			using (HttpResponseMessage message = await _client.GetAsync(Uri))
 			{
 				string content = await message.Content.ReadAsStringAsync();
-				return JsonConvert.DeserializeObject<List<TEntity>>(content);
+				var entities = JsonConvert.DeserializeObject<List<TEntity>>(content);
+				foreach (var entity in entities)
+					UpdateEntities(entity);
+
+				return entities;
 			}
 		}
 
 		public async Task RemoveAsync(Guid id)
 		{
-			using (HttpResponseMessage message = await _client.DeleteAsync(_uri + id))
+			using (HttpResponseMessage message = await _client.DeleteAsync(Uri + id))
 				if (message.StatusCode != HttpStatusCode.OK)
-					throw new ArgumentException(string.Format("Failed to delete entity with status {0} ({1}): ", message.StatusCode, (int)message.StatusCode));
+					throw new ArgumentException(string.Format("Failed to delete entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));
+		}
+
+		void UpdateEntities(TEntity entity)
+		{
+			bool updated = false;
+			for (int i = 0; i < Entities.Count; i++)
+			{
+				if (Entities[i].Equals(entity))
+				{
+					Entities[i] = entity;
+					updated = true;
+				}
+			}
+
+			if (!updated)
+				Entities.Add(entity);
 		}
 	}
 }
