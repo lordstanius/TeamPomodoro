@@ -12,17 +12,25 @@ namespace DataAccess.Persistance
 {
 	public class UnitOfWork : IUnitOfWork
 	{
-		public IRepository<Task> Tasks { get; private set; }
+		Repository<Task> _tasksRepo;
+		Repository<User> _usersRepo;
+		Repository<Team> _teamsRepo;
+		Repository<Project> _projectsRepo;
+		Repository<Pomodoro> _pomodoroesRepo;
+		Repository<UserTeam> _userTeamsRepo;
 
-		public IRepository<User> Users { get; private set; }
-
-		public IRepository<Team> Teams { get; private set; }
-
-		public IRepository<Project> Projects { get; private set; }
-
-		public IRepository<Pomodoro> Pomodoroes { get; private set; }
-
-		public IRepository<UserTeam> UserTeams { get; private set; }
+		public IRepository<Task> Tasks { get { return _tasksRepo; } }
+		public IRepository<User> Users { get { return _usersRepo; } }
+		public IRepository<Team> Teams { get { return _teamsRepo; } }
+		public IRepository<Project> Projects { get { return _projectsRepo; } }
+		public IRepository<Pomodoro> Pomodoroes { get { return _pomodoroesRepo; } }
+		public IRepository<UserTeam> UserTeams { get { return _userTeamsRepo; } }
+		public IRepositoryAsync<Task> AsyncTasks { get { return _tasksRepo; } }
+		public IRepositoryAsync<User> AsyncUsers { get { return _usersRepo; } }
+		public IRepositoryAsync<Team> AsyncTeams { get { return _teamsRepo; } }
+		public IRepositoryAsync<Project> AsyncProjects { get { return _projectsRepo; } }
+		public IRepositoryAsync<Pomodoro> AsyncPomodoroes { get { return _pomodoroesRepo; } }
+		public IRepositoryAsync<UserTeam> AsyncUserTeams { get { return _userTeamsRepo; } }
 
 		public int SaveChanges()
 		{
@@ -41,12 +49,12 @@ namespace DataAccess.Persistance
 		{
 			_client = new HttpClient();
 
-			Tasks = new Repository<Task>(_client, uri + "/tasks/");
-			Users = new Repository<User>(_client, uri + "/users/");
-			Teams = new Repository<Team>(_client, uri + "/teams/");
-			Projects = new Repository<Project>(_client, uri + "/projects/");
-			Pomodoroes = new Repository<Pomodoro>(_client, uri + "/pomodoroes/");
-			UserTeams = new Repository<UserTeam>(_client, uri + "/userteams/");
+			_tasksRepo = new Repository<Task>(_client, uri + "/tasks/");
+			_usersRepo = new Repository<User>(_client, uri + "/users/");
+			_teamsRepo = new Repository<Team>(_client, uri + "/teams/");
+			_projectsRepo = new Repository<Project>(_client, uri + "/projects/");
+			_pomodoroesRepo = new Repository<Pomodoro>(_client, uri + "/pomodoroes/");
+			_userTeamsRepo = new Repository<UserTeam>(_client, uri + "/userteams/");
 		}
 
 		HttpClient _client;

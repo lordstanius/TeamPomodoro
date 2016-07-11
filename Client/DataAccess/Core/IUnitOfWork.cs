@@ -13,6 +13,14 @@ namespace DataAccess.Core
 		IRepository<Pomodoro> Pomodoroes { get; }
 		IRepository<UserTeam> UserTeams { get; }
 
+		IRepositoryAsync<User> UsersAsync { get; }
+		IRepositoryAsync<Task> TasksAsync { get; }
+		IRepositoryAsync<Team> TeamsAsync { get; }
+		IRepositoryAsync<Project> ProjectsAsync { get; }
+		IRepositoryAsync<Pomodoro> PomodoroesAsync { get; }
+		IRepositoryAsync<UserTeam> UserTeamsAsync { get; }
+
 		int SaveChanges();
+		int SaveChangesAsync();
 	}
 }
