@@ -49,9 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201606231637180_initial.cs" />
-    <Compile Include="Migrations\201606231637180_initial.Designer.cs">
-      <DependentUpon>201606231637180_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201607111749281_initial.cs" />
+    <Compile Include="Migrations\201607111749281_initial.Designer.cs">
+      <DependentUpon>201607111749281_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PomodoroContext.cs" />
@@ -68,12 +68,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606231637180_initial.resx">
-      <DependentUpon>201606231637180_initial.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="CreateTables.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CreateTables.sql" />
+    <EmbeddedResource Include="Migrations\201607111749281_initial.resx">
+      <DependentUpon>201607111749281_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
