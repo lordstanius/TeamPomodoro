@@ -12,9 +12,9 @@ namespace Client
 		{
 			using (var unitOfWork = new UnitOfWork(Uri))
 			{
-				unitOfWork.Users.Add(new User { UserName = "Joca", UserId = Guid.NewGuid() });
-				unitOfWork.Users.Add(new User { UserName = "Laza", UserId = Guid.NewGuid() });
-				unitOfWork.Users.Add(new User { UserName = "Pera", UserId = Guid.NewGuid() });
+				//unitOfWork.UsersAsync.AddAsync(new User { UserName = "Zika", UserId = Guid.NewGuid() });
+				//unitOfWork.Users.Add(new User { UserName = "Laza", UserId = Guid.NewGuid() });
+				//unitOfWork.Users.Add(new User { UserName = "Pera", UserId = Guid.NewGuid() });
 
 				foreach (var user in unitOfWork.Users.GetAll())
 					Console.WriteLine("User name: {0}, id = {1}", user.UserName, user.UserId);

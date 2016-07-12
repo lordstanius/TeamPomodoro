@@ -35,12 +35,12 @@ namespace DataAccess.Persistance
 		public int SaveChanges()
 		{
 			int count = 0;
-			count += SaveChanges(Tasks);
-			count += SaveChanges(Users);
-			count += SaveChanges(Teams);
-			count += SaveChanges(Projects);
-			count += SaveChanges(Pomodoroes);
-			count += SaveChanges(UserTeams);
+			count += SaveChanges(_tasksRepo);
+			count += SaveChanges(_usersRepo);
+			count += SaveChanges(_teamsRepo);
+			count += SaveChanges(_projectsRepo);
+			count += SaveChanges(_pomodoroesRepo);
+			count += SaveChanges(_userTeamsRepo);
 
 			return count;
 		}
@@ -62,37 +62,37 @@ namespace DataAccess.Persistance
 		public async System.Threading.Tasks.Task<int> SaveChangesAsync()
 		{
 			int count = 0;
-			count += await SaveChangesAsync(Tasks);
-			count += await SaveChangesAsync(Users);
-			count += await SaveChangesAsync(Teams);
-			count += await SaveChangesAsync(Projects);
-			count += await SaveChangesAsync(Pomodoroes);
-			count += await SaveChangesAsync(UserTeams);
+			count += await SaveChangesAsync(_tasksRepo);
+			count += await SaveChangesAsync(_usersRepo);
+			count += await SaveChangesAsync(_teamsRepo);
+			count += await SaveChangesAsync(_projectsRepo);
+			count += await SaveChangesAsync(_pomodoroesRepo);
+			count += await SaveChangesAsync(_userTeamsRepo);
 
 			return count;
 		}
 
-		int SaveChanges<TEntity>(IRepository<TEntity> repo) where TEntity : class
+		int SaveChanges<TEntity>(Repository<TEntity> repo) where TEntity : class
 		{
 			var task = SaveChangesAsync(repo);
 			task.Wait();
 			return task.Result;
 		}
 
-		async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(IRepository<TEntity> repo) where TEntity : class
+		async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(Repository<TEntity> repo) where TEntity : class
 		{
-			var entities = ((Repository<TEntity>)repo).Entities;
-			foreach (var entity in entities)
+			foreach (var entity in repo.Entities)
 			{
 				string content = JsonConvert.SerializeObject(entity);
 				using (HttpContent httpContent = new StringContent(content))
-				using (HttpResponseMessage message = await _client.PostAsync(((Repository<TEntity>)repo).Uri, httpContent))
+				using (HttpResponseMessage message = await _client.PostAsync(repo.Uri, httpContent))
 					if (message.StatusCode != HttpStatusCode.NoContent)
 						throw new ArgumentException(string.Format("Failed to save entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));
 			}
 
-			int changes = entities.Count;
-			entities.Clear();
+			int changes = repo.Entities.Count;
+			repo.Entities.Clear();
+			repo.AllEntities = null;
 			return changes;
 		}
 

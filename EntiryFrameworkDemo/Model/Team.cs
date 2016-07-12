@@ -28,5 +28,10 @@ namespace Model
 		{
 			return BitConverter.ToInt32(TeamId.ToByteArray(), 0);
 		}
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }
