@@ -58,13 +58,34 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Core\Controller.cs" />
+    <Compile Include="UI\PomodoroDetails.xaml.cs">
+      <DependentUpon>PomodoroDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Pomodoroes.xaml.cs">
+      <DependentUpon>Pomodoroes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AddTask.xaml.cs">
+      <DependentUpon>AddTask.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UiMeasurements.cs" />
+    <Compile Include="UI\UpDownControl.xaml.cs">
+      <DependentUpon>UpDownControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserDetails.xaml.cs">
       <DependentUpon>UserDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\WindowHelper.cs" />
+    <Page Include="UI\PomodoroDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Pomodoroes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -86,7 +107,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\AddTask.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\SignIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UpDownControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

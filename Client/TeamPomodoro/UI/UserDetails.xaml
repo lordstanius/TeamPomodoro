@@ -31,7 +31,7 @@
 						  Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
 			<TextBox Name="txtUserName" Grid.Column="1" VerticalAlignment="Center" 
 						VerticalContentAlignment="Center"
-						Height="24" Margin="20,0,0,0"/>
+						Height="{x:Static local:UiMeasurements.CommonHeight}" Margin="20,0,0,0"/>
 		</Grid>
 
 		<Grid Grid.Row="1">
@@ -43,7 +43,7 @@
 						  Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
 			<PasswordBox Name="txtPassword" Grid.Column="1" VerticalAlignment="Center" 
 							 VerticalContentAlignment="Center"
-							 Height="24" Margin="20,0,0,0"/>
+							 Height="{x:Static local:UiMeasurements.CommonHeight}" Margin="20,0,0,0"/>
 		</Grid>
 
 		<Grid Grid.Row="2">
@@ -52,7 +52,7 @@
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
 			<TextBlock Name="lWit" Text="{x:Static g:Strings.TxtWorksInTeam}" VerticalAlignment="Center"/>
-			<ComboBox Name="cbTeam" Grid.Column="1" VerticalAlignment="Center" Height="24" Margin="20,0,0,0"/>
+			<ComboBox Name="cbTeam" Grid.Column="1" VerticalAlignment="Center" Height="{x:Static local:UiMeasurements.CommonHeight}" Margin="20,0,0,0"/>
 		</Grid>
 		<StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Top"
@@ -60,40 +60,11 @@
 
 		<StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom">
 			<TextBlock Text="{x:Static g:Strings.TxtPomodoroDuration}" VerticalAlignment="Center"/>
-			<Border BorderBrush="DarkGray"
-					  Name="numUpDown"
-					  Grid.Column="1"
-					  BorderThickness="1"
-					  HorizontalAlignment="Left"
-					  Width="40" Height="22" Margin="20,0,0,0">
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"/>
-						<ColumnDefinition Width="15"/>
-					</Grid.ColumnDefinitions>
-					<TextBlock Name="txtNumVal" Grid.Column="0" Margin="2" 
-								  HorizontalAlignment="Left"
-									TextElement.Foreground="Black"
-									Text="24"
-									VerticalAlignment="Center"/>
-					<Grid Grid.Column="1">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="*"/>
-							<RowDefinition Height="*"/>
-						</Grid.RowDefinitions>
-						<Border Grid.Row="0" 
-								  BorderBrush="DarkGray" BorderThickness="1,0,0,1"
-								  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-							<Path Data="M 0 4 L 4 0 L 8 4 Z" Fill="Black" Margin="3,2,0,0"/>
-						</Border>
-						<Border Grid.Row="1"  
-								  BorderBrush="DarkGray" BorderThickness="1,1,0,0"
-								  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-							<Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="Black" Margin="3,3,0,0"/>
-						</Border>
-					</Grid>
-				</Grid>
-			</Border>
+			<local:UpDownControl Grid.Column="1"
+										x:Name="numUpDown"
+										Minimum="5" Maximum="60"
+										HorizontalAlignment="Left"
+										Width="40" Height="22" Margin="20,0,0,0"/>
 			<TextBlock Text="{x:Static g:Strings.TxtMinutes}" VerticalAlignment="Center"
 						  Margin="10,0,0,0"/>
 		</StackPanel>
@@ -101,8 +72,10 @@
 					 Name="chkShowWarning"
 					 Content="{x:Static g:Strings.TxtShowWarning}" IsChecked="True"
 					VerticalAlignment="Center"/>
-		<Button Grid.Row="5" Width="80" Content="Save" HorizontalAlignment="Right"
+		<Button Grid.Row="5" Width="80" Content="{x:Static g:Strings.TxtSave}" HorizontalAlignment="Right"
 				  IsDefault="True" Margin="0,10,0,0"
+				  Padding="15,0,15,0"
+				  Height="{x:Static local:UiMeasurements.CommonHeight}"
 				  Click="OnSaveClick"/>
 	</Grid>
 </Window>

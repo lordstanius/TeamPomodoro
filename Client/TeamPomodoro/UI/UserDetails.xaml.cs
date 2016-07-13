@@ -30,6 +30,8 @@ namespace TeamPomodoro.UI
 
 			try
 			{
+				Cursor = Cursors.Wait;
+
 				Guid? teamId = null;
 				if (cbTeam.SelectedItem != null)
 					teamId = ((Team)cbTeam.SelectedItem).TeamId;
@@ -38,7 +40,7 @@ namespace TeamPomodoro.UI
 				DialogResult = await Controller.Instance.AddUser(
 					txtUserName.Text,
 					"Pass123",
-					int.Parse(txtNumVal.Text),
+					numUpDown.Value,
 					(bool)chkShowWarning.IsChecked,
 					teamId
 				);
@@ -52,8 +54,10 @@ namespace TeamPomodoro.UI
 			{
 				MessageBox.Show(ex.Message, Strings.MsgFailedToRespond, MessageBoxButton.OK, MessageBoxImage.Error);
 			}
-
-			DialogResult = null;
+			finally
+			{
+				Cursor = Cursors.Arrow;
+			}
 		}
 	}
 }

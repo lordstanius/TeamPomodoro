@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		  xmlns:g="clr-namespace:TeamPomodoro.Globalization"
         xmlns:local="clr-namespace:TeamPomodoro"
+		  xmlns:ui="clr-namespace:TeamPomodoro.UI"
         mc:Ignorable="d"
         Title="{x:Static g:Strings.TxtTeamPomodoro}"
 		  Icon="..\Resources\main.ico"
@@ -40,8 +41,11 @@
 				 VerticalAlignment="Center"/>
 		<TextBlock Name="lPomodoro" Grid.Row="2" Text="Pomodoro # of #" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 		<StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
-			<Button Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"/>
-			<Button Content="{x:Static g:Strings.TxtStop}" VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"/>
+			<Button Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"
+					  Padding="15,0,15,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
+			
+			<Button Content="{x:Static g:Strings.TxtStop}" VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"
+					  Padding="15,0,15,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
 		</StackPanel>
 		<StackPanel Grid.Row="5" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Bottom">
@@ -60,7 +64,5 @@
 				VerticalAlignment="Center"/>
 			</StackPanel>
 		</StackPanel>
-
-
 	</Grid>
 </Window>

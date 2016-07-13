@@ -73,6 +73,11 @@ namespace TeamPomodoro.Core
 			MainWindow.Cursor = Cursors.Arrow;
 		}
 
+		/// <summary>
+		/// Returns null if action is not completed to indicate that Sign in dialog should stay opened.
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <returns></returns>
 		internal async Task<bool?> ShowUserDetails(string userName)
 		{
 			try
