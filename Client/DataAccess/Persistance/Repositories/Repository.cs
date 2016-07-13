@@ -41,6 +41,9 @@ namespace DataAccess.Persistance.Repositories
 
 		public IEnumerable<TEntity> GetAll()
 		{
+			if (AllEntities != null)
+				return AllEntities;
+
 			Task<IEnumerable<TEntity>> task = GetAllAsync();
 			task.Wait();
 
@@ -77,7 +80,6 @@ namespace DataAccess.Persistance.Repositories
 		{
 			if (AllEntities == null)
 			{
-
 				using (HttpResponseMessage message = await _client.GetAsync(Uri))
 				{
 					string content = await message.Content.ReadAsStringAsync();
