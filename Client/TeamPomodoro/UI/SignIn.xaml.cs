@@ -27,7 +27,7 @@ namespace TeamPomodoro.UI
 			if (DialogResult == true)
 				return;
 
-			if (MessageBox.Show(Strings.MsgUserCannotBeFound, Strings.TxtTeamPomodoro, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+			if (MessageDialog.ShowYesNo(Strings.MsgUserCannotBeFound))
 				DialogResult = await Controller.Instance.ShowUserDetails(txtUserName.Text);
 		}
 	}

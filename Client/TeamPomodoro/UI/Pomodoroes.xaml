@@ -62,7 +62,7 @@
 			<ListView.View>
 				<GridView>
 					<GridViewColumn Width="125" DisplayMemberBinding="{Binding Task}">
-						<GridViewColumnHeader Content="{x:Static g:Strings.TxtTaskHeader}"
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtTaskName}"
 													 HorizontalContentAlignment="Left" Width="Auto"/>
 					</GridViewColumn>
 					<GridViewColumn Header="{x:Static g:Strings.TxtSuccessful}" Width="70" 

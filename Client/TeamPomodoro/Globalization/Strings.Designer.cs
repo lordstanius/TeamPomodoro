@@ -97,6 +97,33 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add project.
+        /// </summary>
+        public static string TxtAddProject {
+            get {
+                return ResourceManager.GetString("TxtAddProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add team.
+        /// </summary>
+        public static string TxtAddTeam {
+            get {
+                return ResourceManager.GetString("TxtAddTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string TxtCancel {
+            get {
+                return ResourceManager.GetString("TxtCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose date....
         /// </summary>
         public static string TxtChooseDate {
@@ -169,11 +196,29 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string TxtNo {
+            get {
+                return ResourceManager.GetString("TxtNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number of pomodoros required for the task:.
         /// </summary>
         public static string TxtNumberOfPomodoros {
             get {
                 return ResourceManager.GetString("TxtNumberOfPomodoros", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string TxtOk {
+            get {
+                return ResourceManager.GetString("TxtOk", resourceCulture);
             }
         }
         
@@ -228,6 +273,15 @@ namespace TeamPomodoro.Globalization {
         public static string TxtProject {
             get {
                 return ResourceManager.GetString("TxtProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project name.
+        /// </summary>
+        public static string TxtProjectName {
+            get {
+                return ResourceManager.GetString("TxtProjectName", resourceCulture);
             }
         }
         
@@ -304,20 +358,11 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Task:.
+        ///   Looks up a localized string similar to Task.
         /// </summary>
         public static string TxtTask {
             get {
                 return ResourceManager.GetString("TxtTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Task.
-        /// </summary>
-        public static string TxtTaskHeader {
-            get {
-                return ResourceManager.GetString("TxtTaskHeader", resourceCulture);
             }
         }
         
@@ -336,6 +381,15 @@ namespace TeamPomodoro.Globalization {
         public static string TxtTeam {
             get {
                 return ResourceManager.GetString("TxtTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team name.
+        /// </summary>
+        public static string TxtTeamName {
+            get {
+                return ResourceManager.GetString("TxtTeamName", resourceCulture);
             }
         }
         
@@ -390,6 +444,15 @@ namespace TeamPomodoro.Globalization {
         public static string TxtWorksInTeam {
             get {
                 return ResourceManager.GetString("TxtWorksInTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string TxtYes {
+            get {
+                return ResourceManager.GetString("TxtYes", resourceCulture);
             }
         }
     }

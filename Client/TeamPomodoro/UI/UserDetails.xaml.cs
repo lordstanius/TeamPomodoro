@@ -48,11 +48,11 @@ namespace TeamPomodoro.UI
 				if (DialogResult == true)
 					return;
 
-				MessageBox.Show(Strings.MsgUserExists, Strings.TxtTeamPomodoro, MessageBoxButton.OK, MessageBoxImage.Warning);
+				MessageDialog.Show(Strings.MsgUserExists);
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, Strings.MsgFailedToRespond, MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageDialog.Show(ex.Message, Strings.MsgFailedToRespond);
 			}
 			finally
 			{

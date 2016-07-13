@@ -58,6 +58,12 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Core\Controller.cs" />
+    <Compile Include="UI\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\EditDialog.xaml.cs">
+      <DependentUpon>EditDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\PomodoroDetails.xaml.cs">
       <DependentUpon>PomodoroDetails.xaml</DependentUpon>
     </Compile>
@@ -78,6 +84,14 @@
       <DependentUpon>UserDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util\WindowHelper.cs" />
+    <Page Include="UI\MessageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\EditDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\PomodoroDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -173,6 +187,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\error.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

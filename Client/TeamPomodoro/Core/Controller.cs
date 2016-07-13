@@ -67,7 +67,7 @@ namespace TeamPomodoro.Core
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, Strings.MsgFailedToRespond, MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageDialog.ShowError(ex.Message, Strings.MsgFailedToRespond);
 			}
 
 			MainWindow.Cursor = Cursors.Arrow;
@@ -103,7 +103,7 @@ namespace TeamPomodoro.Core
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show(ex.Message, Strings.MsgFailedToRespond, MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageDialog.ShowError(ex.Message, Strings.MsgFailedToRespond);
 				return null;
 			}
 			finally

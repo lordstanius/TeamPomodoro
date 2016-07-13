@@ -136,7 +136,7 @@
     <value>Stop</value>
   </data>
   <data name="TxtTask" xml:space="preserve">
-    <value>Task:</value>
+    <value>Task</value>
   </data>
   <data name="TxtTeamPomodoro" xml:space="preserve">
     <value>Team Pomodoro</value>
@@ -213,9 +213,6 @@
   <data name="TxtSuccessful" xml:space="preserve">
     <value>Successful</value>
   </data>
-  <data name="TxtTaskHeader" xml:space="preserve">
-    <value>Task</value>
-  </data>
   <data name="TxtTaskName" xml:space="preserve">
     <value>Task name</value>
   </data>
@@ -227,5 +224,29 @@
   </data>
   <data name="TxtUser" xml:space="preserve">
     <value>User</value>
+  </data>
+  <data name="TxtAddProject" xml:space="preserve">
+    <value>Add project</value>
+  </data>
+  <data name="TxtAddTeam" xml:space="preserve">
+    <value>Add team</value>
+  </data>
+  <data name="TxtCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="TxtNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="TxtOk" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="TxtProjectName" xml:space="preserve">
+    <value>Project name</value>
+  </data>
+  <data name="TxtTeamName" xml:space="preserve">
+    <value>Team name</value>
+  </data>
+  <data name="TxtYes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>
