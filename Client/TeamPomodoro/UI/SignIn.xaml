@@ -30,7 +30,7 @@
 		</PasswordBox>
 		<Button Grid.Row="4" Content="{x:Static g:Strings.TxtSignIn}"
 				  Margin="0,10,0,0"
-				  Padding="15,0,15,0"
+				  Padding="10,0,10,0"
 				  MinWidth="80"
 				  Height="{x:Static local:UiMeasurements.CommonHeight}"
 				  IsDefault="True"

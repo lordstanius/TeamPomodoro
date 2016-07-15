@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model
 {
-	public class User
+	public class User : IEquatable<User>, IEntity
 	{
 		public Guid UserId {	get; set; }
 
@@ -36,5 +36,7 @@ namespace Model
 		{
 			return BitConverter.ToInt32(UserId.ToByteArray(), 0);
 		}
+
+		public Guid Id() { return UserId; }
 	}
 }

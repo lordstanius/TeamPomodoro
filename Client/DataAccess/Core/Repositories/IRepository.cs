@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataAccess.Core.Repositories
 {
-	public interface IRepository<TEntity> where TEntity : class
+	public interface IRepository<TEntity> where TEntity : Model.IEntity
 	{
 		/// <summary>
 		/// Returns entity with a specified ID. Changes to this object will be tracked
@@ -25,6 +25,6 @@ namespace DataAccess.Core.Repositories
 		/// <summary>
 		/// Removes entity with a specified ID from collection
 		/// </summary>
-		void Remove(Guid id);
+		void Remove(TEntity entity);
 	}
 }

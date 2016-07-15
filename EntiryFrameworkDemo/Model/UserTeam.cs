@@ -2,7 +2,7 @@
 
 namespace Model
 {
-	public class UserTeam
+	public class UserTeam : IEquatable<UserTeam>, IEntity
 	{
 		public Guid UserTeamId { get; set; }
 		public Guid? TeamId { get; set; }
@@ -26,5 +26,7 @@ namespace Model
 		{
 			return BitConverter.ToInt32(UserTeamId.ToByteArray(), 0);
 		}
+
+		public Guid Id() { return UserTeamId; }
 	}
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model
 {
-	public class Team
+	public class Team : IEquatable<Team>, IEntity
 	{
 		public Guid TeamId { get; set; }
 
@@ -33,5 +33,7 @@ namespace Model
 		{
 			return Name;
 		}
+
+		public Guid Id() { return TeamId; }
 	}
 }

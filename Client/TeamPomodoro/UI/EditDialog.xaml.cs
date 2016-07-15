@@ -1,8 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using TeamPomodoro.Core;
-using TeamPomodoro.Globalization;
+using System.Windows.Controls;
 
 namespace TeamPomodoro.UI
 {
@@ -11,20 +11,14 @@ namespace TeamPomodoro.UI
 	/// </summary>
 	public partial class EditDialog : Window
 	{
-		public EditDialog(bool isTeam)
+		public EditDialog()
 		{
 			InitializeComponent();
+		}
 
-			if (isTeam)
-			{
-				Title = Strings.TxtAddTeam;
-				lTitle.Text = Strings.TxtTeamName;
-			}
-			else
-			{
-				Title = Strings.TxtAddProject;
-				lTitle.Text = Strings.TxtProjectName;
-			}
+		void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			btnEdit.IsEnabled = list.SelectedItem != null;
 		}
 
 		void OnMouseDown(object sender, MouseButtonEventArgs e)

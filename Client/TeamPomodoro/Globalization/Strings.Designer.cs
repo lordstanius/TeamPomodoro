@@ -61,15 +61,6 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server failed to repond..
-        /// </summary>
-        public static string MsgFailedToRespond {
-            get {
-                return ResourceManager.GetString("MsgFailedToRespond", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to User cannot be found. Would you like to create account?.
         /// </summary>
         public static string MsgUserCannotBeFound {
@@ -115,6 +106,15 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Admin.
+        /// </summary>
+        public static string TxtAdmin {
+            get {
+                return ResourceManager.GetString("TxtAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string TxtCancel {
@@ -138,6 +138,15 @@ namespace TeamPomodoro.Globalization {
         public static string TxtDate {
             get {
                 return ResourceManager.GetString("TxtDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string TxtDelete {
+            get {
+                return ResourceManager.GetString("TxtDelete", resourceCulture);
             }
         }
         
@@ -169,11 +178,65 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Project.
+        /// </summary>
+        public static string TxtEditProject {
+            get {
+                return ResourceManager.GetString("TxtEditProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Projects....
+        /// </summary>
+        public static string TxtEditProjects {
+            get {
+                return ResourceManager.GetString("TxtEditProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Team.
+        /// </summary>
+        public static string TxtEditTeam {
+            get {
+                return ResourceManager.GetString("TxtEditTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Teams....
+        /// </summary>
+        public static string TxtEditTeams {
+            get {
+                return ResourceManager.GetString("TxtEditTeams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string TxtError {
+            get {
+                return ResourceManager.GetString("TxtError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed.
         /// </summary>
         public static string TxtFailed {
             get {
                 return ResourceManager.GetString("TxtFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Information.
+        /// </summary>
+        public static string TxtInfo {
+            get {
+                return ResourceManager.GetString("TxtInfo", resourceCulture);
             }
         }
         
@@ -282,6 +345,15 @@ namespace TeamPomodoro.Globalization {
         public static string TxtProjectName {
             get {
                 return ResourceManager.GetString("TxtProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projects.
+        /// </summary>
+        public static string TxtProjects {
+            get {
+                return ResourceManager.GetString("TxtProjects", resourceCulture);
             }
         }
         
@@ -399,6 +471,15 @@ namespace TeamPomodoro.Globalization {
         public static string TxtTeamPomodoro {
             get {
                 return ResourceManager.GetString("TxtTeamPomodoro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teams.
+        /// </summary>
+        public static string TxtTeams {
+            get {
+                return ResourceManager.GetString("TxtTeams", resourceCulture);
             }
         }
         

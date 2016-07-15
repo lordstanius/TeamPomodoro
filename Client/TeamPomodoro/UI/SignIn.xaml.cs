@@ -28,7 +28,8 @@ namespace TeamPomodoro.UI
 				return;
 
 			if (MessageDialog.ShowYesNo(Strings.MsgUserCannotBeFound))
-				DialogResult = await Controller.Instance.ShowUserDetails(txtUserName.Text);
+				if (await Controller.Instance.ShowUserDetails(txtUserName.Text))
+					DialogResult = true;
 		}
 	}
 }

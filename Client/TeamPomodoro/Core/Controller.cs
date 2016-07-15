@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using TeamPomodoro.UI;
+using TeamPomodoro.Util;
 using TeamPomodoro.Properties;
 using TeamPomodoro.Globalization;
 using DataAccess.Persistance;
@@ -38,6 +39,18 @@ namespace TeamPomodoro.Core
 			}
 		}
 
+		internal async void ShowEditProjets()
+		{
+			var editHelper = new EditHelper(EditHelper.EditType.Project);
+			await editHelper.ShowEditDialog();
+		}
+
+		internal async void ShowEditTeams()
+		{
+			var editHelper = new EditHelper(EditHelper.EditType.Team);
+			await editHelper.ShowEditDialog();
+		}
+
 		internal static Controller Instance
 		{
 			get
@@ -62,23 +75,20 @@ namespace TeamPomodoro.Core
 					WindowStartupLocation = WindowStartupLocation.CenterOwner
 				};
 
+				signIn.txtUserName.Focus();
+
 				if (signIn.ShowDialog() == false)
 					MainWindow.Close();
 			}
 			catch (Exception ex)
 			{
-				MessageDialog.ShowError(ex.Message, Strings.MsgFailedToRespond);
+				MessageDialog.ShowError(ex.Message);
 			}
 
 			MainWindow.Cursor = Cursors.Arrow;
 		}
 
-		/// <summary>
-		/// Returns null if action is not completed to indicate that Sign in dialog should stay opened.
-		/// </summary>
-		/// <param name="userName"></param>
-		/// <returns></returns>
-		internal async Task<bool?> ShowUserDetails(string userName)
+		internal async Task<bool> ShowUserDetails(string userName)
 		{
 			try
 			{
@@ -95,16 +105,12 @@ namespace TeamPomodoro.Core
 				userDetails.txtUserName.Text = userName;
 				userDetails.txtPassword.Focus();
 
-				bool? result = true;
-				if (userDetails.ShowDialog() == false)
-					result = null;
-
-				return result;
+				return userDetails.ShowDialog() == true;
 			}
 			catch (Exception ex)
 			{
-				MessageDialog.ShowError(ex.Message, Strings.MsgFailedToRespond);
-				return null;
+				MessageDialog.ShowError(ex.Message);
+				return false;
 			}
 			finally
 			{

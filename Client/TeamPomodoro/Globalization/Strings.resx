@@ -144,9 +144,6 @@
   <data name="TxtUserSettings" xml:space="preserve">
     <value>User settings</value>
   </data>
-  <data name="MsgFailedToRespond" xml:space="preserve">
-    <value>Server failed to repond.</value>
-  </data>
   <data name="MsgUserCannotBeFound" xml:space="preserve">
     <value>User cannot be found. Would you like to create account?</value>
   </data>
@@ -248,5 +245,35 @@
   </data>
   <data name="TxtYes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="TxtAdmin" xml:space="preserve">
+    <value>Admin</value>
+  </data>
+  <data name="TxtDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="TxtEditProject" xml:space="preserve">
+    <value>Edit Project</value>
+  </data>
+  <data name="TxtEditProjects" xml:space="preserve">
+    <value>Edit Projects...</value>
+  </data>
+  <data name="TxtEditTeam" xml:space="preserve">
+    <value>Edit Team</value>
+  </data>
+  <data name="TxtEditTeams" xml:space="preserve">
+    <value>Edit Teams...</value>
+  </data>
+  <data name="TxtError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="TxtInfo" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="TxtProjects" xml:space="preserve">
+    <value>Projects</value>
+  </data>
+  <data name="TxtTeams" xml:space="preserve">
+    <value>Teams</value>
   </data>
 </root>

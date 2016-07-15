@@ -74,7 +74,7 @@
 					VerticalAlignment="Center"/>
 		<Button Grid.Row="5" Width="80" Content="{x:Static g:Strings.TxtSave}" HorizontalAlignment="Right"
 				  IsDefault="True" Margin="0,10,0,0"
-				  Padding="15,0,15,0"
+				  Padding="10,0,10,0"
 				  Height="{x:Static local:UiMeasurements.CommonHeight}"
 				  Click="OnSaveClick"/>
 	</Grid>

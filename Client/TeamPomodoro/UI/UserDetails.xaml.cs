@@ -52,7 +52,7 @@ namespace TeamPomodoro.UI
 			}
 			catch (Exception ex)
 			{
-				MessageDialog.Show(ex.Message, Strings.MsgFailedToRespond);
+				MessageDialog.Show(ex.Message);
 			}
 			finally
 			{

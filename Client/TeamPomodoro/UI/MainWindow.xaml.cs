@@ -27,5 +27,15 @@ namespace TeamPomodoro
 			Controller.Create(this);
 			Controller.Instance.ShowSignIn();
 		}
+
+		void OnEditTeamsClick(object sender, RoutedEventArgs e)
+		{
+			Controller.Instance.ShowEditTeams();
+		}
+
+		void OnEditProjectsClick(object sender, RoutedEventArgs e)
+		{
+			Controller.Instance.ShowEditProjets();
+		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Core.Repositories
 {
-	public interface IRepositoryAsync<TEntity> where TEntity : class
+	public interface IRepositoryAsync<TEntity> where TEntity : Model.IEntity
 	{
 		/// <summary>
 		/// Returns entity with a specified Id after the asynchronous task is completed. 
@@ -27,6 +27,6 @@ namespace DataAccess.Core.Repositories
 		/// Run task to remove an entity with a specified ID from collection,
 		/// and returns immediatelly to the caller.
 		/// </summary>
-		Task RemoveAsync(Guid id);
+		Task RemoveAsync(TEntity entity);
 	}
 }

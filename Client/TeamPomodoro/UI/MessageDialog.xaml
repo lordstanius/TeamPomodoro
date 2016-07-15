@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TeamPomodoro.UI"
 		  xmlns:g="clr-namespace:TeamPomodoro.Globalization"
         mc:Ignorable="d"
-        Title="{x:Static g:Strings.TxtTeamPomodoro}" Height="160" Width="330"
+        Title="{x:Static g:Strings.TxtTeamPomodoro}" Height="160" Width="360"
 		  Icon="..\Resources\main.ico"
 		  ShowInTaskbar="False"
 		  ResizeMode="NoResize"
@@ -21,10 +21,13 @@
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Image Name="imgError" Source="..\Resources\error.png" Margin="0,0,20,0" Width="48" Height="48"/>
-			<TextBlock Grid.Column="1" Name="lMessage" Grid.Row="0"
-					  VerticalAlignment="Center" TextWrapping="Wrap"
-						  HorizontalAlignment="Center"
+			<Image Name="imgError" Source="..\Resources\error.png" Margin="0,0,10,0" Width="48" Height="48"/>
+			<TextBox Grid.Column="1" Name="lMessage" Grid.Row="0" BorderThickness="0"
+						HorizontalContentAlignment="Center"  
+						VerticalContentAlignment="Center"
+						TextWrapping="Wrap"
+						VerticalScrollBarVisibility="Auto"
+						HorizontalScrollBarVisibility="Disabled"
 						  Text="Some message goes here..."/>
 		</Grid>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
@@ -32,7 +35,7 @@
 						Name="btnOk"
 						IsDefault="True"
 				  MinWidth="80"
-				  Padding="15,0,15,0"
+				  Padding="10,0,10,0"
 				  HorizontalAlignment="Right"
 				  VerticalAlignment="Bottom"
 					Margin="0,0,20,0"
@@ -41,7 +44,7 @@
 			<Button Grid.Row="2" Height="{x:Static local:UiMeasurements.CommonHeight}"
 					  Name="btnCancel"
 				  MinWidth="80"
-				  Padding="15,0,15,0"
+				  Padding="10,0,10,0"
 				  HorizontalAlignment="Right"
 				  VerticalAlignment="Bottom"
 				  Content="Cancel"

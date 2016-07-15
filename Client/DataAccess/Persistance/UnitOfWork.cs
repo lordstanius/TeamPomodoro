@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Model;
@@ -72,19 +73,19 @@ namespace DataAccess.Persistance
 			return count;
 		}
 
-		int SaveChanges<TEntity>(Repository<TEntity> repo) where TEntity : class
+		int SaveChanges<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
 		{
 			var task = SaveChangesAsync(repo);
 			task.Wait();
 			return task.Result;
 		}
 
-		async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(Repository<TEntity> repo) where TEntity : class
+		async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
 		{
 			foreach (var entity in repo.Entities)
 			{
 				string content = JsonConvert.SerializeObject(entity);
-				using (HttpContent httpContent = new StringContent(content))
+				using (HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json"))
 				using (HttpResponseMessage message = await _client.PostAsync(repo.Uri, httpContent))
 					if (message.StatusCode != HttpStatusCode.NoContent)
 						throw new ArgumentException(string.Format("Failed to save entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));

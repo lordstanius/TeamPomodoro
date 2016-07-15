@@ -14,55 +14,65 @@
 		  WindowStartupLocation="CenterScreen"
 		  MouseDown="OnMouseDown"
 		  Loaded="OnLoaded">
-	<Grid Margin="30" Name="gridMain" IsEnabled="False">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		<Grid Margin="0,20,0,10">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<TextBlock Text="{x:Static g:Strings.TxtTask}" HorizontalAlignment="Left" VerticalAlignment="Center"
+	<Grid>
+		<Menu VerticalAlignment="Top" Background="White">
+			<MenuItem Header="{x:Static g:Strings.TxtUser}"/>
+			<MenuItem Header="{x:Static g:Strings.TxtAdmin}">
+				<MenuItem Header="{x:Static g:Strings.TxtEditTeams}" Click="OnEditTeamsClick"/>
+				<MenuItem Header="{x:Static g:Strings.TxtEditProjects}" Click="OnEditProjectsClick"/>
+			</MenuItem>
+		</Menu>
+		<Grid Margin="30,40,30,30" Name="gridMain" IsEnabled="False">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+
+			<Grid Margin="0,0,0,10" Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<TextBlock Text="{x:Static g:Strings.TxtTask}" HorizontalAlignment="Left" VerticalAlignment="Center"
 					 Margin="0,0,20,0"/>
-			<ComboBox Grid.Column="1" VerticalAlignment="Center"/>
-		</Grid>
-		<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
-			<Button Content="{x:Static g:Strings.TxtEdit}" VerticalAlignment="Center" MinWidth="60"/>
-			<Button Content="{x:Static g:Strings.TxtAdd}" VerticalAlignment="Center" MinWidth="60" Margin="10,0,0,0"/>
-		</StackPanel>
-		<TextBlock Name="lCounter" Grid.Row="3" Text="00:00" FontSize="80"
+				<ComboBox Grid.Column="1" VerticalAlignment="Center"/>
+			</Grid>
+			<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
+				<Button Content="{x:Static g:Strings.TxtEdit}" VerticalAlignment="Center" MinWidth="60"/>
+				<Button Content="{x:Static g:Strings.TxtAdd}" VerticalAlignment="Center" MinWidth="60" Margin="10,0,0,0"/>
+			</StackPanel>
+			<TextBlock Name="lCounter" Grid.Row="3" Text="00:00" FontSize="80"
 				 HorizontalAlignment="Center"
 				 VerticalAlignment="Center"/>
-		<TextBlock Name="lPomodoro" Grid.Row="2" Text="Pomodoro # of #" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-		<StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
-			<Button Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"
-					  Padding="15,0,15,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
-			
-			<Button Content="{x:Static g:Strings.TxtStop}" VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"
-					  Padding="15,0,15,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
-		</StackPanel>
-		<StackPanel Grid.Row="5" Orientation="Horizontal" FlowDirection="RightToLeft" 
+			<TextBlock Name="lPomodoro" Grid.Row="2" Text="Pomodoro # of #" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+			<StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+				<Button Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"
+					  Padding="10,0,10,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
+
+				<Button Content="{x:Static g:Strings.TxtStop}" VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"
+					  Padding="10,0,10,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
+			</StackPanel>
+			<StackPanel Grid.Row="5" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Bottom">
-			<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
-				<Image Source="..\Resources\gear.png" Width="16" Height="16" Stretch="Fill" Margin="5"/>
-				<Button Style="{StaticResource LinkLabel}" 
+				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+					<Image Source="..\Resources\gear.png" Width="16" Height="16" Stretch="Fill" Margin="5"/>
+					<Button Style="{StaticResource LinkLabel}" 
 			Content="{x:Static g:Strings.TxtUserSettings}" 
 			HorizontalAlignment="Left" VerticalAlignment="Center"
 			Foreground="Blue"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="20,0,0,0">
-				<Image Source="..\Resources\tomato.png" Width="16" Height="16" Stretch="Fill" Margin="5"/>
-				<Button Style="{StaticResource LinkLabel}"
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="20,0,0,0">
+					<Image Source="..\Resources\tomato.png" Width="16" Height="16" Stretch="Fill" Margin="5"/>
+					<Button Style="{StaticResource LinkLabel}"
 				Foreground="Blue"
 				Content="{x:Static g:Strings.TxtTeamPomodoro}" HorizontalAlignment="Left"
 				VerticalAlignment="Center"/>
+				</StackPanel>
 			</StackPanel>
-		</StackPanel>
+		</Grid>
 	</Grid>
 </Window>

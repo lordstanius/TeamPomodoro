@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Model
 {
-	public class Project
+	public class Project : IEquatable<Project>, IEntity
 	{
 		public Guid ProjectId { get; set; }
 
@@ -27,5 +27,7 @@ namespace Model
 		{
 			return BitConverter.ToInt32(ProjectId.ToByteArray(), 0);
 		}
+
+		public Guid Id() { return ProjectId; }
 	}
 }

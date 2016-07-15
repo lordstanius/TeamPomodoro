@@ -2,7 +2,7 @@
 
 namespace Model
 {
-	public class Pomodoro
+	public class Pomodoro : IEquatable<Pomodoro>, IEntity
 	{
 		public Guid PomodoroId { get; set; }
 		public Guid TaskId { get; set; }
@@ -26,5 +26,7 @@ namespace Model
 		{
 			return BitConverter.ToInt32(PomodoroId.ToByteArray(), 0);
 		}
+
+		public Guid Id() { return PomodoroId; }
 	}
 }

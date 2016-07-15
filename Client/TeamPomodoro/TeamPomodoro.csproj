@@ -58,6 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Core\Controller.cs" />
+    <Compile Include="UI\AddOrRename.xaml.cs">
+      <DependentUpon>AddOrRename.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
@@ -83,7 +86,12 @@
     <Compile Include="UI\UserDetails.xaml.cs">
       <DependentUpon>UserDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\EditHelper.cs" />
     <Compile Include="Util\WindowHelper.cs" />
+    <Page Include="UI\AddOrRename.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

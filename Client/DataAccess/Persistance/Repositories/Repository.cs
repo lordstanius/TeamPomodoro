@@ -11,7 +11,7 @@ using DataAccess.Core.Repositories;
 namespace DataAccess.Persistance.Repositories
 {
 	public class Repository<TEntity> :
-		IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : class
+		IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : Model.IEntity
 	{
 		internal string Uri { get; private set; }
 		internal List<TEntity> Entities { get; private set; }
@@ -50,13 +50,15 @@ namespace DataAccess.Persistance.Repositories
 			return AllEntities;
 		}
 
-		public void Remove(Guid id)
+		public void Remove(TEntity entity)
 		{
-			RemoveAsync(id).Wait();
+			RemoveAsync(entity).Wait();
 		}
 
 		public async Task AddAsync(TEntity entity)
 		{
+			UpdateEntities(entity);
+			AllEntities = null; // invalidate entities
 			string content = JsonConvert.SerializeObject(entity);
 			using (HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json"))
 			using (HttpResponseMessage message = await _client.PutAsync(Uri, httpContent))
@@ -78,23 +80,24 @@ namespace DataAccess.Persistance.Repositories
 
 		public async Task<IEnumerable<TEntity>> GetAllAsync()
 		{
-			if (AllEntities == null)
+			using (HttpResponseMessage message = await _client.GetAsync(Uri))
 			{
-				using (HttpResponseMessage message = await _client.GetAsync(Uri))
-				{
-					string content = await message.Content.ReadAsStringAsync();
-					var entities = JsonConvert.DeserializeObject<List<TEntity>>(content);
+				string content = await message.Content.ReadAsStringAsync();
+				var entities = JsonConvert.DeserializeObject<List<TEntity>>(content);
 
-					AllEntities = new List<TEntity>(entities);
-				}
+				AllEntities = new List<TEntity>(entities);
 			}
 
 			return AllEntities;
 		}
 
-		public async Task RemoveAsync(Guid id)
+		public async Task RemoveAsync(TEntity entity)
 		{
-			using (HttpResponseMessage message = await _client.DeleteAsync(Uri + id))
+			AllEntities = null; // invalidate entities
+			if (Entities != null)
+				Entities.Remove(entity);
+
+			using (HttpResponseMessage message = await _client.DeleteAsync(Uri + entity.Id()))
 				if (message.StatusCode != HttpStatusCode.OK)
 					throw new ArgumentException(string.Format("Failed to delete entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));
 		}
@@ -102,6 +105,9 @@ namespace DataAccess.Persistance.Repositories
 		void UpdateEntities(TEntity entity)
 		{
 			bool updated = false;
+			if (Entities == null)
+				Entities = new List<TEntity>();
+
 			for (int i = 0; i < Entities.Count; i++)
 			{
 				if (Entities[i].Equals(entity))

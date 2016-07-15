@@ -50,6 +50,9 @@ namespace TeamPomodoro.UI
 
 		public static bool Show(string message, string caption = null, bool showCancel = false)
 		{
+			if (caption == null)
+				caption = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, Strings.TxtInfo);
+
 			return Show(message, caption, false, showCancel, false);
 		}
 
@@ -60,6 +63,9 @@ namespace TeamPomodoro.UI
 
 		public static bool ShowError(string message, string caption = null, bool showCancel = false)
 		{
+			if (caption == null)
+				caption = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, Strings.TxtError);
+
 			return Show(message, caption, false, showCancel, true);
 		}
 
