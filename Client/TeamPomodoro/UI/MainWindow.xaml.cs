@@ -75,15 +75,7 @@ namespace TeamPomodoro.UI
 
 		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (cbTasks.SelectedIndex == -1)
-			{
-				btnStart.IsEnabled = false;
-				btnStop.IsEnabled = false;
-			}
-			else
-			{
-				btnStart.IsEnabled = true;
-			}
+			toggle.IsEnabled = cbTasks.SelectedIndex > -1;
 		}
 	}
 }

@@ -67,9 +67,8 @@ namespace TeamPomodoro.Core
 			Main.cbTasks.IsEnabled = false;
 			Main.cbTasks.SelectedItem = null;
 			Main.lPomodoro.Visibility = Visibility.Hidden;
-			Main.btnStart.IsEnabled = false;
-			Main.btnStop.IsEnabled = false;
 			Main.grid.IsEnabled = false;
+			Main.toggle.IsChecked = false;
 
 			var mniSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignIn");
 			var mniSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignOut");

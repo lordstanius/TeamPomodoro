@@ -9,6 +9,7 @@
 			<util:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="..\Styles\LinkLabel.xaml"/>
+				<ResourceDictionary Source="..\Styles\AnimatedSwitch.xaml"/>
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>

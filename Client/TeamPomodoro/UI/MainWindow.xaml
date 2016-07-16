@@ -57,12 +57,22 @@
 			</Grid>
 			<TextBlock Name="lPomodoro" Grid.Row="1" Text="Pomodoro # of #" HorizontalAlignment="Left" 
 						  VerticalAlignment="Top" Visibility="Hidden"/>
-			
+
 			<TextBlock Name="lCounter" Grid.Row="2" Text="00:00" FontSize="80"
 				 HorizontalAlignment="Center"
-				 VerticalAlignment="Center"/>
-			
-			<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+				 VerticalAlignment="Center">
+				<TextBlock.BitmapEffect>
+					<DropShadowBitmapEffect Softness="0.1" ShadowDepth="0.7" Direction="270" Color="#BBBBBB"/>
+				</TextBlock.BitmapEffect>
+			</TextBlock>
+
+			<ToggleButton Grid.Row="3" Style="{StaticResource AnimatedSwitch}" Height="26"
+							  Name="toggle"
+							  Background="#FF5555"
+							  BorderBrush="#F57676"
+							  HorizontalAlignment="Center"
+							  Margin="0,0,0,20" IsEnabled="False"/>
+			<!--<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
 				<Button Name="btnStart"
 						  IsEnabled="False"
 						  Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"
@@ -74,7 +84,7 @@
 						  VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"
 					  Padding="10,0,10,0" Height="{x:Static local:UiMeasurements.CommonHeight}"
 						  Click="OnStopTimerClick"/>
-			</StackPanel>
+			</StackPanel>-->
 			<StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Bottom">
 				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">

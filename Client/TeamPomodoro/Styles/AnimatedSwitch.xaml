@@ -9,7 +9,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="ToggleButton">
 					<Viewbox Stretch="Uniform">
-						<Canvas Name="Layer_1" Width="20" Height="20" Canvas.Left="10" Canvas.Top="0">
+						<Canvas Name="Layer_1" Width="35" Height="20" Canvas.Left="10" Canvas.Top="0">
 							<Ellipse  Canvas.Left="0" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
 							<Ellipse  Canvas.Left="15" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
 							<Border Canvas.Left="10" Width="15" Height="20" Name="rect416927" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0.5,0,0.5"/>
@@ -40,8 +40,8 @@
 							<Trigger.ExitActions>
 								<BeginStoryboard>
 									<Storyboard>
-										<ColorAnimation Storyboard.TargetProperty="Background.Color" To="#FAFAFB" Duration="0:0:0.2" />
-										<ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#EAEAEB" Duration="0:0:0.2" />
+										<ColorAnimation Storyboard.TargetProperty="Background.Color" To="#FF5555" Duration="0:0:0.2" />
+										<ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#F57676" Duration="0:0:0.2" />
 										<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ellipse">
 											<SplineDoubleKeyFrame KeyTime="0" Value="15"/>
 											<SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0" KeySpline="0, 0.5, 0.5, 1"/>
@@ -49,6 +49,9 @@
 									</Storyboard>
 								</BeginStoryboard>
 							</Trigger.ExitActions>
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter Property="Opacity" Value="0.5"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
