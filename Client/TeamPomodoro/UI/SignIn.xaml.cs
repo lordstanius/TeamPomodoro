@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using TeamPomodoro.Core;
@@ -21,15 +22,28 @@ namespace TeamPomodoro.UI
 			Util.WindowHelper.Move(new WindowInteropHelper(this).Handle);
 		}
 
-		async void OnSignOnClick(object sender, RoutedEventArgs e)
+		async void OnSignInClick(object sender, RoutedEventArgs e)
 		{
-			DialogResult = Controller.Instance.ValidateUser(txtUserName.Text, txtPassword.SecurePassword.ToString());
-			if (DialogResult == true)
-				return;
-
-			if (MessageDialog.ShowYesNo(Strings.MsgUserCannotBeFound))
-				if (await Controller.Instance.ShowUserDetails(txtUserName.Text))
+			Cursor = Cursors.Wait;
+			try
+			{
+				if (await Controller.Instance.GetUser(txtUserName.Text, txtPassword.SecurePassword.ToString()))
+				{
 					DialogResult = true;
+					return;
+				}
+				if (MessageDialog.ShowYesNo(Strings.MsgUserCannotBeFound))
+					if (await Controller.Instance.ShowUserDetails(txtUserName.Text))
+						DialogResult = true;
+			}
+			catch (Exception ex)
+			{
+				MessageDialog.ShowError(ex.ToString());
+			}
+			finally
+			{
+				Cursor = Cursors.Arrow;
+			}
 		}
 	}
 }

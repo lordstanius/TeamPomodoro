@@ -35,15 +35,17 @@ namespace DataAccess.Persistance
 
 		public int SaveChanges()
 		{
-			int count = 0;
-			count += SaveChanges(_tasksRepo);
-			count += SaveChanges(_usersRepo);
-			count += SaveChanges(_teamsRepo);
-			count += SaveChanges(_projectsRepo);
-			count += SaveChanges(_pomodoroesRepo);
-			count += SaveChanges(_userTeamsRepo);
+			throw new NotImplementedException();
+			// following is not tested
+			//int count = 0;
+			//count += SaveChanges(_tasksRepo);
+			//count += SaveChanges(_usersRepo);
+			//count += SaveChanges(_teamsRepo);
+			//count += SaveChanges(_projectsRepo);
+			//count += SaveChanges(_pomodoroesRepo);
+			//count += SaveChanges(_userTeamsRepo);
 
-			return count;
+			//return count;
 		}
 
 		public UnitOfWork(string uri)
@@ -75,9 +77,11 @@ namespace DataAccess.Persistance
 
 		int SaveChanges<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
 		{
-			var task = SaveChangesAsync(repo);
-			task.Wait();
-			return task.Result;
+			throw new NotImplementedException();
+			// following is not tested
+			//var task = SaveChangesAsync(repo);
+			//task.Wait();
+			//return task.Result;
 		}
 
 		async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
@@ -93,7 +97,6 @@ namespace DataAccess.Persistance
 
 			int changes = repo.Entities.Count;
 			repo.Entities.Clear();
-			repo.AllEntities = null;
 			return changes;
 		}
 

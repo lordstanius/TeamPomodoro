@@ -50,9 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IEntity.cs" />
-    <Compile Include="Migrations\201607111923377_initial.cs" />
-    <Compile Include="Migrations\201607111923377_initial.Designer.cs">
-      <DependentUpon>201607111923377_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201607161209048_initial.cs" />
+    <Compile Include="Migrations\201607161209048_initial.Designer.cs">
+      <DependentUpon>201607161209048_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PomodoroContext.cs" />
@@ -72,8 +72,8 @@
     <Content Include="CreateTables.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201607111923377_initial.resx">
-      <DependentUpon>201607111923377_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201607161209048_initial.resx">
+      <DependentUpon>201607161209048_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

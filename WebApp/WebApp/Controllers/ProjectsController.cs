@@ -27,8 +27,15 @@ namespace WebApp.Controllers
 		public IHttpActionResult GetProject(Guid id)
 		{
 			Project project = db.Projects.Find(id);
+
 			if (project == null)
+			{
+				if (project.Tasks != null)
+					foreach (var task in project.Tasks)
+						task.Project = null;
+
 				return NotFound();
+			}
 
 			return Ok(project);
 		}

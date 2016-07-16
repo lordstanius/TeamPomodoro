@@ -15,7 +15,7 @@ namespace Model
 
 		public override bool Equals(object obj)
 		{
-			return ((Project)obj).ProjectId == ProjectId;
+			return obj is Project ? ((Project)obj).ProjectId == ProjectId : false;
 		}
 
 		public bool Equals(Project project)
@@ -28,6 +28,11 @@ namespace Model
 			return BitConverter.ToInt32(ProjectId.ToByteArray(), 0);
 		}
 
-		public Guid Id() { return ProjectId; }
+		public override string ToString()
+		{
+			return Name;
+		}
+
+		public Guid GetId() { return ProjectId; }
 	}
 }

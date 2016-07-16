@@ -35,6 +35,6 @@
 				  Height="{x:Static local:UiMeasurements.CommonHeight}"
 				  IsDefault="True"
 				  HorizontalAlignment="Right"
-				  Click="OnSignOnClick"/>
+				  Click="OnSignInClick"/>
 	</Grid>
 </Window>

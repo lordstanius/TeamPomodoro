@@ -73,8 +73,8 @@
     <Compile Include="UI\Pomodoroes.xaml.cs">
       <DependentUpon>Pomodoroes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\AddTask.xaml.cs">
-      <DependentUpon>AddTask.xaml</DependentUpon>
+    <Compile Include="UI\AddOrEditTask.xaml.cs">
+      <DependentUpon>AddOrEditTask.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
@@ -86,8 +86,13 @@
     <Compile Include="UI\UserDetails.xaml.cs">
       <DependentUpon>UserDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\NullToVisibilityConverter.cs" />
     <Compile Include="Util\EditHelper.cs" />
     <Compile Include="Util\WindowHelper.cs" />
+    <Page Include="Styles\AnimatedSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\AddOrRename.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,7 +134,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\AddTask.xaml">
+    <Page Include="UI\AddOrEditTask.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

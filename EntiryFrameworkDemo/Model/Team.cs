@@ -16,7 +16,7 @@ namespace Model
 
 		public override bool Equals(object obj)
 		{
-			return ((Team)obj).TeamId == TeamId;
+			return obj is Team ? ((Team)obj).TeamId == TeamId : false;
 		}
 
 		public bool Equals(Team team)
@@ -34,6 +34,6 @@ namespace Model
 			return Name;
 		}
 
-		public Guid Id() { return TeamId; }
+		public Guid GetId() { return TeamId; }
 	}
 }

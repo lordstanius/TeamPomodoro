@@ -57,13 +57,10 @@ namespace Model.Migrations
                         PomodoroDurationInMin = c.Int(nullable: false),
                         TeamId = c.Guid(),
                         CurrentUserTeamId = c.Guid(),
-                        User_UserId = c.Guid(),
                     })
                 .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.Teams", t => t.TeamId)
-                .ForeignKey("dbo.Users", t => t.User_UserId)
-                .Index(t => t.TeamId)
-                .Index(t => t.User_UserId);
+                .Index(t => t.TeamId);
             
             CreateTable(
                 "dbo.Teams",
@@ -94,16 +91,14 @@ namespace Model.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.Tasks", "UserId", "dbo.Users");
-            DropForeignKey("dbo.Users", "User_UserId", "dbo.Users");
             DropForeignKey("dbo.UserTeams", "UserId", "dbo.Users");
             DropForeignKey("dbo.UserTeams", "TeamId", "dbo.Teams");
             DropForeignKey("dbo.Users", "TeamId", "dbo.Teams");
+            DropForeignKey("dbo.Tasks", "UserId", "dbo.Users");
             DropForeignKey("dbo.Tasks", "ProjectId", "dbo.Projects");
             DropForeignKey("dbo.Pomodoroes", "TaskId", "dbo.Tasks");
             DropIndex("dbo.UserTeams", new[] { "UserId" });
             DropIndex("dbo.UserTeams", new[] { "TeamId" });
-            DropIndex("dbo.Users", new[] { "User_UserId" });
             DropIndex("dbo.Users", new[] { "TeamId" });
             DropIndex("dbo.Tasks", new[] { "ProjectId" });
             DropIndex("dbo.Tasks", new[] { "UserId" });

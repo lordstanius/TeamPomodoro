@@ -52,7 +52,7 @@
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
 			<TextBlock Name="lWit" Text="{x:Static g:Strings.TxtWorksInTeam}" VerticalAlignment="Center"/>
-			<ComboBox Name="cbTeam" Grid.Column="1" VerticalAlignment="Center" Height="{x:Static local:UiMeasurements.CommonHeight}" Margin="20,0,0,0"/>
+			<ComboBox Name="cbTeams" Grid.Column="1" VerticalAlignment="Center" Height="{x:Static local:UiMeasurements.CommonHeight}" Margin="20,0,0,0"/>
 		</Grid>
 		<StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Top"

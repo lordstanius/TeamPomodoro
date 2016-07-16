@@ -14,7 +14,7 @@ namespace Model
 
 		public override bool Equals(object obj)
 		{
-			return ((Pomodoro)obj).PomodoroId == PomodoroId;
+			return obj is Pomodoro ? ((Pomodoro)obj).PomodoroId == PomodoroId : false;
 		}
 
 		public bool Equals(Pomodoro pomodoro)
@@ -27,6 +27,6 @@ namespace Model
 			return BitConverter.ToInt32(PomodoroId.ToByteArray(), 0);
 		}
 
-		public Guid Id() { return PomodoroId; }
+		public Guid GetId() { return PomodoroId; }
 	}
 }

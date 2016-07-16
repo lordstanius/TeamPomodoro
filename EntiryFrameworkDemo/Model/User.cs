@@ -6,7 +6,7 @@ namespace Model
 {
 	public class User : IEquatable<User>, IEntity
 	{
-		public Guid UserId {	get; set; }
+		public Guid UserId { get; set; }
 
 		[MaxLength(20)]
 		public string UserName { get; set; }
@@ -19,12 +19,12 @@ namespace Model
 		public Guid? CurrentUserTeamId { get; set; }
 
 		public Team Team { get; set; }
-		public ICollection<User> Users { get; set; }
+		public ICollection<Task> Tasks { get; set; }
 		public ICollection<UserTeam> UserTeams { get; set; }
 
 		public override bool Equals(object obj)
 		{
-			return ((User)obj).UserId == UserId;
+			return obj is User ? ((User)obj).UserId == UserId : false;
 		}
 
 		public bool Equals(User user)
@@ -37,6 +37,6 @@ namespace Model
 			return BitConverter.ToInt32(UserId.ToByteArray(), 0);
 		}
 
-		public Guid Id() { return UserId; }
+		public Guid GetId() { return UserId; }
 	}
 }

@@ -20,7 +20,7 @@ namespace Model
 
 		public override bool Equals(object obj)
 		{
-			return ((Task)obj).TaskId == TaskId;
+			return obj is Task ? ((Task)obj).TaskId == TaskId : false;
 		}
 
 		public bool Equals(Task task)
@@ -33,6 +33,11 @@ namespace Model
 			return BitConverter.ToInt32(TaskId.ToByteArray(), 0);
 		}
 
-		public Guid Id() { return TaskId; }
+		public override string ToString()
+		{
+			return Name;
+		}
+
+		public Guid GetId() { return TaskId; }
 	}
 }

@@ -120,9 +120,6 @@
   <data name="TxtAdd" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="TxtEdit" xml:space="preserve">
-    <value>Edit</value>
-  </data>
   <data name="TxtPomodoroes" xml:space="preserve">
     <value>Pomodoros</value>
   </data>
@@ -170,9 +167,6 @@
   </data>
   <data name="TxtWorksInTeam" xml:space="preserve">
     <value>Works in team</value>
-  </data>
-  <data name="TxtChooseDate" xml:space="preserve">
-    <value>Choose date...</value>
   </data>
   <data name="TxtDate" xml:space="preserve">
     <value>Date</value>
@@ -265,15 +259,42 @@
     <value>Edit Teams...</value>
   </data>
   <data name="TxtError" xml:space="preserve">
-    <value>Error</value>
+    <value>Something is wrong...</value>
   </data>
   <data name="TxtInfo" xml:space="preserve">
-    <value>Information</value>
+    <value>Please note...</value>
   </data>
   <data name="TxtProjects" xml:space="preserve">
     <value>Projects</value>
   </data>
   <data name="TxtTeams" xml:space="preserve">
     <value>Teams</value>
+  </data>
+  <data name="MsgAddProjects" xml:space="preserve">
+    <value>You have to choose a project first. If there is no project to choose, please add a project before creating the task.</value>
+  </data>
+  <data name="TxtAddTask" xml:space="preserve">
+    <value>Add Task</value>
+  </data>
+  <data name="TxtChoose" xml:space="preserve">
+    <value>Choose...</value>
+  </data>
+  <data name="TxtEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="TxtEditTask" xml:space="preserve">
+    <value>Edit Task</value>
+  </data>
+  <data name="TxtEditTasks" xml:space="preserve">
+    <value>Edit tasks...</value>
+  </data>
+  <data name="TxtExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="TxtSignOut" xml:space="preserve">
+    <value>Sign out</value>
+  </data>
+  <data name="TxtTasks" xml:space="preserve">
+    <value>Tasks</value>
   </data>
 </root>

@@ -33,22 +33,15 @@ namespace TeamPomodoro.UI
 				Cursor = Cursors.Wait;
 
 				Guid? teamId = null;
-				if (cbTeam.SelectedItem != null)
-					teamId = ((Team)cbTeam.SelectedItem).TeamId;
+				if (cbTeams.SelectedItem != null)
+					teamId = ((Team)cbTeams.SelectedItem).TeamId;
 
 				// TODO: Take care of password handling
-				DialogResult = await Controller.Instance.AddUser(
-					txtUserName.Text,
-					"Pass123",
-					numUpDown.Value,
+				await Controller.Instance.UpdateUser(txtUserName.Text, "Pass123", numUpDown.Value,
 					(bool)chkShowWarning.IsChecked,
-					teamId
-				);
+					teamId);
 
-				if (DialogResult == true)
-					return;
-
-				MessageDialog.Show(Strings.MsgUserExists);
+				DialogResult = true;
 			}
 			catch (Exception ex)
 			{

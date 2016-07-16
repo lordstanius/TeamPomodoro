@@ -34,7 +34,7 @@ namespace TeamPomodoro.UI
 					ContentControl watermark = datePickerTextBox.Template.FindName("PART_Watermark", datePickerTextBox) as ContentControl;
 					if (watermark != null)
 					{
-						watermark.Content = Strings.TxtChooseDate;
+						watermark.Content = Strings.TxtChoose;
 						watermark.Foreground = Brushes.Silver;
 					}
 				}

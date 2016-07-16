@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Controls;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using TeamPomodoro.UI;
@@ -9,7 +10,6 @@ using TeamPomodoro.Util;
 using TeamPomodoro.Properties;
 using TeamPomodoro.Globalization;
 using DataAccess.Persistance;
-using Model;
 
 namespace TeamPomodoro.Core
 {
@@ -17,16 +17,16 @@ namespace TeamPomodoro.Core
 	{
 		internal UnitOfWork UnitOfWork { get; private set; }
 
-		internal MainWindow MainWindow { get; private set; }
+		internal MainWindow Main { get; private set; }
 
 		static Controller _Controller;
 		static object Sync = new object();
 
-		User _user;
+		public Model.User User { get; private set; }
 
 		Controller(MainWindow main)
 		{
-			MainWindow = main;
+			Main = main;
 			UnitOfWork = new UnitOfWork(Settings.Default.Uri);
 		}
 
@@ -36,6 +36,17 @@ namespace TeamPomodoro.Core
 			{
 				if (_Controller == null)
 					_Controller = new Controller(main);
+			}
+		}
+
+		internal static Controller Instance
+		{
+			get
+			{
+				if (_Controller == null)
+					throw new ArgumentNullException("Controller is not initialized.");
+
+				return _Controller;
 			}
 		}
 
@@ -51,61 +62,58 @@ namespace TeamPomodoro.Core
 			await editHelper.ShowEditDialog();
 		}
 
-		internal static Controller Instance
+		internal void SignOut()
 		{
-			get
-			{
-				if (_Controller == null)
-					throw new ArgumentNullException("Controller is not initialized.");
+			Main.cbTasks.IsEnabled = false;
+			Main.cbTasks.SelectedItem = null;
+			Main.lPomodoro.Visibility = Visibility.Hidden;
+			Main.btnStart.IsEnabled = false;
+			Main.btnStop.IsEnabled = false;
+			Main.grid.IsEnabled = false;
 
-				return _Controller;
+			var mniSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignIn");
+			var mniSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignOut");
+			var mniEditTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniEditTasks");
+
+			mniSignIn.IsEnabled = true;
+			mniSignOut.IsEnabled = false;
+			mniEditTasks.IsEnabled = false;
+			
+			User = null;
+		}
+
+		internal void SignIn()
+		{
+			if (ShowSignIn())
+			{
+				Main.grid.IsEnabled = true;
+				var mniSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignIn");
+				var mniSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignOut");
+				var mniEditTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniEditTasks");
+
+				mniSignIn.IsEnabled = false;
+				mniSignOut.IsEnabled = true;
+				mniEditTasks.IsEnabled = true;
+
+				Main.cbTasks.ItemsSource = User.Tasks;
+				Main.cbTasks.IsEnabled = Main.cbTasks.Items.Count > 0;
 			}
 		}
 
-		internal async void ShowSignIn()
+		internal bool ShowSignIn()
 		{
 			try
 			{
-				MainWindow.Cursor = Cursors.Wait;
-				IEnumerable<User> users = await UnitOfWork.UsersAsync.GetAllAsync();
-
+				Main.Cursor = Cursors.Wait;
 				var signIn = new SignIn
 				{
-					Owner = MainWindow,
+					Owner = Main,
 					WindowStartupLocation = WindowStartupLocation.CenterOwner
 				};
 
 				signIn.txtUserName.Focus();
 
-				if (signIn.ShowDialog() == false)
-					MainWindow.Close();
-			}
-			catch (Exception ex)
-			{
-				MessageDialog.ShowError(ex.Message);
-			}
-
-			MainWindow.Cursor = Cursors.Arrow;
-		}
-
-		internal async Task<bool> ShowUserDetails(string userName)
-		{
-			try
-			{
-				MainWindow.Cursor = Cursors.Arrow;
-				var teams = await UnitOfWork.TeamsAsync.GetAllAsync();
-
-				var userDetails = new UserDetails
-				{
-					Owner = MainWindow,
-					WindowStartupLocation = WindowStartupLocation.CenterOwner
-				};
-
-				userDetails.cbTeam.IsEnabled = teams.Count() > 0;
-				userDetails.txtUserName.Text = userName;
-				userDetails.txtPassword.Focus();
-
-				return userDetails.ShowDialog() == true;
+				return (bool)signIn.ShowDialog();
 			}
 			catch (Exception ex)
 			{
@@ -114,44 +122,103 @@ namespace TeamPomodoro.Core
 			}
 			finally
 			{
-				MainWindow.Cursor = Cursors.Arrow;
+				Main.Cursor = Cursors.Arrow;
 			}
 		}
 
-		internal bool? ValidateUser(string userName, string password)
+		internal async Task<bool> ShowUserDetails(string userName = null)
+		{
+			try
+			{
+				Main.Cursor = Cursors.Arrow;
+				var teams = await UnitOfWork.TeamsAsync.GetAllAsync();
+
+				var userDetails = new UserDetails
+				{
+					Owner = Main,
+					WindowStartupLocation = WindowStartupLocation.CenterOwner
+				};
+
+				userDetails.cbTeams.IsEnabled = teams.Count() > 0;
+				userDetails.cbTeams.ItemsSource = teams;
+				if (User != null)
+				{
+					if (User.TeamId != null)
+						userDetails.cbTeams.SelectedItem = UnitOfWork.Teams.Get((Guid)User.TeamId);
+
+					userDetails.chkShowWarning.IsChecked = User.ShowWarningAfterPomodoroExpires;
+					userDetails.numUpDown.Value = User.PomodoroDurationInMin;
+				}
+
+				userDetails.txtUserName.Text = userName ?? User.UserName;
+
+				if (userDetails.ShowDialog() == true)
+					await UnitOfWork.SaveChangesAsync();
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				MessageDialog.ShowError(ex.Message);
+				return false;
+			}
+			finally
+			{
+				Main.Cursor = Cursors.Arrow;
+			}
+		}
+
+		internal async Task<bool> GetUser(string userName, string password)
 		{
 			if (string.IsNullOrEmpty(userName) && string.IsNullOrEmpty(password))
-				return null;
+				return false;
 
-			// TODO: implement password validation
-			foreach (User user in UnitOfWork.Users.GetAll())
-			{
+			foreach (var user in await UnitOfWork.UsersAsync.GetAllAsync())
 				if (user.UserName.Equals(userName))
 				{
-					_user = user;
+					User = await UnitOfWork.UsersAsync.GetAsync(user.UserId);
 					return true;
 				}
-			}
 
-			return null;
+			// TODO: implement password validation
+			return false;
 		}
 
-		internal async Task<bool?> AddUser(string userName, string password, int durationInMin, bool showWarning, Guid? teamId)
+		internal async Task UpdateUser(string userName, string password, int durationInMin, bool showWarning, Guid? teamId)
 		{
-			foreach (User user in UnitOfWork.Users.GetAll())
-				if (user.UserName.Equals(userName))
-					return null;
+			bool newUser = User == null;
+			if (newUser) // add new user
+				User = new Model.User { UserId = Guid.NewGuid() };
+			else // load user for updating
+				User = await UnitOfWork.UsersAsync.GetAsync(User.UserId);
 
-			// create new user
-			await UnitOfWork.UsersAsync.AddAsync(new User
+			// update date
+			User.UserName = userName;
+			User.Password = password;
+			User.ShowWarningAfterPomodoroExpires = showWarning;
+			User.PomodoroDurationInMin = durationInMin;
+			User.TeamId = teamId;
+
+			if (newUser)
+				await UnitOfWork.UsersAsync.AddAsync(User);
+
+			await UnitOfWork.SaveChangesAsync();
+		}
+
+		internal async void ShowEditTasks()
+		{
+			var editHelper = new EditHelper(EditHelper.EditType.Task);
+			await editHelper.ShowEditDialog();
+			Main.cbTasks.ItemsSource = (await UnitOfWork.UsersAsync.GetAsync(User.UserId)).Tasks;
+		}
+
+		internal bool? ValidateTask(AddOrEditTask dialog)
+		{
+			if (dialog.cbProjects.SelectedItem == null && !dialog.IsOfEditType)
 			{
-				UserId = Guid.NewGuid(),
-				UserName = userName,
-				Password = password,
-				ShowWarningAfterPomodoroExpires = showWarning,
-				PomodoroDurationInMin = durationInMin,
-				TeamId = teamId
-			});
+				MessageDialog.Show(Strings.MsgAddProjects);
+				return null;
+			}
 
 			return true;
 		}

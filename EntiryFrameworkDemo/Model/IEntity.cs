@@ -8,6 +8,6 @@ namespace Model
 {
 	public interface IEntity
 	{
-		Guid Id();
+		Guid GetId();
 	}
 }

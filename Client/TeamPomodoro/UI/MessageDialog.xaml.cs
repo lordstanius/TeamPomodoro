@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using TeamPomodoro.Core;
 using TeamPomodoro.Globalization;
 
@@ -41,9 +43,13 @@ namespace TeamPomodoro.UI
 		{
 			var msg = new MessageDialog(message, caption, isYesNo, showCancel, isError)
 			{
-				Owner = Controller.Instance.MainWindow,
+				Owner = Controller.Instance.Main,
 				WindowStartupLocation = WindowStartupLocation.CenterOwner
 			};
+
+			double width = msg.imgError.Visibility == Visibility.Visible ? 260.0 : 304.0;
+			msg.lMessage.Measure(new Size(width, double.PositiveInfinity));
+			msg.Height = msg.lMessage.DesiredSize.Height + 100;
 
 			return (bool)msg.ShowDialog();
 		}
@@ -51,7 +57,7 @@ namespace TeamPomodoro.UI
 		public static bool Show(string message, string caption = null, bool showCancel = false)
 		{
 			if (caption == null)
-				caption = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, Strings.TxtInfo);
+				caption = Strings.TxtInfo;
 
 			return Show(message, caption, false, showCancel, false);
 		}
@@ -64,7 +70,7 @@ namespace TeamPomodoro.UI
 		public static bool ShowError(string message, string caption = null, bool showCancel = false)
 		{
 			if (caption == null)
-				caption = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, Strings.TxtError);
+				caption = Strings.TxtError;
 
 			return Show(message, caption, false, showCancel, true);
 		}

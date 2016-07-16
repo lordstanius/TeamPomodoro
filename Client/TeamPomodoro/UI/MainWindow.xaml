@@ -1,33 +1,39 @@
-﻿<Window x:Class="TeamPomodoro.MainWindow"
+﻿<Window x:Class="TeamPomodoro.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		  xmlns:g="clr-namespace:TeamPomodoro.Globalization"
-        xmlns:local="clr-namespace:TeamPomodoro"
-		  xmlns:ui="clr-namespace:TeamPomodoro.UI"
+        xmlns:local="clr-namespace:TeamPomodoro.UI"
         mc:Ignorable="d"
         Title="{x:Static g:Strings.TxtTeamPomodoro}"
 		  Icon="..\Resources\main.ico"
-		  Height="350" Width="400"
+		  Height="330" Width="400"
 		  ResizeMode="NoResize"
 		  WindowStartupLocation="CenterScreen"
 		  MouseDown="OnMouseDown"
 		  Loaded="OnLoaded">
 	<Grid>
-		<Menu VerticalAlignment="Top" Background="White">
-			<MenuItem Header="{x:Static g:Strings.TxtUser}"/>
+		<Menu VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.WindowBrush}}" 
+				Name="menu">
+			<MenuItem Header="{x:Static g:Strings.TxtUser}">
+				<MenuItem Name="mniSignIn" Header="{x:Static g:Strings.TxtSignIn}" Click="OnSignInClick"/>
+				<MenuItem Name="mniSignOut" Header="{x:Static g:Strings.TxtSignOut}" Click="OnSignOut" IsEnabled="False"/>
+				<Separator/>
+				<MenuItem Name="mniEditTasks" Header="{x:Static g:Strings.TxtEditTasks}" Click="OnEditTasksClick" IsEnabled="False"/>
+				<Separator/>
+				<MenuItem Header="{x:Static g:Strings.TxtExit}" Click="OnExitClick"/>
+			</MenuItem>
 			<MenuItem Header="{x:Static g:Strings.TxtAdmin}">
 				<MenuItem Header="{x:Static g:Strings.TxtEditTeams}" Click="OnEditTeamsClick"/>
 				<MenuItem Header="{x:Static g:Strings.TxtEditProjects}" Click="OnEditProjectsClick"/>
 			</MenuItem>
 		</Menu>
-		<Grid Margin="30,40,30,30" Name="gridMain" IsEnabled="False">
+		<Grid Margin="30,40,30,30" Name="grid" IsEnabled="False">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
 				<RowDefinition Height="Auto"/>
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
@@ -39,37 +45,51 @@
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{x:Static g:Strings.TxtTask}" HorizontalAlignment="Left" VerticalAlignment="Center"
 					 Margin="0,0,20,0"/>
-				<ComboBox Grid.Column="1" VerticalAlignment="Center"/>
+				<ComboBox Name="cbTasks" Grid.Column="1" VerticalAlignment="Center" IsEnabled="False"
+							 Height="{x:Static local:UiMeasurements.CommonHeight}"
+							 SelectionChanged="OnSelectionChanged"/>
+				<Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
+						 Padding="5,0,0,0"
+						 VerticalContentAlignment="Center"
+						 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+						 Visibility="{Binding ElementName=cbTasks, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+						 Height="{x:Static local:UiMeasurements.CommonHeight}"/>
 			</Grid>
-			<StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft">
-				<Button Content="{x:Static g:Strings.TxtEdit}" VerticalAlignment="Center" MinWidth="60"/>
-				<Button Content="{x:Static g:Strings.TxtAdd}" VerticalAlignment="Center" MinWidth="60" Margin="10,0,0,0"/>
-			</StackPanel>
-			<TextBlock Name="lCounter" Grid.Row="3" Text="00:00" FontSize="80"
+			<TextBlock Name="lPomodoro" Grid.Row="1" Text="Pomodoro # of #" HorizontalAlignment="Left" 
+						  VerticalAlignment="Top" Visibility="Hidden"/>
+			
+			<TextBlock Name="lCounter" Grid.Row="2" Text="00:00" FontSize="80"
 				 HorizontalAlignment="Center"
 				 VerticalAlignment="Center"/>
-			<TextBlock Name="lPomodoro" Grid.Row="2" Text="Pomodoro # of #" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-			<StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
-				<Button Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"
-					  Padding="10,0,10,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
+			
+			<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+				<Button Name="btnStart"
+						  IsEnabled="False"
+						  Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"
+					  Padding="10,0,10,0" Height="{x:Static local:UiMeasurements.CommonHeight}"
+						  Click="OnStartTimerClick"/>
 
-				<Button Content="{x:Static g:Strings.TxtStop}" VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"
-					  Padding="10,0,10,0" Height="{x:Static ui:UiMeasurements.CommonHeight}"/>
+				<Button Name="btnStop" 
+						  Content="{x:Static g:Strings.TxtStop}" IsEnabled="False"
+						  VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"
+					  Padding="10,0,10,0" Height="{x:Static local:UiMeasurements.CommonHeight}"
+						  Click="OnStopTimerClick"/>
 			</StackPanel>
-			<StackPanel Grid.Row="5" Orientation="Horizontal" FlowDirection="RightToLeft" 
+			<StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Bottom">
 				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
 					<Image Source="..\Resources\gear.png" Width="16" Height="16" Stretch="Fill" Margin="5"/>
 					<Button Style="{StaticResource LinkLabel}" 
-			Content="{x:Static g:Strings.TxtUserSettings}" 
-			HorizontalAlignment="Left" VerticalAlignment="Center"
-			Foreground="Blue"/>
+							  Content="{x:Static g:Strings.TxtUserSettings}" 
+							  HorizontalAlignment="Left" VerticalAlignment="Center"
+							  Foreground="Blue"
+							  Click="OnUserSettingsClick"/>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="20,0,0,0">
 					<Image Source="..\Resources\tomato.png" Width="16" Height="16" Stretch="Fill" Margin="5"/>
 					<Button Style="{StaticResource LinkLabel}"
 				Foreground="Blue"
-				Content="{x:Static g:Strings.TxtTeamPomodoro}" HorizontalAlignment="Left"
+				Content="{x:Static g:Strings.TxtPomodoroes}" HorizontalAlignment="Left"
 				VerticalAlignment="Center"/>
 				</StackPanel>
 			</StackPanel>

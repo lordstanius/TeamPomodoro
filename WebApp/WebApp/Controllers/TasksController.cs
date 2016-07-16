@@ -27,6 +27,11 @@ namespace WebApp.Controllers
 		public IHttpActionResult GetTask(Guid id)
 		{
 			Task task = db.Tasks.Find(id);
+
+			task.Project = null; // unload all of this for serialization
+			task.User = null;
+			task.Pomodoroes = null;
+
 			if (task == null)
 				return NotFound();
 
