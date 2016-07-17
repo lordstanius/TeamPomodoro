@@ -37,6 +37,11 @@ namespace Model
 			return BitConverter.ToInt32(UserId.ToByteArray(), 0);
 		}
 
+		public override string ToString()
+		{
+			return UserName;
+		}
+
 		public Guid GetId() { return UserId; }
 	}
 }

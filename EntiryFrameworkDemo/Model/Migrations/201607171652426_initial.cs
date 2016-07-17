@@ -30,12 +30,15 @@ namespace Model.Migrations
                         PomodoroCount = c.Int(nullable: false),
                         UserId = c.Guid(nullable: false),
                         ProjectId = c.Guid(nullable: false),
+                        TeamId = c.Guid(),
                     })
                 .PrimaryKey(t => t.TaskId)
                 .ForeignKey("dbo.Projects", t => t.ProjectId, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.Teams", t => t.TeamId)
                 .Index(t => t.UserId)
-                .Index(t => t.ProjectId);
+                .Index(t => t.ProjectId)
+                .Index(t => t.TeamId);
             
             CreateTable(
                 "dbo.Projects",
@@ -45,6 +48,15 @@ namespace Model.Migrations
                         Name = c.String(maxLength: 50),
                     })
                 .PrimaryKey(t => t.ProjectId);
+            
+            CreateTable(
+                "dbo.Teams",
+                c => new
+                    {
+                        TeamId = c.Guid(nullable: false),
+                        Name = c.String(maxLength: 20),
+                    })
+                .PrimaryKey(t => t.TeamId);
             
             CreateTable(
                 "dbo.Users",
@@ -61,15 +73,6 @@ namespace Model.Migrations
                 .PrimaryKey(t => t.UserId)
                 .ForeignKey("dbo.Teams", t => t.TeamId)
                 .Index(t => t.TeamId);
-            
-            CreateTable(
-                "dbo.Teams",
-                c => new
-                    {
-                        TeamId = c.Guid(nullable: false),
-                        Name = c.String(maxLength: 20),
-                    })
-                .PrimaryKey(t => t.TeamId);
             
             CreateTable(
                 "dbo.UserTeams",
@@ -91,6 +94,7 @@ namespace Model.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.Tasks", "TeamId", "dbo.Teams");
             DropForeignKey("dbo.UserTeams", "UserId", "dbo.Users");
             DropForeignKey("dbo.UserTeams", "TeamId", "dbo.Teams");
             DropForeignKey("dbo.Users", "TeamId", "dbo.Teams");
@@ -100,12 +104,13 @@ namespace Model.Migrations
             DropIndex("dbo.UserTeams", new[] { "UserId" });
             DropIndex("dbo.UserTeams", new[] { "TeamId" });
             DropIndex("dbo.Users", new[] { "TeamId" });
+            DropIndex("dbo.Tasks", new[] { "TeamId" });
             DropIndex("dbo.Tasks", new[] { "ProjectId" });
             DropIndex("dbo.Tasks", new[] { "UserId" });
             DropIndex("dbo.Pomodoroes", new[] { "TaskId" });
             DropTable("dbo.UserTeams");
-            DropTable("dbo.Teams");
             DropTable("dbo.Users");
+            DropTable("dbo.Teams");
             DropTable("dbo.Projects");
             DropTable("dbo.Tasks");
             DropTable("dbo.Pomodoroes");

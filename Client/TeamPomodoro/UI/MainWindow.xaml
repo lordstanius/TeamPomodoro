@@ -70,8 +70,8 @@
 
 			<ToggleButton Grid.Row="3" Style="{StaticResource AnimatedSwitch}" Height="26"
 							  Name="toggle"
-								Background="#FF5555"
-							BorderBrush="#F57676"
+							  Background="#FF5555"
+							  BorderBrush="#F57676"
 							  Margin="0,0,0,20"
 							  HorizontalAlignment="Center"
 							  IsEnabled="False"
@@ -85,7 +85,6 @@
 							  Content="{x:Static g:Strings.TxtUserSettings}" 
 							  HorizontalAlignment="Left" VerticalAlignment="Center"
 							  Foreground="Blue"
-							  IsEnabled="{Binding ElementName=cbTasks, Path=IsEnabled}"
 							  Click="OnUserSettingsClick"/>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="20,0,0,0">
@@ -95,7 +94,6 @@
 							  Content="{x:Static g:Strings.TxtPomodoroes}" 
 							  HorizontalAlignment="Left"
 							  VerticalAlignment="Center"
-							  IsEnabled="{Binding ElementName=cbTasks, Path=IsEnabled}"
 							  Click="OnPomodorosClick"/>
 				</StackPanel>
 			</StackPanel>

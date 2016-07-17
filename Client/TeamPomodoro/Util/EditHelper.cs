@@ -108,6 +108,8 @@ namespace TeamPomodoro.Util
 					var user = await Controller.Instance.UnitOfWork.UsersAsync.GetAsync(Controller.Instance.User.UserId);
 					foreach (var task in user.Tasks)
 						_edit.list.Items.Add(task);
+
+					_edit.list.SelectedItem = Controller.Instance.Main.cbTasks.SelectedItem;
 					break;
 			}
 
@@ -311,6 +313,7 @@ namespace TeamPomodoro.Util
 					{
 						TaskId = Guid.NewGuid(),
 						UserId = Controller.Instance.User.UserId,
+						TeamId = Controller.Instance.User.TeamId,
 						Name = _editTask.text.Text,
 						ProjectId = ((Model.Project)_editTask.cbProjects.SelectedItem).ProjectId,
 						PomodoroCount = _editTask.numPomodoros.Value

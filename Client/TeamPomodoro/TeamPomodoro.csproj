@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,8 +71,8 @@
     <Compile Include="UI\PomodoroDetails.xaml.cs">
       <DependentUpon>PomodoroDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pomodoroes.xaml.cs">
-      <DependentUpon>Pomodoroes.xaml</DependentUpon>
+    <Compile Include="UI\PomodoroDialog.xaml.cs">
+      <DependentUpon>PomodoroDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\AddOrEditTask.xaml.cs">
       <DependentUpon>AddOrEditTask.xaml</DependentUpon>
@@ -110,7 +111,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Pomodoroes.xaml">
+    <Page Include="UI\PomodoroDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

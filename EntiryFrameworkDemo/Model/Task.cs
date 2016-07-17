@@ -13,9 +13,11 @@ namespace Model
 		public int PomodoroCount { get; set; }
 		public Guid UserId { get; set; }
 		public Guid ProjectId { get; set; }
+		public Guid? TeamId { get; set; }
 
 		public User User { get; set; }
 		public Project Project { get; set; }
+		public Team Team { get; set; }
 		public ICollection<Pomodoro> Pomodoroes { get; set; }
 
 		public override bool Equals(object obj)

@@ -11,9 +11,9 @@ namespace TeamPomodoro.UI
 	/// <summary>
 	/// Interaction logic for SignIn.xaml
 	/// </summary>
-	public partial class Pomodoroes : Window
+	public partial class PomodoroDialog : Window
 	{
-		public Pomodoroes()
+		public PomodoroDialog()
 		{
 			InitializeComponent();
 		}
@@ -55,6 +55,11 @@ namespace TeamPomodoro.UI
 			}
 
 			return null;
+		}
+
+		private void OnDetailsClick(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 }

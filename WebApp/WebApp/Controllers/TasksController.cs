@@ -33,6 +33,7 @@ namespace WebApp.Controllers
 			db.Entry(task).Collection("Pomodoroes").Load();
 			task.Project = null; // unload all of this for serialization
 			task.User = null;
+			task.Team = null;
 			if (task.Pomodoroes != null)
 				foreach (var pomodoro in task.Pomodoroes)
 					pomodoro.Task = null;

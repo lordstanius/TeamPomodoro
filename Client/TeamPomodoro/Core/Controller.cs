@@ -76,6 +76,7 @@ namespace TeamPomodoro.Core
 			Main.lPomodoro.Visibility = Visibility.Hidden;
 			Main.grid.IsEnabled = false;
 			Main.toggle.IsChecked = false;
+			Main.Title = Strings.TxtTeamPomodoro;
 
 			var mniSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignIn");
 			var mniSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignOut");
@@ -103,6 +104,7 @@ namespace TeamPomodoro.Core
 
 				Main.cbTasks.ItemsSource = User.Tasks;
 				Main.cbTasks.IsEnabled = Main.cbTasks.Items.Count > 0;
+				Main.Title = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, User);
 			}
 		}
 
@@ -216,6 +218,7 @@ namespace TeamPomodoro.Core
 			var editHelper = new EditHelper(EditHelper.EditType.Task);
 			await editHelper.ShowEditDialog();
 			Main.cbTasks.ItemsSource = (await UnitOfWork.UsersAsync.GetAsync(User.UserId)).Tasks;
+			Main.cbTasks.IsEnabled = Main.cbTasks.Items.Count > 0;
 		}
 
 		internal bool? ValidateTask(AddOrEditTask dialog)
@@ -229,9 +232,55 @@ namespace TeamPomodoro.Core
 			return true;
 		}
 
-		internal void ShowPomodoros()
+		internal async void ShowPomodoros()
 		{
-			
+			Main.Cursor = Cursors.Wait;
+			try
+			{
+				var dlg = new PomodoroDialog
+				{
+					Owner = Main,
+					WindowStartupLocation = WindowStartupLocation.CenterOwner
+				};
+
+				dlg.users.ItemsSource = await UnitOfWork.UsersAsync.GetAllAsync();
+				dlg.teams.ItemsSource = await UnitOfWork.TeamsAsync.GetAllAsync();
+
+				// load pomodoro data to speed up filtering
+				await UnitOfWork.PomodoroesAsync.GetAllAsync();
+
+				dlg.users.SelectedItem = User;
+				dlg.teams.IsEnabled = dlg.teams.Items.Count > 0;
+				if (User.TeamId.HasValue)
+				{
+					dlg.teams.SelectedItem = UnitOfWork.Teams.Get(User.TeamId.Value);
+					dlg.placeholder.Visibility = Visibility.Collapsed;
+				}
+				else
+				{
+					dlg.teams.SelectedItem = null;
+					dlg.placeholder.Visibility = Visibility.Visible;
+				}
+
+				dlg.users.SelectionChanged += (o, e) => UpdateList(dlg);
+				dlg.teams.SelectionChanged += (o, e) => UpdateList(dlg);
+				dlg.date.SelectedDateChanged += (o, e) => UpdateList(dlg);
+
+				UpdateList(dlg);
+
+				dlg.ShowDialog();
+			}
+			catch (Exception ex)
+			{
+				MessageDialog.ShowError(ex.ToString());
+			}
+
+			Main.Cursor = Cursors.Arrow;
+		}
+
+		async void UpdateList(PomodoroDialog dlg)
+		{
+
 		}
 
 		internal void StartPomodoro()

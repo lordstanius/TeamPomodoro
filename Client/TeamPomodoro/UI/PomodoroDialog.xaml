@@ -1,4 +1,4 @@
-﻿<Window x:Class="TeamPomodoro.UI.Pomodoroes"
+﻿<Window x:Class="TeamPomodoro.UI.PomodoroDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -33,7 +33,8 @@
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{x:Static g:Strings.TxtUser}" VerticalAlignment="Center"
 							  Margin="0,0,10,0" MinWidth="30"/>
-				<ComboBox Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"/>
+				<ComboBox Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}" 
+							 Name="users"/>
 			</Grid>
 			<Grid Grid.Column="1">
 				<Grid.ColumnDefinitions>
@@ -44,7 +45,7 @@
 							  Margin="40,0,10,0"/>
 				<DatePicker Name="date" Grid.Column="1"
 								Loaded="DateLoaded"
-							 Height="{x:Static local:Sizes.CommonHeight}"/>
+								Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
 
 			<Grid Grid.Column="0" Grid.Row="1">
@@ -55,10 +56,17 @@
 				<TextBlock Text="{x:Static g:Strings.TxtTeam}" VerticalAlignment="Center"
 							  Margin="0,0,10,0" MinWidth="30"/>
 				<ComboBox Grid.Column="1"
-							 Height="{x:Static local:Sizes.CommonHeight}"/>
+							 Height="{x:Static local:Sizes.CommonHeight}"
+							 Name="teams"/>
+				<Label Name="placeholder" Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
+						 Padding="5,0,0,0"
+						 VerticalContentAlignment="Center"
+						 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+						 Visibility="{Binding ElementName=cbTasks, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+						 Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
 		</Grid>
-		<ListView Grid.Row="1" SelectionMode="Single">
+		<ListView Grid.Row="1" SelectionMode="Single" Name="list">
 			<ListView.View>
 				<GridView>
 					<GridViewColumn Width="125" DisplayMemberBinding="{Binding Task}">
@@ -81,6 +89,7 @@
 				  MinWidth="80"
 				  Height="{x:Static local:Sizes.CommonHeight}"
 				  HorizontalAlignment="Right"
-				  Margin="0,10,0,0"/>
+				  Margin="0,10,0,0"
+				  Click="OnDetailsClick"/>
 	</Grid>
 </Window>
