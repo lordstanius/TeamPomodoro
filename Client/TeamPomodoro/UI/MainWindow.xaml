@@ -46,14 +46,13 @@
 				<TextBlock Text="{x:Static g:Strings.TxtTask}" HorizontalAlignment="Left" VerticalAlignment="Center"
 					 Margin="0,0,20,0"/>
 				<ComboBox Name="cbTasks" Grid.Column="1" VerticalAlignment="Center" IsEnabled="False"
-							 Height="{x:Static local:UiMeasurements.CommonHeight}"
-							 SelectionChanged="OnSelectionChanged"/>
+							 Height="{x:Static local:Sizes.CommonHeight}"/>
 				<Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
 						 Padding="5,0,0,0"
 						 VerticalContentAlignment="Center"
 						 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
 						 Visibility="{Binding ElementName=cbTasks, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
-						 Height="{x:Static local:UiMeasurements.CommonHeight}"/>
+						 Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
 			<TextBlock Name="lPomodoro" Grid.Row="1" Text="Pomodoro # of #" HorizontalAlignment="Left" 
 						  VerticalAlignment="Top" Visibility="Hidden"/>
@@ -70,21 +69,11 @@
 							  Name="toggle"
 							  Background="#FF5555"
 							  BorderBrush="#F57676"
+							  Margin="0,0,0,20"
 							  HorizontalAlignment="Center"
-							  Margin="0,0,0,20" IsEnabled="False"/>
-			<!--<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
-				<Button Name="btnStart"
-						  IsEnabled="False"
-						  Content="{x:Static g:Strings.TxtStart}" VerticalAlignment="Center" MinWidth="60"
-					  Padding="10,0,10,0" Height="{x:Static local:UiMeasurements.CommonHeight}"
-						  Click="OnStartTimerClick"/>
-
-				<Button Name="btnStop" 
-						  Content="{x:Static g:Strings.TxtStop}" IsEnabled="False"
-						  VerticalAlignment="Center" MinWidth="60" Margin="20,0,0,0"
-					  Padding="10,0,10,0" Height="{x:Static local:UiMeasurements.CommonHeight}"
-						  Click="OnStopTimerClick"/>
-			</StackPanel>-->
+							  IsEnabled="{Binding ElementName=cbTasks, Path=SelectedIndex, Converter={StaticResource IndexToBoolConverter}}"
+							  Checked="OnSwitchChecked"
+							  Unchecked="OnSwitchUnhecked"/>
 			<StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Bottom">
 				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">

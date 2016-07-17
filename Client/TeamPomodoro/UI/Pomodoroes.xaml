@@ -33,7 +33,7 @@
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{x:Static g:Strings.TxtUser}" VerticalAlignment="Center"
 							  Margin="0,0,10,0" MinWidth="30"/>
-				<ComboBox Grid.Column="1" Height="{x:Static local:UiMeasurements.CommonHeight}"/>
+				<ComboBox Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
 			<Grid Grid.Column="1">
 				<Grid.ColumnDefinitions>
@@ -44,7 +44,7 @@
 							  Margin="40,0,10,0"/>
 				<DatePicker Name="date" Grid.Column="1"
 								Loaded="DateLoaded"
-							 Height="{x:Static local:UiMeasurements.CommonHeight}"/>
+							 Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
 
 			<Grid Grid.Column="0" Grid.Row="1">
@@ -55,7 +55,7 @@
 				<TextBlock Text="{x:Static g:Strings.TxtTeam}" VerticalAlignment="Center"
 							  Margin="0,0,10,0" MinWidth="30"/>
 				<ComboBox Grid.Column="1"
-							 Height="{x:Static local:UiMeasurements.CommonHeight}"/>
+							 Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
 		</Grid>
 		<ListView Grid.Row="1" SelectionMode="Single">
@@ -79,7 +79,7 @@
 		<Button Grid.Row="3"
 				  Content="{x:Static g:Strings.TxtDetails}" 
 				  MinWidth="80"
-				  Height="{x:Static local:UiMeasurements.CommonHeight}"
+				  Height="{x:Static local:Sizes.CommonHeight}"
 				  HorizontalAlignment="Right"
 				  Margin="0,10,0,0"/>
 	</Grid>

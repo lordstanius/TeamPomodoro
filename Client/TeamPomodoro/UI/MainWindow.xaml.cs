@@ -58,24 +58,19 @@ namespace TeamPomodoro.UI
 			await Controller.Instance.ShowUserDetails();
 		}
 
-		private void OnStartTimerClick(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void OnStopTimerClick(object sender, RoutedEventArgs e)
-		{
-
-		}
-
 		private void OnEditTasksClick(object sender, RoutedEventArgs e)
 		{
 			Controller.Instance.ShowEditTasks();
 		}
 
-		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void OnSwitchChecked(object sender, RoutedEventArgs e)
 		{
-			toggle.IsEnabled = cbTasks.SelectedIndex > -1;
+			Controller.Instance.StartPomodoro();
+		}
+
+		private void OnSwitchUnhecked(object sender, RoutedEventArgs e)
+		{
+			Controller.Instance.StopPomodoro();
 		}
 	}
 }

@@ -221,5 +221,15 @@ namespace TeamPomodoro.Core
 
 			return true;
 		}
+
+		internal void StartPomodoro()
+		{
+
+		}
+
+		internal void StopPomodoro()
+		{
+
+		}
 	}
 }

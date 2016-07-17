@@ -79,13 +79,14 @@
     <Compile Include="UI\SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\UiMeasurements.cs" />
+    <Compile Include="UI\Sizes.cs" />
     <Compile Include="UI\UpDownControl.xaml.cs">
       <DependentUpon>UpDownControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserDetails.xaml.cs">
       <DependentUpon>UserDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util\IndexToBoolConverter.cs" />
     <Compile Include="Util\NullToVisibilityConverter.cs" />
     <Compile Include="Util\EditHelper.cs" />
     <Compile Include="Util\WindowHelper.cs" />

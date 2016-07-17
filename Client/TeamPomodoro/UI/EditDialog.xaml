@@ -18,7 +18,7 @@
 		</Grid.RowDefinitions>
 		<ListBox Margin="0,10,0,10" SelectionMode="Single" Name="list"
 					SelectionChanged="OnSelectionChanged"/>
-		<Button Grid.Row="1" Height="{x:Static local:UiMeasurements.CommonHeight}" 
+		<Button Grid.Row="1" Height="{x:Static local:Sizes.CommonHeight}" 
 				  MinWidth="60"
 				  Padding="10,0,10,0"
 				  HorizontalAlignment="Left"
@@ -27,14 +27,14 @@
 				  IsDefault="True"
 					  Margin="0,0,20,0"/>
 		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-			<Button Height="{x:Static local:UiMeasurements.CommonHeight}" 
+			<Button Height="{x:Static local:Sizes.CommonHeight}" 
 				  MinWidth="60"
 				  Padding="10,0,10,0"
 				  Content="{x:Static g:Strings.TxtEdit}"
 					  Name="btnEdit"
 					  IsEnabled="False"
 					  Margin="0,0,20,0"/>
-			<Button Height="{x:Static local:UiMeasurements.CommonHeight}" 
+			<Button Height="{x:Static local:Sizes.CommonHeight}" 
 				  MinWidth="60"
 				  Padding="10,0,10,0"
 					  Name="btnDelete"
