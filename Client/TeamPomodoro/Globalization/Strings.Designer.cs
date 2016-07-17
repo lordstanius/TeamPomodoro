@@ -448,6 +448,15 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start/Stop pomodoro.
+        /// </summary>
+        public static string TxtStartStop {
+            get {
+                return ResourceManager.GetString("TxtStartStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string TxtStartTime {
@@ -489,6 +498,24 @@ namespace TeamPomodoro.Globalization {
         public static string TxtTask {
             get {
                 return ResourceManager.GetString("TxtTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task is completed..
+        /// </summary>
+        public static string TxtTaskCompletedInfo {
+            get {
+                return ResourceManager.GetString("TxtTaskCompletedInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This task is completed. Increase the number of pomodoros for this task, or choose another task..
+        /// </summary>
+        public static string TxtTaskCompletedWarning {
+            get {
+                return ResourceManager.GetString("TxtTaskCompletedWarning", resourceCulture);
             }
         }
         

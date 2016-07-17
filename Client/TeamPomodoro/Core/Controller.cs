@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
@@ -13,21 +14,27 @@ using DataAccess.Persistance;
 
 namespace TeamPomodoro.Core
 {
-	internal sealed class Controller
+	internal sealed class Controller : IDisposable
 	{
 		internal UnitOfWork UnitOfWork { get; private set; }
-
+		internal Model.User User { get; private set; }
 		internal MainWindow Main { get; private set; }
 
 		static Controller _Controller;
 		static object Sync = new object();
 
-		public Model.User User { get; private set; }
+		Timer _timer;
+		TimeSpan _timeRemaining;
+		Model.Pomodoro _currentPomodoro;
+		Model.Task _currentTask;
 
 		Controller(MainWindow main)
 		{
 			Main = main;
 			UnitOfWork = new UnitOfWork(Settings.Default.Uri);
+
+			_timer = new Timer { Interval = 1000 };
+			_timer.Elapsed += OnTimerElapsed;
 		}
 
 		internal static void Create(MainWindow main)
@@ -77,7 +84,7 @@ namespace TeamPomodoro.Core
 			mniSignIn.IsEnabled = true;
 			mniSignOut.IsEnabled = false;
 			mniEditTasks.IsEnabled = false;
-			
+
 			User = null;
 		}
 
@@ -222,14 +229,101 @@ namespace TeamPomodoro.Core
 			return true;
 		}
 
+		internal void ShowPomodoros()
+		{
+			
+		}
+
 		internal void StartPomodoro()
 		{
+			SetTimeRemaining();
 
+			if (IsTaskCompleted)
+			{
+				MessageDialog.Show(Strings.TxtTaskCompletedWarning);
+				return;
+			}
+
+			Main.cbTasks.IsEnabled = false;
+			var currentTask = (Model.Task)Main.cbTasks.SelectedItem;
+			_currentPomodoro = new Model.Pomodoro
+			{
+				PomodoroId = Guid.NewGuid(),
+				StartTime = DateTime.Now,
+				TaskId = currentTask.TaskId,
+			};
+
+			_currentTask.Pomodoroes.Add(_currentPomodoro);
+			SetPomodorosXofY();
+
+			_timer.Start();
 		}
 
 		internal void StopPomodoro()
 		{
+			_timer.Stop();
+			Main.cbTasks.IsEnabled = true;
+			_currentPomodoro.IsSuccessfull = _timeRemaining.TotalSeconds < 10.0;
+			_currentPomodoro.DurationInMin = (int)TimeSpan.FromMinutes(User.PomodoroDurationInMin).Subtract(_timeRemaining).TotalMinutes;
 
+			UnitOfWork.PomodoroesAsync.AddAsync(_currentPomodoro);
+
+			Main.toggle.IsEnabled = !IsTaskCompleted;
+			if (IsTaskCompleted)
+				MessageDialog.Show(Strings.TxtTaskCompletedInfo);
+		}
+
+		internal async void UpdateGuiOnTaskChanged()
+		{
+			if (Main.cbTasks.SelectedItem == null)
+				return;
+
+			var task = (Model.Task)Main.cbTasks.SelectedItem;
+			_currentTask = await UnitOfWork.TasksAsync.GetAsync(task.TaskId);
+
+			SetPomodorosXofY();
+			SetTimeRemaining();
+
+			Main.lPomodoro.Visibility = Visibility.Visible;
+
+			Main.toggle.IsEnabled = !IsTaskCompleted;
+			if (IsTaskCompleted)
+				MessageDialog.Show(Strings.TxtTaskCompletedWarning);
+		}
+
+		bool IsTaskCompleted
+		{
+			get { return _currentTask.PomodoroCount == _currentTask.Pomodoroes.Count; }
+		}
+
+		void SetPomodorosXofY()
+		{
+			Main.lPomodoro.Text = string.Format(Strings.TxtPomodoroXofY,
+				_currentTask.Pomodoroes.Count, _currentTask.PomodoroCount);
+		}
+
+		void SetTimeRemaining()
+		{
+			_timeRemaining = TimeSpan.FromMinutes(User.PomodoroDurationInMin);
+			Main.lCounter.Text = _timeRemaining.ToString("mm\\:ss");
+		}
+
+		private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+		{
+			_timeRemaining -= TimeSpan.FromSeconds(1.0);
+			if (_timeRemaining.TotalSeconds == 0)
+				StopPomodoro();
+
+			Main.Dispatcher.Invoke(() => Main.lCounter.Text = _timeRemaining.ToString("mm\\:ss"));
+		}
+
+		public void Dispose()
+		{
+			if (_timer != null)
+				_timer.Dispose();
+
+			if (UnitOfWork != null)
+				UnitOfWork.Dispose();
 		}
 	}
 }

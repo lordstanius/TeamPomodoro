@@ -40,8 +40,7 @@
 										 DisplayMemberBinding="{Binding Successful}"/>
 					<GridViewColumn Header="{x:Static g:Strings.TxtStop}" Width="55"
 										 DisplayMemberBinding="{Binding Failed}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtTotal}" Width="55"
-										 DisplayMemberBinding="{Binding Total}"/>
+
 					<GridViewColumn Header="{x:Static g:Strings.TxtDuration}" Width="70"
 										 DisplayMemberBinding="{Binding Duration}"/>
 					<GridViewColumn Header="{x:Static g:Strings.TxtSuccessful}" Width="70"

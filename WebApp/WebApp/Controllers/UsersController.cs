@@ -26,22 +26,19 @@ namespace WebApp.Controllers
 		{
 			var user = db.Users.Find(id);
 
-			if (user != null)
+			if (user == null)
+				return NotFound();
+
+			db.Entry(user).Collection("Tasks").Load();
+			foreach (var task in user.Tasks)
 			{
-				db.Entry(user).Collection("Tasks").Load();
-
-				foreach (var task in user.Tasks)
-				{
-					task.User = null;
-					if (task.Pomodoroes != null)
-						foreach (var pomodoro in task.Pomodoroes)
-							pomodoro.Task = null;
-				}
-
-				return Ok(user);
+				task.User = null;
+				if (task.Pomodoroes != null)
+					foreach (var pomodoro in task.Pomodoroes)
+						pomodoro.Task = null;
 			}
 
-			return NotFound();
+			return Ok(user);
 		}
 
 		// POST api/<controller>

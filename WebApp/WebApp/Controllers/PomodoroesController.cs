@@ -27,6 +27,7 @@ namespace WebApp.Controllers
 		public IHttpActionResult GetPomodoro(Guid id)
 		{
 			Pomodoro pomodoro = db.Pomodoros.Find(id);
+
 			if (pomodoro == null)
 				return NotFound();
 

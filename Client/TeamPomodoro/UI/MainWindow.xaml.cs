@@ -72,5 +72,20 @@ namespace TeamPomodoro.UI
 		{
 			Controller.Instance.StopPomodoro();
 		}
+
+		private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Controller.Instance.UpdateGuiOnTaskChanged();
+		}
+
+		private void OnClosed(object sender, EventArgs e)
+		{
+			Controller.Instance.Dispose();
+		}
+
+		private void OnPomodorosClick(object sender, RoutedEventArgs e)
+		{
+			Controller.Instance.ShowPomodoros();
+		}
 	}
 }

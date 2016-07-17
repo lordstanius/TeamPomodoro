@@ -297,4 +297,13 @@
   <data name="TxtTasks" xml:space="preserve">
     <value>Tasks</value>
   </data>
+  <data name="TxtStartStop" xml:space="preserve">
+    <value>Start/Stop pomodoro</value>
+  </data>
+  <data name="TxtTaskCompletedInfo" xml:space="preserve">
+    <value>Task is completed.</value>
+  </data>
+  <data name="TxtTaskCompletedWarning" xml:space="preserve">
+    <value>This task is completed. Increase the number of pomodoros for this task, or choose another task.</value>
+  </data>
 </root>

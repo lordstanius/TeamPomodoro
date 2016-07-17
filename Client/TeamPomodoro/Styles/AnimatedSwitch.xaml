@@ -10,8 +10,8 @@
 				<ControlTemplate TargetType="ToggleButton">
 					<Viewbox Stretch="Uniform">
 						<Canvas Name="Layer_1" Width="35" Height="20" Canvas.Left="10" Canvas.Top="0">
-							<Ellipse  Canvas.Left="0" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
-							<Ellipse  Canvas.Left="15" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
+							<Ellipse Name="e1" Canvas.Left="0" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
+							<Ellipse Name="e2" Canvas.Left="15" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
 							<Border Canvas.Left="10" Width="15" Height="20" Name="rect416927" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0.5,0,0.5"/>
 							<Ellipse x:Name="ellipse"  Canvas.Left="0" Width="20" Height="20" Fill="White" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.3">
 								<Ellipse.RenderTransform>
@@ -51,7 +51,14 @@
 							</Trigger.ExitActions>
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="False">
-							<Setter Property="Opacity" Value="0.5"/>
+							<Setter TargetName="e1" Property="Fill" Value="#FAFAFB"/>
+							<Setter TargetName="e1" Property="Stroke" Value="#EAEAEB"/>
+							<Setter TargetName="e2" Property="Fill" Value="#FAFAFB"/>
+							<Setter TargetName="e2" Property="Stroke" Value="#EAEAEB"/>
+							<Setter TargetName="rect416927" Property="Background" Value="#FAFAFB"/>
+							<Setter TargetName="rect416927" Property="BorderBrush" Value="#EAEAEB"/>
+							<Setter TargetName="ellipse" Property="Fill" Value="#FAFAFB"/>
+							<Setter TargetName="ellipse" Property="Stroke" Value="#EAEAEB"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>

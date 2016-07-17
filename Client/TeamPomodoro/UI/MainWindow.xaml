@@ -12,6 +12,7 @@
 		  ResizeMode="NoResize"
 		  WindowStartupLocation="CenterScreen"
 		  MouseDown="OnMouseDown"
+		  Closed="OnClosed"
 		  Loaded="OnLoaded">
 	<Grid>
 		<Menu VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.WindowBrush}}" 
@@ -45,8 +46,10 @@
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{x:Static g:Strings.TxtTask}" HorizontalAlignment="Left" VerticalAlignment="Center"
 					 Margin="0,0,20,0"/>
-				<ComboBox Name="cbTasks" Grid.Column="1" VerticalAlignment="Center" IsEnabled="False"
-							 Height="{x:Static local:Sizes.CommonHeight}"/>
+				<ComboBox Name="cbTasks" Grid.Column="1" VerticalAlignment="Center" 
+							 IsEnabled="False"
+							 Height="{x:Static local:Sizes.CommonHeight}"
+							 SelectionChanged="OnSelectionChanged"/>
 				<Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
 						 Padding="5,0,0,0"
 						 VerticalContentAlignment="Center"
@@ -67,11 +70,11 @@
 
 			<ToggleButton Grid.Row="3" Style="{StaticResource AnimatedSwitch}" Height="26"
 							  Name="toggle"
-							  Background="#FF5555"
-							  BorderBrush="#F57676"
+								Background="#FF5555"
+							BorderBrush="#F57676"
 							  Margin="0,0,0,20"
 							  HorizontalAlignment="Center"
-							  IsEnabled="{Binding ElementName=cbTasks, Path=SelectedIndex, Converter={StaticResource IndexToBoolConverter}}"
+							  IsEnabled="False"
 							  Checked="OnSwitchChecked"
 							  Unchecked="OnSwitchUnhecked"/>
 			<StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" 
@@ -82,14 +85,18 @@
 							  Content="{x:Static g:Strings.TxtUserSettings}" 
 							  HorizontalAlignment="Left" VerticalAlignment="Center"
 							  Foreground="Blue"
+							  IsEnabled="{Binding ElementName=cbTasks, Path=IsEnabled}"
 							  Click="OnUserSettingsClick"/>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" FlowDirection="LeftToRight" Margin="20,0,0,0">
 					<Image Source="..\Resources\tomato.png" Width="16" Height="16" Stretch="Fill" Margin="5"/>
 					<Button Style="{StaticResource LinkLabel}"
-				Foreground="Blue"
-				Content="{x:Static g:Strings.TxtPomodoroes}" HorizontalAlignment="Left"
-				VerticalAlignment="Center"/>
+							  Foreground="Blue"
+							  Content="{x:Static g:Strings.TxtPomodoroes}" 
+							  HorizontalAlignment="Left"
+							  VerticalAlignment="Center"
+							  IsEnabled="{Binding ElementName=cbTasks, Path=IsEnabled}"
+							  Click="OnPomodorosClick"/>
 				</StackPanel>
 			</StackPanel>
 		</Grid>
