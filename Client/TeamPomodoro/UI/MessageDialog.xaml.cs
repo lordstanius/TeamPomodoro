@@ -1,10 +1,12 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using TeamPomodoro.Core;
 using TeamPomodoro.Globalization;
+using NLog;
 
 namespace TeamPomodoro.UI
 {
@@ -67,12 +69,16 @@ namespace TeamPomodoro.UI
 			return Show(message, caption, true, true, false);
 		}
 
-		public static bool ShowError(string message, string caption = null, bool showCancel = false)
+		public static bool ShowError(Exception ex, string message, string caption = null, bool showCancel = false)
 		{
 			if (caption == null)
 				caption = Strings.TxtError;
 
-			return Show(message, caption, false, showCancel, true);
+			Logger log = LogManager.GetLogger("logger");
+			log.Error(ex, ex.Message, null);
+
+			return Show(string.Format("{0}:{1}{2}{3}", message, ex.Message, Environment.NewLine, Strings.TxtSeeLogForDetails), 
+				caption, false, showCancel, true);
 		}
 
 		void OnCancelClick(object sender, RoutedEventArgs e)

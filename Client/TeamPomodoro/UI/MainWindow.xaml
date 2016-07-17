@@ -46,7 +46,7 @@
 				</Grid.ColumnDefinitions>
 				<TextBlock Text="{x:Static g:Strings.TxtTask}" HorizontalAlignment="Left" VerticalAlignment="Center"
 					 Margin="0,0,20,0"/>
-				<ComboBox Name="cbTasks" Grid.Column="1" VerticalAlignment="Center" 
+				<ComboBox Name="tasks" Grid.Column="1" VerticalAlignment="Center" 
 							 IsEnabled="False"
 							 Height="{x:Static local:Sizes.CommonHeight}"
 							 SelectionChanged="OnSelectionChanged"/>
@@ -54,13 +54,13 @@
 						 Padding="5,0,0,0"
 						 VerticalContentAlignment="Center"
 						 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
-						 Visibility="{Binding ElementName=cbTasks, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+						 Visibility="{Binding ElementName=tasks, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
 						 Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
-			<TextBlock Name="lPomodoro" Grid.Row="1" Text="Pomodoro # of #" HorizontalAlignment="Left" 
+			<TextBlock Name="pomodoro" Grid.Row="1" Text="Pomodoro # of #" HorizontalAlignment="Left" 
 						  VerticalAlignment="Top" Visibility="Hidden"/>
 
-			<TextBlock Name="lCounter" Grid.Row="2" Text="00:00" FontSize="80"
+			<TextBlock Name="counter" Grid.Row="2" Text="00:00" FontSize="80"
 				 HorizontalAlignment="Center"
 				 VerticalAlignment="Center">
 				<TextBlock.BitmapEffect>

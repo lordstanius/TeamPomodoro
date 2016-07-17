@@ -20,15 +20,15 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 		<TextBlock Text="{x:Static g:Strings.TxtUserName}"/>
-		<TextBox Grid.Row="1" Name="txtUserName" VerticalContentAlignment="Center"
+		<TextBox Grid.Row="1" Name="userName" VerticalContentAlignment="Center"
 					Height="{x:Static local:Sizes.CommonHeight}"/>
 		<TextBlock Grid.Row="2" Text="{x:Static g:Strings.TxtPassword}"
 					  VerticalAlignment="Bottom"/>
-		<PasswordBox Grid.Row="3" Name="txtPassword" PasswordChar="●"
+		<PasswordBox Grid.Row="3" Name="password" PasswordChar="●"
 						 VerticalContentAlignment="Center"
 						 Height="{x:Static local:Sizes.CommonHeight}">
 		</PasswordBox>
-		<Button Grid.Row="4" Content="{x:Static g:Strings.TxtSignIn}"
+		<Button Name="btnSignIn" Grid.Row="4" Content="{x:Static g:Strings.TxtSignIn}"
 				  Margin="0,10,0,0"
 				  Padding="10,0,10,0"
 				  MinWidth="80"

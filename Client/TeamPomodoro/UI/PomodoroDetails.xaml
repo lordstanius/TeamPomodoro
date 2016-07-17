@@ -32,20 +32,26 @@
 		<ListView Grid.Row="2">
 			<ListView.View>
 				<GridView>
-					<GridViewColumn Header="#" Width="20" 
-										 DisplayMemberBinding="{Binding No}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtDate}" Width="70" 
-										 DisplayMemberBinding="{Binding No}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtStart}" Width="55" 
-										 DisplayMemberBinding="{Binding Successful}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtStop}" Width="55"
-										 DisplayMemberBinding="{Binding Failed}"/>
-
-					<GridViewColumn Header="{x:Static g:Strings.TxtDuration}" Width="70"
-										 DisplayMemberBinding="{Binding Duration}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtSuccessful}" Width="70"
-										 DisplayMemberBinding="{Binding Duration}"/>
-
+					<GridViewColumn Width="20" DisplayMemberBinding="{Binding No}">
+						<GridViewColumnHeader Content="#"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
+					<GridViewColumn Width="70" DisplayMemberBinding="{Binding No}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtDate}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
+					<GridViewColumn Width="55" DisplayMemberBinding="{Binding Successful}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtStart}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
+					<GridViewColumn Width="70" DisplayMemberBinding="{Binding Duration}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtDuration}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
+					<GridViewColumn Width="70" DisplayMemberBinding="{Binding Duration}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtSuccessful}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
 				</GridView>
 			</ListView.View>
 		</ListView>

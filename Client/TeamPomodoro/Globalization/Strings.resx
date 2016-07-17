@@ -201,8 +201,8 @@
   <data name="TxtStopTime" xml:space="preserve">
     <value>Stop</value>
   </data>
-  <data name="TxtSuccessful" xml:space="preserve">
-    <value>Successful</value>
+  <data name="TxtDone" xml:space="preserve">
+    <value>Done</value>
   </data>
   <data name="TxtTaskName" xml:space="preserve">
     <value>Task name</value>
@@ -305,5 +305,14 @@
   </data>
   <data name="TxtTaskCompletedWarning" xml:space="preserve">
     <value>This task is completed. Increase the number of pomodoros for this task, or choose another task.</value>
+  </data>
+  <data name="TxtPending" xml:space="preserve">
+    <value>Pending</value>
+  </data>
+  <data name="TxtSeeLogForDetails" xml:space="preserve">
+    <value>See "%temp%\TeamPomodoro\TeamPomodoro.log" for details.</value>
+  </data>
+  <data name="TxtSuccessful" xml:space="preserve">
+    <value>Is successful</value>
   </data>
 </root>

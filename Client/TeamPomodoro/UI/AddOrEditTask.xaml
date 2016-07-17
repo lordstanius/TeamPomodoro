@@ -26,14 +26,14 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Text="{x:Static g:Strings.TxtProject}" Margin="0,0,20,0"
 						  VerticalAlignment="Center"/>
-			<ComboBox Name="cbProjects" Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"/>
+			<ComboBox Name="projects" Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"/>
 			<Label Name="lChoose" Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}"
 					 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
 					 Padding="5,0,0,0"
 					 VerticalContentAlignment="Center"
 					 VerticalAlignment="Stretch"
 					 HorizontalAlignment="Left"
-					 Visibility="{Binding ElementName=cbProjects, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+					 Visibility="{Binding ElementName=projects, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
 					 Height="{x:Static local:Sizes.CommonHeight}"/>
 		</Grid>
 		<TextBlock Grid.Row="1" Text="{x:Static g:Strings.TxtTaskName}" Margin="0,0,20,0"

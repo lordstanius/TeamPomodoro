@@ -25,24 +25,26 @@ namespace TeamPomodoro.UI
 		async void OnSignInClick(object sender, RoutedEventArgs e)
 		{
 			Cursor = Cursors.Wait;
+			btnSignIn.IsEnabled = false;
 			try
 			{
-				if (await Controller.Instance.GetUser(txtUserName.Text, txtPassword.SecurePassword.ToString()))
+				if (await Controller.Instance.GetUser(userName.Text, password.SecurePassword.ToString()))
 				{
 					DialogResult = true;
 					return;
 				}
 				if (MessageDialog.ShowYesNo(Strings.MsgUserCannotBeFound))
-					if (await Controller.Instance.ShowUserDetails(txtUserName.Text))
+					if (await Controller.Instance.ShowUserDetails(userName.Text))
 						DialogResult = true;
 			}
 			catch (Exception ex)
 			{
-				MessageDialog.ShowError(ex.ToString());
+				MessageDialog.ShowError(ex, "SignIn.OnSignInClick()");
 			}
 			finally
 			{
 				Cursor = Cursors.Arrow;
+				btnSignIn.IsEnabled = true;
 			}
 		}
 	}

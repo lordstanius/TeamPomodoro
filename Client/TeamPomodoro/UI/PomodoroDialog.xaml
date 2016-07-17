@@ -58,29 +58,37 @@
 				<ComboBox Grid.Column="1"
 							 Height="{x:Static local:Sizes.CommonHeight}"
 							 Name="teams"/>
-				<Label Name="placeholder" Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
+				<Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
 						 Padding="5,0,0,0"
 						 VerticalContentAlignment="Center"
 						 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
-						 Visibility="{Binding ElementName=cbTasks, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+						 Visibility="{Binding ElementName=teams, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
 						 Height="{x:Static local:Sizes.CommonHeight}"/>
 			</Grid>
 		</Grid>
 		<ListView Grid.Row="1" SelectionMode="Single" Name="list">
 			<ListView.View>
 				<GridView>
-					<GridViewColumn Width="125" DisplayMemberBinding="{Binding Task}">
+					<GridViewColumn Width="125" DisplayMemberBinding="{Binding TaskName}">
 						<GridViewColumnHeader Content="{x:Static g:Strings.TxtTaskName}"
 													 HorizontalContentAlignment="Left" Width="Auto"/>
 					</GridViewColumn>
-					<GridViewColumn Header="{x:Static g:Strings.TxtSuccessful}" Width="70" 
-										 DisplayMemberBinding="{Binding Successful}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtFailed}" Width="60"
-										 DisplayMemberBinding="{Binding Failed}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtTotal}" Width="60"
-										 DisplayMemberBinding="{Binding Total}"/>
-					<GridViewColumn Header="{x:Static g:Strings.TxtDuration}" Width="70"
-										 DisplayMemberBinding="{Binding Duration}"/>
+					<GridViewColumn Width="65" DisplayMemberBinding="{Binding Successful}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtDone}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
+					<GridViewColumn Width="65" DisplayMemberBinding="{Binding Failed}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtFailed}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
+					<GridViewColumn Width="65" DisplayMemberBinding="{Binding Total}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtPending}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
+					<GridViewColumn Width="70" DisplayMemberBinding="{Binding Duration}">
+						<GridViewColumnHeader Content="{x:Static g:Strings.TxtDuration}"
+													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+					</GridViewColumn>
 				</GridView>
 			</ListView.View>
 		</ListView>
@@ -90,6 +98,7 @@
 				  Height="{x:Static local:Sizes.CommonHeight}"
 				  HorizontalAlignment="Right"
 				  Margin="0,10,0,0"
+				  IsEnabled="{Binding ElementName=list, Path=SelectedIndex, Converter={StaticResource IndexToBoolConverter}}"
 				  Click="OnDetailsClick"/>
 	</Grid>
 </Window>

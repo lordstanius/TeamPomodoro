@@ -109,7 +109,7 @@ namespace TeamPomodoro.Util
 					foreach (var task in user.Tasks)
 						_edit.list.Items.Add(task);
 
-					_edit.list.SelectedItem = Controller.Instance.Main.cbTasks.SelectedItem;
+					_edit.list.SelectedItem = Controller.Instance.Main.tasks.SelectedItem;
 					break;
 			}
 
@@ -130,7 +130,7 @@ namespace TeamPomodoro.Util
 			}
 			catch (Exception ex)
 			{
-				MessageDialog.ShowError(ex.Message);
+				MessageDialog.ShowError(ex, "EditHelper.ShowEditDialog()");
 			}
 
 			Controller.Instance.Main.Cursor = Cursors.Arrow;
@@ -170,7 +170,7 @@ namespace TeamPomodoro.Util
 				}
 				catch (Exception ex)
 				{
-					MessageDialog.ShowError(ex.Message);
+					MessageDialog.ShowError(ex, "EditHelper.OnEdit()");
 				}
 			}
 		}
@@ -197,7 +197,7 @@ namespace TeamPomodoro.Util
 			}
 			catch (Exception ex)
 			{
-				MessageDialog.ShowError(ex.Message);
+				MessageDialog.ShowError(ex, "EditHelper.OnDelete()");
 			}
 		}
 
@@ -236,7 +236,7 @@ namespace TeamPomodoro.Util
 				}
 				catch (Exception ex)
 				{
-					MessageDialog.ShowError(ex.Message);
+					MessageDialog.ShowError(ex, "EditHelper.OnAdd()");
 				}
 			}
 		}
@@ -250,7 +250,7 @@ namespace TeamPomodoro.Util
 			_editTask.IsOfEditType = true;
 			_editTask.lChoose.Content = (await Controller.Instance.UnitOfWork.ProjectsAsync.GetAsync(task.ProjectId)).ToString();
 			_editTask.lChoose.Visibility = Visibility.Visible;
-			_editTask.cbProjects.IsEnabled = false;
+			_editTask.projects.IsEnabled = false;
 
 			_editTask.text.Text = task.Name;
 			_editTask.text.Focus();
@@ -272,7 +272,7 @@ namespace TeamPomodoro.Util
 				}
 				catch (Exception ex)
 				{
-					MessageDialog.ShowError(ex.Message);
+					MessageDialog.ShowError(ex, "EditHelper.OnEditTask()");
 				}
 			}
 		}
@@ -289,7 +289,7 @@ namespace TeamPomodoro.Util
 			}
 			catch (Exception ex)
 			{
-				MessageDialog.ShowError(ex.Message);
+				MessageDialog.ShowError(ex, "EditHelper.OnDeleteTask()");
 			}
 		}
 
@@ -300,9 +300,9 @@ namespace TeamPomodoro.Util
 			var projects = await Controller.Instance.UnitOfWork.ProjectsAsync.GetAllAsync();
 			_editTask.IsOfEditType = false;
 			_editTask.Title = Strings.TxtAdd;
-			_editTask.cbProjects.ItemsSource = projects;
-			_editTask.cbProjects.IsEnabled = _editTask.cbProjects.Items.Count > 0;
-			_editTask.cbProjects.DropDownClosed += (o, a) => _editTask.text.Focus();
+			_editTask.projects.ItemsSource = projects;
+			_editTask.projects.IsEnabled = _editTask.projects.Items.Count > 0;
+			_editTask.projects.DropDownClosed += (o, a) => _editTask.text.Focus();
 			_editTask.text.Focus();
 
 			if (_editTask.ShowDialog() == true)
@@ -315,7 +315,7 @@ namespace TeamPomodoro.Util
 						UserId = Controller.Instance.User.UserId,
 						TeamId = Controller.Instance.User.TeamId,
 						Name = _editTask.text.Text,
-						ProjectId = ((Model.Project)_editTask.cbProjects.SelectedItem).ProjectId,
+						ProjectId = ((Model.Project)_editTask.projects.SelectedItem).ProjectId,
 						PomodoroCount = _editTask.numPomodoros.Value
 					};
 
@@ -324,7 +324,7 @@ namespace TeamPomodoro.Util
 				}
 				catch (Exception ex)
 				{
-					MessageDialog.ShowError(ex.Message);
+					MessageDialog.ShowError(ex, "EditHelper.OnAddTask()");
 				}
 			}
 		}

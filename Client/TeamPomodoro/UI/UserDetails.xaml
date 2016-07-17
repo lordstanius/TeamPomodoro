@@ -29,7 +29,7 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Text="{x:Static g:Strings.TxtUserName}" VerticalAlignment="Center"
 						  Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
-			<TextBox Name="txtUserName" Grid.Column="1" VerticalAlignment="Center" 
+			<TextBox Name="userName" Grid.Column="1" VerticalAlignment="Center" 
 						VerticalContentAlignment="Center"
 						Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
 		</Grid>
@@ -41,7 +41,7 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Text="{x:Static g:Strings.TxtPassword}" VerticalAlignment="Center"
 						  Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
-			<PasswordBox Name="txtPassword" Grid.Column="1" VerticalAlignment="Center" 
+			<PasswordBox Name="password" Grid.Column="1" VerticalAlignment="Center" 
 							 VerticalContentAlignment="Center"
 							 Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
 		</Grid>
@@ -52,7 +52,16 @@
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
 			<TextBlock Name="lWit" Text="{x:Static g:Strings.TxtWorksInTeam}" VerticalAlignment="Center"/>
-			<ComboBox Name="cbTeams" Grid.Column="1" VerticalAlignment="Center" Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
+			<ComboBox Name="teams" Grid.Column="1" VerticalAlignment="Center" Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
+			<Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}"
+					 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+					 Padding="5,0,0,0"
+					 Margin="20,0,0,0"
+					 VerticalContentAlignment="Center"
+					 VerticalAlignment="Stretch"
+					 HorizontalAlignment="Left"
+					 Visibility="{Binding ElementName=teams, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+					 Height="{x:Static local:Sizes.CommonHeight}"/>
 		</Grid>
 		<StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft" 
 						VerticalAlignment="Top"

@@ -25,7 +25,7 @@ namespace TeamPomodoro.UI
 
 		async void OnSaveClick(object sender, RoutedEventArgs e)
 		{
-			if (string.IsNullOrEmpty(txtUserName.Text) || string.IsNullOrEmpty(txtPassword.SecurePassword.ToString()))
+			if (string.IsNullOrEmpty(userName.Text) || string.IsNullOrEmpty(password.SecurePassword.ToString()))
 				return;
 
 			try
@@ -33,11 +33,11 @@ namespace TeamPomodoro.UI
 				Cursor = Cursors.Wait;
 
 				Guid? teamId = null;
-				if (cbTeams.SelectedItem != null)
-					teamId = ((Team)cbTeams.SelectedItem).TeamId;
+				if (teams.SelectedItem != null)
+					teamId = ((Team)teams.SelectedItem).TeamId;
 
 				// TODO: Take care of password handling
-				await Controller.Instance.UpdateUser(txtUserName.Text, "Pass123", numUpDown.Value,
+				await Controller.Instance.UpdateUser(userName.Text, "Pass123", numUpDown.Value,
 					(bool)chkShowWarning.IsChecked,
 					teamId);
 

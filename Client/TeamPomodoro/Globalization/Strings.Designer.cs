@@ -178,6 +178,15 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string TxtDone {
+            get {
+                return ResourceManager.GetString("TxtDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration.
         /// </summary>
         public static string TxtDuration {
@@ -340,6 +349,15 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pending.
+        /// </summary>
+        public static string TxtPending {
+            get {
+                return ResourceManager.GetString("TxtPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Pomodoro details.
         /// </summary>
         public static string TxtPomodoroDetails {
@@ -408,6 +426,15 @@ namespace TeamPomodoro.Globalization {
         public static string TxtSave {
             get {
                 return ResourceManager.GetString("TxtSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to See &quot;%temp%\TeamPomodoro\TeamPomodoro.log&quot; for details..
+        /// </summary>
+        public static string TxtSeeLogForDetails {
+            get {
+                return ResourceManager.GetString("TxtSeeLogForDetails", resourceCulture);
             }
         }
         
@@ -484,7 +511,7 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successful.
+        ///   Looks up a localized string similar to Is successful.
         /// </summary>
         public static string TxtSuccessful {
             get {
