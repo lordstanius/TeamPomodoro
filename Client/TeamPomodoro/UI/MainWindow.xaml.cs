@@ -27,8 +27,8 @@ namespace TeamPomodoro.UI
 		{
 			Controller.Create(this);
 
-			AppDomain.CurrentDomain.UnhandledException += (o, a) => MessageDialog.ShowError((Exception)a.ExceptionObject, "AppDomain unhandeled exception");
-			Application.Current.DispatcherUnhandledException += (o, a) => MessageDialog.ShowError((Exception)a.Exception, "Dipatcher unhandeled exception");
+			AppDomain.CurrentDomain.UnhandledException += (o, a) => { MessageDialog.ShowError((Exception)a.ExceptionObject, "AppDomain unhandeled exception"); Close(); };
+			Application.Current.DispatcherUnhandledException += (o, a) => { MessageDialog.ShowError((Exception)a.Exception, "Dipatcher unhandeled exception"); Close(); };
 		}
 
 		private void OnEditTeamsClick(object sender, RoutedEventArgs e)

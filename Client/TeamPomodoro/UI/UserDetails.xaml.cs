@@ -25,7 +25,8 @@ namespace TeamPomodoro.UI
 
 		async void OnSaveClick(object sender, RoutedEventArgs e)
 		{
-			if (!(Controller.Instance.ValidateUser(userName.Text) && Controller.Instance.ValidatePassword(password.SecurePassword)))
+			if (!(Controller.Instance.ValidateUser(userName.Text) && 
+				Controller.Instance.ValidatePassword(password.SecurePassword)))
 				return;
 
 			try
@@ -37,7 +38,10 @@ namespace TeamPomodoro.UI
 					teamId = ((Team)teams.SelectedItem).TeamId;
 
 				// TODO: Take care of password handling
-				await Controller.Instance.UpdateUser(userName.Text, password.SecurePassword, numUpDown.Value,
+				await Controller.Instance.UpdateUser(
+					userName.Text, 
+					password.SecurePassword, 
+					numUpDown.Value,
 					(bool)chkShowWarning.IsChecked,
 					teamId);
 
