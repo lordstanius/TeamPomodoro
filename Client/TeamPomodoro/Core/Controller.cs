@@ -1,12 +1,16 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Linq;
+using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Security.Cryptography;
 using TeamPomodoro.UI;
 using TeamPomodoro.Util;
 using TeamPomodoro.Properties;
@@ -45,7 +49,7 @@ namespace TeamPomodoro.Core
 			var fileTarget = new FileTarget();
 			config.AddTarget("file", fileTarget);
 			fileTarget.FileName = Path.Combine(Path.GetTempPath(), "TeamPomodoro\\TeamPomodoro.log");
-			fileTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger} ${message}";
+			fileTarget.Layout = @"[${date:format=HH\:mm\:ss}] ${logger} ${message} ${exception}";
 			var rule = new LoggingRule("*", LogLevel.Debug, fileTarget);
 			config.LoggingRules.Add(rule);
 			LogManager.Configuration = config;
@@ -94,13 +98,15 @@ namespace TeamPomodoro.Core
 			Main.toggle.IsChecked = false;
 			Main.Title = Strings.TxtTeamPomodoro;
 
-			var mniSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignIn");
-			var mniSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignOut");
-			var mniEditTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniEditTasks");
+			var miSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignIn");
+			var miSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignOut");
+			var miEditTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miEditTasks");
+			var miAdmin = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miAdmin");
 
-			mniSignIn.IsEnabled = true;
-			mniSignOut.IsEnabled = false;
-			mniEditTasks.IsEnabled = false;
+			miAdmin.Visibility = Visibility.Hidden;
+			miSignIn.IsEnabled = true;
+			miSignOut.IsEnabled = false;
+			miEditTasks.IsEnabled = false;
 
 			User = null;
 		}
@@ -110,13 +116,15 @@ namespace TeamPomodoro.Core
 			if (ShowSignIn())
 			{
 				Main.grid.IsEnabled = true;
-				var mniSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignIn");
-				var mniSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniSignOut");
-				var mniEditTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "mniEditTasks");
+				var miSignIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignIn");
+				var miSignOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignOut");
+				var miEditTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miEditTasks");
+				var miAdmin = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miAdmin");
 
-				mniSignIn.IsEnabled = false;
-				mniSignOut.IsEnabled = true;
-				mniEditTasks.IsEnabled = true;
+				miAdmin.Visibility = User.UserName.Equals("admin") ? Visibility.Visible : Visibility.Collapsed;
+				miSignIn.IsEnabled = false;
+				miSignOut.IsEnabled = true;
+				miEditTasks.IsEnabled = true;
 
 				Main.tasks.ItemsSource = User.Tasks;
 				Main.tasks.IsEnabled = Main.tasks.Items.Count > 0;
@@ -192,23 +200,34 @@ namespace TeamPomodoro.Core
 			}
 		}
 
-		internal async Task<bool> GetUser(string userName, string password)
+		/// <summary>
+		/// Get user and return dialog result to calling dialog.
+		/// </summary>
+		/// <param name="userName"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		internal async Task<bool?> GetUser(string userName, SecureString password)
 		{
-			if (string.IsNullOrEmpty(userName) && string.IsNullOrEmpty(password))
+			if (string.IsNullOrEmpty(userName))
 				return false;
 
 			foreach (var user in await UnitOfWork.UsersAsync.GetAllAsync())
 				if (user.UserName.Equals(userName))
 				{
+					if (!password.GetHashString().Equals(user.Password))
+					{
+						MessageDialog.Show(Strings.MsgWrongPass);
+						return null;
+					}
+
 					User = await UnitOfWork.UsersAsync.GetAsync(user.UserId);
 					return true;
 				}
 
-			// TODO: implement password validation
 			return false;
 		}
 
-		internal async Task UpdateUser(string userName, string password, int durationInMin, bool showWarning, Guid? teamId)
+		internal async Task UpdateUser(string userName, SecureString password, int durationInMin, bool showWarning, Guid? teamId)
 		{
 			bool newUser = User == null;
 			if (newUser) // add new user
@@ -218,7 +237,7 @@ namespace TeamPomodoro.Core
 
 			// update date
 			User.UserName = userName;
-			User.Password = password;
+			User.Password = password.GetHashString();
 			User.ShowWarningAfterPomodoroExpires = showWarning;
 			User.PomodoroDurationInMin = durationInMin;
 			User.TeamId = teamId;
@@ -452,6 +471,29 @@ namespace TeamPomodoro.Core
 				StopPomodoro();
 
 			Main.Dispatcher.Invoke(() => Main.counter.Text = _timeRemaining.ToString("mm\\:ss"));
+		}
+
+		internal bool ValidateUser(string userName)
+		{
+			if (string.IsNullOrEmpty(userName))
+			{
+				MessageDialog.Show(Strings.MsgPleaseSpecifyUserName);
+				return false;
+			}
+
+			return true;
+		}
+
+		internal bool ValidatePassword(SecureString password)
+		{
+			var nc = new NetworkCredential(string.Empty, password);
+			if (nc.Password.Length == 0)
+			{
+				MessageDialog.Show(Strings.MsgPasswordLenght);
+				return false;
+			}
+
+			return true;
 		}
 
 		public void Dispose()

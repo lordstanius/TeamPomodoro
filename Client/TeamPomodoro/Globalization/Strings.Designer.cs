@@ -70,6 +70,24 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password has to be at least 3 characters long..
+        /// </summary>
+        public static string MsgPasswordLenght {
+            get {
+                return ResourceManager.GetString("MsgPasswordLenght", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name has to be specified..
+        /// </summary>
+        public static string MsgPleaseSpecifyUserName {
+            get {
+                return ResourceManager.GetString("MsgPleaseSpecifyUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User cannot be found. Would you like to create account?.
         /// </summary>
         public static string MsgUserCannotBeFound {
@@ -84,6 +102,15 @@ namespace TeamPomodoro.Globalization {
         public static string MsgUserExists {
             get {
                 return ResourceManager.GetString("MsgUserExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is wrong..
+        /// </summary>
+        public static string MsgWrongPass {
+            get {
+                return ResourceManager.GetString("MsgWrongPass", resourceCulture);
             }
         }
         

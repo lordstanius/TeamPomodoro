@@ -315,4 +315,13 @@
   <data name="TxtSuccessful" xml:space="preserve">
     <value>Is successful</value>
   </data>
+  <data name="MsgPasswordLenght" xml:space="preserve">
+    <value>Password has to be at least 3 characters long.</value>
+  </data>
+  <data name="MsgPleaseSpecifyUserName" xml:space="preserve">
+    <value>User name has to be specified.</value>
+  </data>
+  <data name="MsgWrongPass" xml:space="preserve">
+    <value>Password is wrong.</value>
+  </data>
 </root>

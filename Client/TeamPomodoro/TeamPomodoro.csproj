@@ -92,6 +92,7 @@
       <DependentUpon>UserDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\View\TaskView.cs" />
+    <Compile Include="Util\Crypto.cs" />
     <Compile Include="Util\IndexToBoolConverter.cs" />
     <Compile Include="Util\NullToVisibilityConverter.cs" />
     <Compile Include="Util\EditHelper.cs" />

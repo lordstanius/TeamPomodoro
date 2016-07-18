@@ -64,7 +64,7 @@ namespace Model.Migrations
                     {
                         UserId = c.Guid(nullable: false),
                         UserName = c.String(maxLength: 20),
-                        Password = c.String(maxLength: 20),
+                        Password = c.String(maxLength: 64),
                         ShowWarningAfterPomodoroExpires = c.Boolean(nullable: false),
                         PomodoroDurationInMin = c.Int(nullable: false),
                         TeamId = c.Guid(),

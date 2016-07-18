@@ -51,7 +51,7 @@ namespace TeamPomodoro.UI
 
 			double width = msg.imgError.Visibility == Visibility.Visible ? 260.0 : 304.0;
 			msg.lMessage.Measure(new Size(width, double.PositiveInfinity));
-			msg.Height = msg.lMessage.DesiredSize.Height + 100;
+			msg.Height = msg.lMessage.DesiredSize.Height + 110;
 
 			return (bool)msg.ShowDialog();
 		}
@@ -74,10 +74,10 @@ namespace TeamPomodoro.UI
 			if (caption == null)
 				caption = Strings.TxtError;
 
-			Logger log = LogManager.GetLogger("logger");
+			Logger log = LogManager.GetLogger(string.Empty);
 			log.Error(ex, ex.Message, null);
 
-			return Show(string.Format("{0}:{1}{2}{3}", message, ex.Message, Environment.NewLine, Strings.TxtSeeLogForDetails), 
+			return Show(string.Format("{0}: {1} {2}", message, ex.Message, Strings.TxtSeeLogForDetails),
 				caption, false, showCancel, true);
 		}
 

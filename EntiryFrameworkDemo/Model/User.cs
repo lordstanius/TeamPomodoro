@@ -11,7 +11,7 @@ namespace Model
 		[MaxLength(20)]
 		public string UserName { get; set; }
 
-		[MaxLength(20)]
+		[MaxLength(64)]
 		public string Password { get; set; }
 		public bool ShowWarningAfterPomodoroExpires { get; set; }
 		public int PomodoroDurationInMin { get; set; }

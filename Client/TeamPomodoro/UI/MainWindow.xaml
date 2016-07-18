@@ -18,14 +18,14 @@
 		<Menu VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.WindowBrush}}" 
 				Name="menu">
 			<MenuItem Header="{x:Static g:Strings.TxtUser}">
-				<MenuItem Name="mniSignIn" Header="{x:Static g:Strings.TxtSignIn}" Click="OnSignInClick"/>
-				<MenuItem Name="mniSignOut" Header="{x:Static g:Strings.TxtSignOut}" Click="OnSignOut" IsEnabled="False"/>
+				<MenuItem Name="miSignIn" Header="{x:Static g:Strings.TxtSignIn}" Click="OnSignInClick"/>
+				<MenuItem Name="miSignOut" Header="{x:Static g:Strings.TxtSignOut}" Click="OnSignOut" IsEnabled="False"/>
 				<Separator/>
-				<MenuItem Name="mniEditTasks" Header="{x:Static g:Strings.TxtEditTasks}" Click="OnEditTasksClick" IsEnabled="False"/>
+				<MenuItem Name="miEditTasks" Header="{x:Static g:Strings.TxtEditTasks}" Click="OnEditTasksClick" IsEnabled="False"/>
 				<Separator/>
 				<MenuItem Header="{x:Static g:Strings.TxtExit}" Click="OnExitClick"/>
 			</MenuItem>
-			<MenuItem Header="{x:Static g:Strings.TxtAdmin}">
+			<MenuItem Name="miAdmin" Header="{x:Static g:Strings.TxtAdmin}" Visibility="Hidden">
 				<MenuItem Header="{x:Static g:Strings.TxtEditTeams}" Click="OnEditTeamsClick"/>
 				<MenuItem Header="{x:Static g:Strings.TxtEditProjects}" Click="OnEditProjectsClick"/>
 			</MenuItem>
