@@ -59,7 +59,7 @@ namespace TeamPomodoro.UI
 
 		private void OnDetailsClick(object sender, RoutedEventArgs e)
 		{
-
+			Controller.Instance.ShowPomodoroDetails(this);
 		}
 	}
 }

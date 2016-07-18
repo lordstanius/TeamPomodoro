@@ -251,41 +251,95 @@ namespace TeamPomodoro.Core
 		internal async void ShowPomodoros()
 		{
 			Main.Cursor = Cursors.Wait;
+			var dlg = new PomodoroDialog
+			{
+				Owner = Main,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner
+			};
+
 			try
 			{
-				var dlg = new PomodoroDialog
-				{
-					Owner = Main,
-					WindowStartupLocation = WindowStartupLocation.CenterOwner
-				};
-
 				dlg.users.ItemsSource = await UnitOfWork.UsersAsync.GetAllAsync();
 				dlg.teams.ItemsSource = await UnitOfWork.TeamsAsync.GetAllAsync();
 
 				// load tasks data to speed up filtering
 				await UnitOfWork.TasksAsync.GetAllAsync();
-
-				dlg.users.SelectedItem = User;
-				dlg.teams.IsEnabled = dlg.teams.Items.Count > 0;
-				dlg.teams.SelectedItem = User.TeamId.HasValue ? UnitOfWork.Teams.Get(User.TeamId.Value) : null;
-
-				dlg.users.SelectionChanged += (o, e) => UpdateList(dlg);
-				dlg.teams.SelectionChanged += (o, e) => UpdateList(dlg);
-				dlg.date.SelectedDateChanged += (o, e) => UpdateList(dlg);
-
-				UpdateList(dlg);
-
-				dlg.ShowDialog();
 			}
 			catch (Exception ex)
 			{
 				MessageDialog.ShowError(ex, "Controller.ShowPomodoroes()");
 			}
 
+			dlg.users.SelectedItem = User;
+			dlg.teams.IsEnabled = dlg.teams.Items.Count > 0;
+			dlg.teams.SelectedItem = User.TeamId.HasValue ? UnitOfWork.Teams.Get(User.TeamId.Value) : null;
+
+			dlg.users.SelectionChanged += (o, e) => UpdateTaskList(dlg);
+			dlg.teams.SelectionChanged += (o, e) => UpdateTaskList(dlg);
+			dlg.date.SelectedDateChanged += (o, e) => UpdateTaskList(dlg);
+
+			UpdateTaskList(dlg);
+			dlg.ShowDialog();
+
 			Main.Cursor = Cursors.Arrow;
 		}
 
-		async void UpdateList(PomodoroDialog dlg)
+		internal void ShowPomodoroDetails(PomodoroDialog dlg)
+		{
+			var details = new PomodoroDetails
+			{
+				Owner = dlg,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner
+			};
+
+			var task = ((UI.View.TaskView)dlg.list.SelectedItem).Task;
+
+			foreach (var item in UnitOfWork.Tasks.GetAll())
+				details.tasks.Items.Add(item);
+
+			details.tasks.SelectedItem = task;
+
+			UpdatePomodoroList(details);
+			details.ShowDialog();
+		}
+
+		internal async void UpdatePomodoroList(PomodoroDetails details)
+		{
+			Model.Task task = (Model.Task)details.tasks.SelectedItem;
+			details.Cursor = Cursors.Wait;
+			try
+			{
+				if (task.Pomodoroes == null)
+				{
+					task = await UnitOfWork.TasksAsync.GetAsync(task.TaskId);
+					details.tasks.SelectionChanged -= details.OnSelectionChanged;
+					details.tasks.Items[details.tasks.SelectedIndex] = task;
+					details.tasks.SelectedItem = task;
+					details.tasks.SelectionChanged += details.OnSelectionChanged;
+				}
+
+				details.Cursor = Cursors.Arrow;
+			}
+			catch (Exception ex)
+			{
+				MessageDialog.ShowError(ex, "Controller.UpdatePomodoroList()");
+				return;
+			}
+
+			details.list.Items.Clear();
+			int i = 0;
+			foreach (var pomodoro in task.Pomodoroes)
+				details.list.Items.Add(new
+				{
+					No = ++i,
+					Date = pomodoro.StartTime.Value.Date,
+					Start = pomodoro.StartTime.Value.TimeOfDay.ToString("hh\\:mm\\:ss"),
+					Duration = TimeSpan.FromMinutes(pomodoro.DurationInMin).ToString("mm\\:hh"),
+					IsSuccessful = pomodoro.IsSuccessfull == true ? Strings.TxtYes : Strings.TxtNo
+				});
+		}
+
+		async void UpdateTaskList(PomodoroDialog dlg)
 		{
 			var user = (Model.User)dlg.users.SelectedItem;
 			var team = (Model.Team)dlg.teams.SelectedItem;
@@ -294,26 +348,26 @@ namespace TeamPomodoro.Core
 							where task.UserId == user.UserId && task.TeamId == team.TeamId
 							select task;
 
-			dlg.list.Items.Clear();
-			foreach (var task in tasks)
+			try
 			{
-				var t = await UnitOfWork.TasksAsync.GetAsync(task.TaskId);
-
-				if (t.Pomodoroes == null || t.Pomodoroes.Count == 0)
-					continue;
-
-				if (dlg.date.SelectedDate != null &&
-					t.Pomodoroes.First().StartTime.Value.Date != dlg.date.SelectedDate)
-					continue;
-
-				dlg.list.Items.Add(new
+				dlg.list.Items.Clear();
+				foreach (var task in tasks)
 				{
-					TaskName = task.Name,
-					Successful = t.Pomodoroes.Count(p => p.IsSuccessfull == true),
-					Failed = t.Pomodoroes.Count(p => p.IsSuccessfull == false),
-					Total = t.PomodoroCount - t.Pomodoroes.Count,
-					Duration = TimeSpan.FromMinutes(t.Pomodoroes.Sum(p => p.DurationInMin))
-				});
+					var t = await UnitOfWork.TasksAsync.GetAsync(task.TaskId);
+
+					if (t.Pomodoroes == null || t.Pomodoroes.Count == 0)
+						continue;
+
+					if (dlg.date.SelectedDate != null &&
+						t.Pomodoroes.First().StartTime.Value.Date != dlg.date.SelectedDate)
+						continue;
+
+					dlg.list.Items.Add(new UI.View.TaskView(t));
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageDialog.ShowError(ex, "Controller.UpdateList()");
 			}
 		}
 

@@ -24,23 +24,23 @@
 			</Grid.ColumnDefinitions>
 			<TextBlock Text="{x:Static g:Strings.TxtTaskName}" Margin="0,0,15,0"
 							  VerticalAlignment="Center"/>
-			<ComboBox Grid.Column="1"
+			<ComboBox Grid.Column="1" Name="tasks" SelectionChanged="OnSelectionChanged"
 							  VerticalAlignment="Center"/>
 		</Grid>
 		<TextBlock Grid.Row="1"  Text="{x:Static g:Strings.TxtPomodoroes}" Margin="0,20,0,5"
 							  VerticalAlignment="Center"/>
-		<ListView Grid.Row="2">
+		<ListView Grid.Row="2" Name="list" SelectionMode="Single">
 			<ListView.View>
 				<GridView>
 					<GridViewColumn Width="20" DisplayMemberBinding="{Binding No}">
 						<GridViewColumnHeader Content="#"
 													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
 					</GridViewColumn>
-					<GridViewColumn Width="70" DisplayMemberBinding="{Binding No}">
+					<GridViewColumn Width="70" DisplayMemberBinding="{Binding Date}">
 						<GridViewColumnHeader Content="{x:Static g:Strings.TxtDate}"
 													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
 					</GridViewColumn>
-					<GridViewColumn Width="55" DisplayMemberBinding="{Binding Successful}">
+					<GridViewColumn Width="70" DisplayMemberBinding="{Binding Start}">
 						<GridViewColumnHeader Content="{x:Static g:Strings.TxtStart}"
 													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
 					</GridViewColumn>
@@ -48,7 +48,7 @@
 						<GridViewColumnHeader Content="{x:Static g:Strings.TxtDuration}"
 													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
 					</GridViewColumn>
-					<GridViewColumn Width="70" DisplayMemberBinding="{Binding Duration}">
+					<GridViewColumn Width="80" DisplayMemberBinding="{Binding IsSuccessful}">
 						<GridViewColumnHeader Content="{x:Static g:Strings.TxtSuccessful}"
 													 HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
 					</GridViewColumn>

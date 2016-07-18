@@ -56,5 +56,10 @@ namespace TeamPomodoro.UI
 
 			return null;
 		}
+
+		internal void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Controller.Instance.UpdatePomodoroList(this);
+		}
 	}
 }

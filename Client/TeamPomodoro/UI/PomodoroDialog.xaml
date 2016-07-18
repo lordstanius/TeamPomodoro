@@ -91,6 +91,11 @@
 					</GridViewColumn>
 				</GridView>
 			</ListView.View>
+			<!--<ListView.ItemContainerStyle>
+				<Style TargetType="ListViewItem">
+					<EventSetter Event="PreviewMouseLeftButtonUp" Handler="OnDetailsClick"/>
+				</Style>
+			</ListView.ItemContainerStyle>-->
 		</ListView>
 		<Button Grid.Row="3"
 				  Content="{x:Static g:Strings.TxtDetails}" 
