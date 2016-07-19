@@ -7,7 +7,6 @@
         xmlns:local="clr-namespace:TeamPomodoro.UI"
         mc:Ignorable="d"
         Title="{x:Static g:Strings.TxtTeamPomodoro}"
-		  Icon="..\Resources\main.ico"
 		  Height="330" Width="400"
 		  ResizeMode="NoResize"
 		  WindowStartupLocation="CenterScreen"

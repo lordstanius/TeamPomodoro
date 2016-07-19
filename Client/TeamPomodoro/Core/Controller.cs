@@ -476,7 +476,7 @@ namespace TeamPomodoro.Core
 
 		void SetTimeRemaining()
 		{
-			_timeRemaining = TimeSpan.FromSeconds(5);//!!debug //TimeSpan.FromMinutes(User.PomodoroDurationInMin);
+			_timeRemaining = TimeSpan.FromMinutes(User.PomodoroDurationInMin);
 			Main.counter.Text = _timeRemaining.ToString("mm\\:ss");
 		}
 
