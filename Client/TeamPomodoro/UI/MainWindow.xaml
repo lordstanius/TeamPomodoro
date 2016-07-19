@@ -14,7 +14,16 @@
 		  MouseDown="OnMouseDown"
 		  Closed="OnClosed"
 		  Loaded="OnLoaded">
+	<Window.Resources>
+		<Storyboard x:Key="animDone">
+			<ColorAnimation Storyboard.TargetName="counter"
+								 Storyboard.TargetProperty="Foreground.Color"
+								 From="Black" To="Green" Duration="0:0:1"
+								 AutoReverse="True" RepeatBehavior="Forever"/>
+		</Storyboard>
+	</Window.Resources>
 	<Grid>
+		<TextBlock Name="version" Text="Version goes here" FontSize="10" VerticalAlignment="Bottom" Margin="4"/>
 		<Menu VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.WindowBrush}}" 
 				Name="menu">
 			<MenuItem Header="{x:Static g:Strings.TxtUser}">

@@ -245,12 +245,24 @@ namespace TeamPomodoro.Util
 		{
 			CreateEditTaskDialog();
 
-			var task = (Model.Task)_edit.list.SelectedItem;
+			Model.Task task = null;
+			try
+			{
+				_edit.Cursor = Cursors.Wait;
+
+				task = (Model.Task)_edit.list.SelectedItem;
+				task = await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId);
+			}
+			finally
+			{
+				_edit.Cursor = Cursors.Arrow;
+			}
 			_editTask.Title = Strings.TxtEditTask;
 			_editTask.IsOfEditType = true;
 			_editTask.lChoose.Content = (await Controller.Instance.UnitOfWork.ProjectsAsync.GetAsync(task.ProjectId)).ToString();
 			_editTask.lChoose.Visibility = Visibility.Visible;
 			_editTask.projects.IsEnabled = false;
+			_editTask.numPomodoros.Minimum = task.Pomodoroes.Count;
 
 			_editTask.text.Text = task.Name;
 			_editTask.text.Focus();
@@ -269,6 +281,9 @@ namespace TeamPomodoro.Util
 					_edit.list.Items[_edit.list.SelectedIndex] = t;
 					_edit.list.Items.Refresh();
 					await Controller.Instance.UnitOfWork.SaveChangesAsync();
+
+					int index = Controller.Instance.Main.tasks.SelectedIndex;
+					Controller.Instance.Main.tasks.Items[index] = t;
 				}
 				catch (Exception ex)
 				{

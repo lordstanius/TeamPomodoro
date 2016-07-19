@@ -324,4 +324,7 @@
   <data name="MsgWrongPass" xml:space="preserve">
     <value>Password is wrong.</value>
   </data>
+  <data name="MsgPomodoroDone" xml:space="preserve">
+    <value>Pomodoro completed successfully.</value>
+  </data>
 </root>

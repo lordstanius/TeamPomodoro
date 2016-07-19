@@ -88,6 +88,15 @@ namespace TeamPomodoro.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pomodoro completed successfully..
+        /// </summary>
+        public static string MsgPomodoroDone {
+            get {
+                return ResourceManager.GetString("MsgPomodoroDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User cannot be found. Would you like to create account?.
         /// </summary>
         public static string MsgUserCannotBeFound {

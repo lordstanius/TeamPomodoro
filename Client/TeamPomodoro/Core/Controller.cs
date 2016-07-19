@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Media;
 using System.Net;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ using DataAccess.Persistance;
 using NLog;
 using NLog.Targets;
 using NLog.Config;
+using System.Windows.Media.Animation;
 
 namespace TeamPomodoro.Core
 {
@@ -35,10 +37,13 @@ namespace TeamPomodoro.Core
 		TimeSpan _timeRemaining;
 		Model.Pomodoro _currentPomodoro;
 		Model.Task _currentTask;
+		NetworkCredential _userCredential;
 
 		Controller(MainWindow main)
 		{
 			Main = main;
+			Main.version.Text = Strings.TxtTeamPomodoro + " " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+
 			UnitOfWork = new UnitOfWork(Settings.Default.Uri);
 
 			_timer = new Timer { Interval = 1000 };
@@ -111,7 +116,7 @@ namespace TeamPomodoro.Core
 			User = null;
 		}
 
-		internal void SignIn()
+		internal async void SignIn()
 		{
 			if (ShowSignIn())
 			{
@@ -126,7 +131,19 @@ namespace TeamPomodoro.Core
 				miSignOut.IsEnabled = true;
 				miEditTasks.IsEnabled = true;
 
-				Main.tasks.ItemsSource = User.Tasks;
+				Main.tasks.Items.Clear();
+				Main.Cursor = Cursors.Wait;
+				try
+				{
+					foreach (var task in User.Tasks)
+						Main.tasks.Items.Add(await UnitOfWork.TasksAsync.GetAsync(task.TaskId));
+				}
+				catch (Exception ex)
+				{
+					MessageDialog.ShowError(ex, "Controller.SignIn() failed to get tasks for user");
+				}
+
+				Main.Cursor = Cursors.Arrow;
 				Main.tasks.IsEnabled = Main.tasks.Items.Count > 0;
 				Main.Title = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, User);
 			}
@@ -180,12 +197,15 @@ namespace TeamPomodoro.Core
 
 					userDetails.chkShowWarning.IsChecked = User.ShowWarningAfterPomodoroExpires;
 					userDetails.numUpDown.Value = User.PomodoroDurationInMin;
+					userDetails.password.Password = _userCredential.Password;
 				}
 
 				userDetails.userName.Text = userName ?? User.UserName;
-
 				if (userDetails.ShowDialog() == true)
+				{
 					await UnitOfWork.SaveChangesAsync();
+					SetTimeRemaining();
+				}
 
 				return true;
 			}
@@ -221,6 +241,7 @@ namespace TeamPomodoro.Core
 					}
 
 					User = await UnitOfWork.UsersAsync.GetAsync(user.UserId);
+					_userCredential = new NetworkCredential(userName, password);
 					return true;
 				}
 
@@ -250,10 +271,10 @@ namespace TeamPomodoro.Core
 
 		internal async void ShowEditTasks()
 		{
+			int i = Main.tasks.SelectedIndex;
 			var editHelper = new EditHelper(EditHelper.EditType.Task);
 			await editHelper.ShowEditDialog();
-			Main.tasks.ItemsSource = (await UnitOfWork.UsersAsync.GetAsync(User.UserId)).Tasks;
-			Main.tasks.IsEnabled = Main.tasks.Items.Count > 0;
+			Main.tasks.SelectedIndex = i;
 		}
 
 		internal bool? ValidateTask(AddOrEditTask dialog)
@@ -331,10 +352,8 @@ namespace TeamPomodoro.Core
 				if (task.Pomodoroes == null)
 				{
 					task = await UnitOfWork.TasksAsync.GetAsync(task.TaskId);
-					details.tasks.SelectionChanged -= details.OnSelectionChanged;
 					details.tasks.Items[details.tasks.SelectedIndex] = task;
 					details.tasks.SelectedItem = task;
-					details.tasks.SelectionChanged += details.OnSelectionChanged;
 				}
 
 				details.Cursor = Cursors.Arrow;
@@ -425,17 +444,14 @@ namespace TeamPomodoro.Core
 			UnitOfWork.PomodoroesAsync.AddAsync(_currentPomodoro);
 
 			Main.toggle.IsEnabled = !IsTaskCompleted;
-			if (IsTaskCompleted)
-				MessageDialog.Show(Strings.TxtTaskCompletedInfo);
 		}
 
-		internal async void UpdateGuiOnTaskChanged()
+		internal void UpdateGuiOnTaskChanged()
 		{
 			if (Main.tasks.SelectedItem == null)
 				return;
 
-			var task = (Model.Task)Main.tasks.SelectedItem;
-			_currentTask = await UnitOfWork.TasksAsync.GetAsync(task.TaskId);
+			_currentTask = (Model.Task)Main.tasks.SelectedItem;
 
 			SetPomodorosXofY();
 			SetTimeRemaining();
@@ -460,17 +476,16 @@ namespace TeamPomodoro.Core
 
 		void SetTimeRemaining()
 		{
-			_timeRemaining = TimeSpan.FromMinutes(User.PomodoroDurationInMin);
+			_timeRemaining = TimeSpan.FromSeconds(5);//!!debug //TimeSpan.FromMinutes(User.PomodoroDurationInMin);
 			Main.counter.Text = _timeRemaining.ToString("mm\\:ss");
 		}
 
 		private void OnTimerElapsed(object sender, ElapsedEventArgs e)
 		{
 			_timeRemaining -= TimeSpan.FromSeconds(1.0);
-			if (_timeRemaining.TotalSeconds == 0)
-				StopPomodoro();
-
 			Main.Dispatcher.Invoke(() => Main.counter.Text = _timeRemaining.ToString("mm\\:ss"));
+			if (_timeRemaining.TotalSeconds == 0)
+				Main.Dispatcher.Invoke(() => OnPomodoroCompleted());
 		}
 
 		internal bool ValidateUser(string userName)
@@ -486,14 +501,31 @@ namespace TeamPomodoro.Core
 
 		internal bool ValidatePassword(SecureString password)
 		{
-			var nc = new NetworkCredential(string.Empty, password);
-			if (nc.Password.Length == 0)
+			if (password.GetString().Length == 0)
 			{
 				MessageDialog.Show(Strings.MsgPasswordLenght);
 				return false;
 			}
 
 			return true;
+		}
+
+		void OnPomodoroCompleted()
+		{
+			StopPomodoro();
+
+			if (!User.ShowWarningAfterPomodoroExpires)
+				return;
+
+			var sp = new SoundPlayer(Resources.martian_code_ding);
+			sp.Play();
+
+			MessageDialog.Show(Strings.MsgPomodoroDone);
+			if (IsTaskCompleted)
+				MessageDialog.Show(Strings.TxtTaskCompletedInfo);
+
+			Main.toggle.IsChecked = false;
+			SetTimeRemaining();
 		}
 
 		public void Dispose()

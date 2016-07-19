@@ -15,20 +15,23 @@ namespace TeamPomodoro.Util
 		internal static string GetHashString(this SecureString s)
 		{
 			StringBuilder sb = new StringBuilder(64);
+			using (var sha = new SHA256Managed())
+			{
+				byte[] hash = sha.ComputeHash(Encoding.Unicode.GetBytes(s.GetString()));
+				foreach (byte b in hash)
+					sb.Append(b.ToString("X2"));
+			}
+
+			return sb.ToString();
+		}
+
+		internal static string GetString(this SecureString s)
+		{
 			IntPtr ptr = IntPtr.Zero;
 			try
 			{
 				ptr = Marshal.SecureStringToGlobalAllocUnicode(s);
-				string str = Marshal.PtrToStringUni(ptr);
-
-				using (var sha = new SHA256Managed())
-				{
-					byte[] hash = sha.ComputeHash(Encoding.Unicode.GetBytes(str));
-					foreach (byte b in hash)
-						sb.Append(b.ToString("X2"));
-				}
-
-				return sb.ToString();
+				return Marshal.PtrToStringUni(ptr);
 			}
 			finally
 			{
