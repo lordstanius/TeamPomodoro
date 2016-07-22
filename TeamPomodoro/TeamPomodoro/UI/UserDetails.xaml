@@ -3,88 +3,86 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		  xmlns:g="clr-namespace:TeamPomodoro.Globalization"
+        xmlns:g="clr-namespace:TeamPomodoro.Globalization"
         xmlns:local="clr-namespace:TeamPomodoro.UI"
         mc:Ignorable="d"
         Title="UserDetails"
-		  ResizeMode="NoResize"
-		  Icon="..\Resources\main.ico"
-		  Height="280" Width="440"
-		  ShowInTaskbar="False"
-		  MouseDown="OnMouseDown"
-		  >
-	<Grid Margin="80,30,80,30">
-		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<TextBlock Text="{x:Static g:Strings.TxtUserName}" VerticalAlignment="Center"
-						  Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
-			<TextBox Name="userName" Grid.Column="1" VerticalAlignment="Center" 
-						VerticalContentAlignment="Center"
-						Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
-		</Grid>
+        ResizeMode="NoResize"
+        Icon="..\Resources\main.ico"
+        Height="280" Width="440"
+        ShowInTaskbar="False"
+        MouseDown="OnMouseDown">
+    <Grid Margin="80,30,80,30">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{x:Static g:Strings.TxtUserName}" VerticalAlignment="Center"
+                       Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
+            <TextBox Name="userName" Grid.Column="1" VerticalAlignment="Center" 
+                     VerticalContentAlignment="Center"
+                     Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{x:Static g:Strings.TxtPassword}" VerticalAlignment="Center"
+                       Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
+            <PasswordBox Name="password" Grid.Column="1" VerticalAlignment="Center" 
+                         VerticalContentAlignment="Center"
+                         Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
+        </Grid>
 
-		<Grid Grid.Row="1">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<TextBlock Text="{x:Static g:Strings.TxtPassword}" VerticalAlignment="Center"
-						  Width="{Binding ElementName=lWit, Path=ActualWidth}"/>
-			<PasswordBox Name="password" Grid.Column="1" VerticalAlignment="Center" 
-							 VerticalContentAlignment="Center"
-							 Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
-		</Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="lWit" Text="{x:Static g:Strings.TxtWorksInTeam}" VerticalAlignment="Center"/>
+            <ComboBox Name="teams" Grid.Column="1" VerticalAlignment="Center" Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
+            <Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}"
+                     Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                     Padding="5,0,0,0"
+                     Margin="20,0,0,0"
+                     VerticalContentAlignment="Center"
+                     VerticalAlignment="Stretch"
+                     HorizontalAlignment="Left"
+                     Visibility="{Binding ElementName=teams, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+                     Height="{x:Static local:Sizes.CommonHeight}"/>
+        </Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft" 
+                    VerticalAlignment="Top"
+                    Margin="0,0,0,10"/>
 
-		<Grid Grid.Row="2">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<TextBlock Name="lWit" Text="{x:Static g:Strings.TxtWorksInTeam}" VerticalAlignment="Center"/>
-			<ComboBox Name="teams" Grid.Column="1" VerticalAlignment="Center" Height="{x:Static local:Sizes.CommonHeight}" Margin="20,0,0,0"/>
-			<Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}"
-					 Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
-					 Padding="5,0,0,0"
-					 Margin="20,0,0,0"
-					 VerticalContentAlignment="Center"
-					 VerticalAlignment="Stretch"
-					 HorizontalAlignment="Left"
-					 Visibility="{Binding ElementName=teams, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
-					 Height="{x:Static local:Sizes.CommonHeight}"/>
-		</Grid>
-		<StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft" 
-						VerticalAlignment="Top"
-						Margin="0,0,0,10"/>
-
-		<StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom">
-			<TextBlock Text="{x:Static g:Strings.TxtPomodoroDuration}" VerticalAlignment="Center"/>
-			<local:UpDownControl Grid.Column="1"
-										x:Name="numUpDown"
-										Minimum="5" Maximum="60"
-										HorizontalAlignment="Left"
-										Width="40" Height="22" Margin="20,0,0,0"/>
-			<TextBlock Text="{x:Static g:Strings.TxtMinutes}" VerticalAlignment="Center"
-						  Margin="10,0,0,0"/>
-		</StackPanel>
-		<CheckBox Grid.Row="4" 
-					 Name="chkShowWarning"
-					 Content="{x:Static g:Strings.TxtShowWarning}" IsChecked="True"
-					VerticalAlignment="Center"/>
-		<Button Grid.Row="5" Width="80" Content="{x:Static g:Strings.TxtSave}" HorizontalAlignment="Right"
-				  IsDefault="True" Margin="0,10,0,0"
-				  Padding="10,0,10,0"
-				  Height="{x:Static local:Sizes.CommonHeight}"
-				  Click="OnSaveClick"/>
-	</Grid>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <TextBlock Text="{x:Static g:Strings.TxtPomodoroDuration}" VerticalAlignment="Center"/>
+            <local:UpDownControl Grid.Column="1"
+                                 x:Name="numUpDown"
+                                 Minimum="5" Maximum="60"
+                                 HorizontalAlignment="Left"
+                                 Width="40" Height="22" Margin="20,0,0,0"/>
+            <TextBlock Text="{x:Static g:Strings.TxtMinutes}" VerticalAlignment="Center"
+                       Margin="10,0,0,0"/>
+        </StackPanel>
+        <CheckBox Grid.Row="4" 
+                  Name="chkShowWarning"
+                  Content="{x:Static g:Strings.TxtShowWarning}" IsChecked="True"
+                  VerticalAlignment="Center"/>
+        <Button Grid.Row="5" Width="80" Content="{x:Static g:Strings.TxtSave}" HorizontalAlignment="Right"
+                  IsDefault="True" Margin="0,10,0,0"
+                  Padding="10,0,10,0"
+                  Height="{x:Static local:Sizes.CommonHeight}"
+                  Click="OnSaveClick"/>
+    </Grid>
 </Window>

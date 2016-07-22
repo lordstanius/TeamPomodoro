@@ -1,111 +1,108 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Model;
 
 namespace WebApp.Controllers
 {
-	public class UserTeamsController : ApiController
-	{
-		private PomodoroContext db = new PomodoroContext();
+    public class UserTeamsController : ApiController
+    {
+        private PomodoroContext db = new PomodoroContext();
 
-		// GET: api/UserTeams
-		public IQueryable<UserTeam> GetUserTeams()
-		{
-			return db.UserTeams;
-		}
+        // GET: api/UserTeams
+        public IQueryable<UserTeam> GetUserTeams()
+        {
+            return db.UserTeams;
+        }
 
-		// GET: api/UserTeams/5
-		[ResponseType(typeof(UserTeam))]
-		public IHttpActionResult GetUserTeam(Guid id)
-		{
-			UserTeam userTeam = db.UserTeams.Find(id);
-			if (userTeam == null)
-				return NotFound();
+        // GET: api/UserTeams/5
+        [ResponseType(typeof(UserTeam))]
+        public IHttpActionResult GetUserTeam(Guid id)
+        {
+            UserTeam userTeam = db.UserTeams.Find(id);
+            if (userTeam == null)
+                return NotFound();
 
-			return Ok(userTeam);
-		}
+            return Ok(userTeam);
+        }
 
-		// PUT: api/UserTeams/5
-		[ResponseType(typeof(void))]
-		public IHttpActionResult PostUserTeam(UserTeam userTeam)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
+        // PUT: api/UserTeams/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PostUserTeam(UserTeam userTeam)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-			db.Entry(userTeam).State = EntityState.Modified;
+            db.Entry(userTeam).State = EntityState.Modified;
 
-			try
-			{
-				db.SaveChanges();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!UserTeamExists(userTeam.UserTeamId))
-					return NotFound();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserTeamExists(userTeam.UserTeamId))
+                    return NotFound();
 
-				throw;
-			}
+                throw;
+            }
 
-			return StatusCode(HttpStatusCode.NoContent);
-		}
+            return StatusCode(HttpStatusCode.NoContent);
+        }
 
-		// POST: api/UserTeams
-		[ResponseType(typeof(UserTeam))]
-		public IHttpActionResult PutUserTeam(UserTeam userTeam)
-		{
-			if (!ModelState.IsValid)
-				return BadRequest(ModelState);
+        // POST: api/UserTeams
+        [ResponseType(typeof(UserTeam))]
+        public IHttpActionResult PutUserTeam(UserTeam userTeam)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-			db.UserTeams.Add(userTeam);
+            db.UserTeams.Add(userTeam);
 
-			try
-			{
-				db.SaveChanges();
-			}
-			catch (DbUpdateException)
-			{
-				if (UserTeamExists(userTeam.UserTeamId))
-					return Conflict();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                if (UserTeamExists(userTeam.UserTeamId))
+                    return Conflict();
 
-				throw;
-			}
+                throw;
+            }
 
-			return CreatedAtRoute("DefaultApi", new { id = userTeam.UserTeamId }, userTeam);
-		}
+            return CreatedAtRoute("DefaultApi", new { id = userTeam.UserTeamId }, userTeam);
+        }
 
-		// DELETE: api/UserTeams/5
-		[ResponseType(typeof(UserTeam))]
-		public IHttpActionResult DeleteUserTeam(Guid id)
-		{
-			UserTeam userTeam = db.UserTeams.Find(id);
-			if (userTeam == null)
-				return NotFound();
+        // DELETE: api/UserTeams/5
+        [ResponseType(typeof(UserTeam))]
+        public IHttpActionResult DeleteUserTeam(Guid id)
+        {
+            UserTeam userTeam = db.UserTeams.Find(id);
+            if (userTeam == null)
+                return NotFound();
 
-			db.UserTeams.Remove(userTeam);
-			db.SaveChanges();
+            db.UserTeams.Remove(userTeam);
+            db.SaveChanges();
 
-			return Ok(userTeam);
-		}
+            return Ok(userTeam);
+        }
 
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-				db.Dispose();
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                db.Dispose();
 
-			base.Dispose(disposing);
-		}
+            base.Dispose(disposing);
+        }
 
-		private bool UserTeamExists(Guid id)
-		{
-			return db.UserTeams.Count(e => e.UserTeamId == id) > 0;
-		}
-	}
+        private bool UserTeamExists(Guid id)
+        {
+            return db.UserTeams.Count(e => e.UserTeamId == id) > 0;
+        }
+    }
 }

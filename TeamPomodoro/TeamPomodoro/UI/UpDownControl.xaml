@@ -6,38 +6,38 @@
              xmlns:local="clr-namespace:TeamPomodoro.UI"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="50">
-	<Border BorderBrush="DarkGray"
-					  Name="numUpDown"
-					  BorderThickness="1"
-					  Width="40" Height="22">
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*"/>
-				<ColumnDefinition Width="15"/>
-			</Grid.ColumnDefinitions>
-			<TextBlock Name="txtNumVal" Grid.Column="0" Margin="2" 
-								  HorizontalAlignment="Left"
-									TextElement.Foreground="Black"
-									Text="24"
-									VerticalAlignment="Center"/>
-			<Grid Grid.Column="1">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="*"/>
-					<RowDefinition Height="*"/>
-				</Grid.RowDefinitions>
-				<Button Grid.Row="0" Padding="0"
-								  BorderBrush="Silver" BorderThickness="1"
-								  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-						  Click="OnUpClick">
-					<Path Data="M 0 4 L 4 0 L 8 4 Z" Fill="Black"/>
-				</Button>
-				<Button Grid.Row="1"  
-								  BorderBrush="Silver" BorderThickness="1"
-								  Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
-						  Click="OnDownClick">
-					<Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="Black"/>
-				</Button>
-			</Grid>
-		</Grid>
-	</Border>
+    <Border BorderBrush="DarkGray"
+            Name="numUpDown"
+            BorderThickness="1"
+            Width="40" Height="22">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="15"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="txtNumVal" Grid.Column="0" Margin="2" 
+                       HorizontalAlignment="Left"
+                       TextElement.Foreground="Black"
+                       Text="24"
+                       VerticalAlignment="Center"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Padding="0"
+                        BorderBrush="Silver" BorderThickness="1"
+                        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                        Click="OnUpClick">
+                    <Path Data="M 0 4 L 4 0 L 8 4 Z" Fill="Black"/>
+                </Button>
+                <Button Grid.Row="1"  
+                        BorderBrush="Silver" BorderThickness="1"
+                        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                        Click="OnDownClick">
+                    <Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="Black"/>
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
 </UserControl>

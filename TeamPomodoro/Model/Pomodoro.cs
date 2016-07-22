@@ -2,31 +2,34 @@
 
 namespace Model
 {
-	public class Pomodoro : IEquatable<Pomodoro>, IEntity
-	{
-		public Guid PomodoroId { get; set; }
-		public Guid TaskId { get; set; }
-		public DateTime? StartTime { get; set; }
-		public int DurationInMin { get; set; }
-		public bool? IsSuccessfull { get; set; }
+    public class Pomodoro : IEquatable<Pomodoro>, IEntity
+    {
+        public Guid PomodoroId { get; set; }
+        public Guid TaskId { get; set; }
+        public DateTime? StartTime { get; set; }
+        public int DurationInMin { get; set; }
+        public bool? IsSuccessfull { get; set; }
 
-		public Task Task { get; set; }
+        public Task Task { get; set; }
 
-		public override bool Equals(object obj)
-		{
-			return obj is Pomodoro ? ((Pomodoro)obj).PomodoroId == PomodoroId : false;
-		}
+        public override bool Equals(object obj)
+        {
+            return obj is Pomodoro ? ((Pomodoro)obj).PomodoroId == PomodoroId : false;
+        }
 
-		public bool Equals(Pomodoro pomodoro)
-		{
-			return pomodoro.PomodoroId == PomodoroId;
-		}
+        public bool Equals(Pomodoro pomodoro)
+        {
+            return pomodoro.PomodoroId == PomodoroId;
+        }
 
-		public override int GetHashCode()
-		{
-			return BitConverter.ToInt32(PomodoroId.ToByteArray(), 0);
-		}
+        public override int GetHashCode()
+        {
+            return BitConverter.ToInt32(PomodoroId.ToByteArray(), 0);
+        }
 
-		public Guid GetId() { return PomodoroId; }
-	}
+        public Guid GetId()
+        {
+            return PomodoroId;
+        }
+    }
 }
