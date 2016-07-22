@@ -100,13 +100,37 @@ namespace DataAccess.Persistance
 			return changes;
 		}
 
+		#region DISPOSABLE
+		~UnitOfWork()
+		{
+			Dispose(false);
+		}
+
+		private bool _isDisposed;
+
+		protected virtual void Dispose(bool disposing)
+		{
+			if (_isDisposed)
+				return;
+
+			if (disposing)
+			{
+				if (_client != null)
+				{
+					_client.Dispose();
+					_client = null;
+				}
+			}
+
+			_isDisposed = true;
+		}
+
 		public void Dispose()
 		{
-			if (_client != null)
-			{
-				_client.Dispose();
-				_client = null;
-			}
+			Dispose(true);
+			GC.SuppressFinalize(this);
 		}
+
+		#endregion
 	}
 }

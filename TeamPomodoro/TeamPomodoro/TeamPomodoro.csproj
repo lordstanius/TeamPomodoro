@@ -93,6 +93,7 @@
     <Compile Include="UI\View\TaskView.cs" />
     <Compile Include="Util\Crypto.cs" />
     <Compile Include="Util\IndexToBoolConverter.cs" />
+    <Compile Include="Util\NativeMethods.cs" />
     <Compile Include="Util\NullToVisibilityConverter.cs" />
     <Compile Include="Util\EditHelper.cs" />
     <Compile Include="Util\WindowHelper.cs" />
