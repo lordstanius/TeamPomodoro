@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "TeamPomodoro\Model\Model.csproj", "{47683CE5-C03F-41FC-94EA-DBCCC71FEFDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "TeamPomodoro\DataAccess\DataAccess.csproj", "{0AC1E1D8-8252-4CFC-A072-A041BFE19929}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamPomodoro", "TeamPomodoro\TeamPomodoro\TeamPomodoro.csproj", "{F1AC4256-CCE7-4CBF-92A6-1E8B06E2445B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "TeamPomodoro\WebApp\WebApp.csproj", "{C79E2289-FC81-4402-B824-C3CC8F72B797}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47683CE5-C03F-41FC-94EA-DBCCC71FEFDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47683CE5-C03F-41FC-94EA-DBCCC71FEFDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47683CE5-C03F-41FC-94EA-DBCCC71FEFDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47683CE5-C03F-41FC-94EA-DBCCC71FEFDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC1E1D8-8252-4CFC-A072-A041BFE19929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC1E1D8-8252-4CFC-A072-A041BFE19929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC1E1D8-8252-4CFC-A072-A041BFE19929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC1E1D8-8252-4CFC-A072-A041BFE19929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1AC4256-CCE7-4CBF-92A6-1E8B06E2445B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1AC4256-CCE7-4CBF-92A6-1E8B06E2445B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1AC4256-CCE7-4CBF-92A6-1E8B06E2445B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1AC4256-CCE7-4CBF-92A6-1E8B06E2445B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C79E2289-FC81-4402-B824-C3CC8F72B797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C79E2289-FC81-4402-B824-C3CC8F72B797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C79E2289-FC81-4402-B824-C3CC8F72B797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C79E2289-FC81-4402-B824-C3CC8F72B797}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
