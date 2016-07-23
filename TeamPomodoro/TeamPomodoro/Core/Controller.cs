@@ -369,6 +369,11 @@ namespace TeamPomodoro.Core
 
         public async void UpdatePomodoroList(PomodoroDetails details)
         {
+            if (details.tasks.SelectedItem == null)
+            {
+                return;
+            }
+
             Model.Task task = (Model.Task)details.tasks.SelectedItem;
             details.Cursor = Cursors.Wait;
             try

@@ -61,9 +61,7 @@ namespace TeamPomodoro.UI
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            tasks.SelectionChanged -= OnSelectionChanged;
             Controller.Instance.UpdatePomodoroList(this);
-            tasks.SelectionChanged += OnSelectionChanged;
         }
     }
 }
