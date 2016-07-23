@@ -1,28 +1,53 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Threading.Tasks;
-using TeamPomodoro.UI;
 using TeamPomodoro.Core;
 using TeamPomodoro.Globalization;
+using TeamPomodoro.UI;
 
 namespace TeamPomodoro.Util
 {
-    class EditHelper
+    public class EditHelper
     {
-        public enum EditType { Project, Team, Task };
-
-        EditType _type;
-        EditDialog _edit;
-        AddOrRename _addRename;
-        AddOrEditTask _editTask;
+        private EditType _type;
+        private EditDialog _edit;
+        private AddOrRename _addRename;
+        private AddOrEditTask _editTask;
 
         public EditHelper(EditType type)
         {
             _type = type;
         }
 
-        void CreateEditDialog()
+        public enum EditType
+        {
+            Project,
+            Team,
+            Task
+        }
+
+        public async Task ShowEditDialog()
+        {
+            Controller.Instance.Main.Cursor = Cursors.Wait;
+
+            try
+            {
+                CreateEditDialog();
+
+                await GetItems();
+
+                _edit.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.ShowError(ex, "EditHelper.ShowEditDialog()");
+            }
+
+            Controller.Instance.Main.Cursor = Cursors.Arrow;
+        }
+
+        private void CreateEditDialog()
         {
             _edit = new EditDialog
             {
@@ -55,7 +80,7 @@ namespace TeamPomodoro.Util
             }
         }
 
-        void CreateAddOrRenameDialog()
+        private void CreateAddOrRenameDialog()
         {
             _addRename = new AddOrRename
             {
@@ -77,7 +102,7 @@ namespace TeamPomodoro.Util
             }
         }
 
-        void CreateEditTaskDialog()
+        private void CreateEditTaskDialog()
         {
             _editTask = new AddOrEditTask
             {
@@ -86,7 +111,7 @@ namespace TeamPomodoro.Util
             };
         }
 
-        async Task GetItems()
+        private async Task GetItems()
         {
             _edit.list.Items.Clear();
 
@@ -95,20 +120,25 @@ namespace TeamPomodoro.Util
                 case EditType.Project:
                     var projects = await Controller.Instance.UnitOfWork.ProjectsAsync.GetAllAsync();
                     foreach (var proj in projects)
+                    {
                         _edit.list.Items.Add(proj);
+                    }
                     break;
 
                 case EditType.Team:
                     var teams = await Controller.Instance.UnitOfWork.TeamsAsync.GetAllAsync();
                     foreach (var team in teams)
+                    {
                         _edit.list.Items.Add(team);
+                    }
                     break;
 
                 case EditType.Task:
                     var user = await Controller.Instance.UnitOfWork.UsersAsync.GetAsync(Controller.Instance.User.UserId);
                     foreach (var task in user.Tasks)
+                    {
                         _edit.list.Items.Add(task);
-
+                    }
                     _edit.list.SelectedItem = Controller.Instance.Main.tasks.SelectedItem;
                     break;
             }
@@ -116,27 +146,7 @@ namespace TeamPomodoro.Util
             _edit.list.Items.Refresh();
         }
 
-        internal async Task ShowEditDialog()
-        {
-            Controller.Instance.Main.Cursor = Cursors.Wait;
-
-            try
-            {
-                CreateEditDialog();
-
-                await GetItems();
-
-                _edit.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageDialog.ShowError(ex, "EditHelper.ShowEditDialog()");
-            }
-
-            Controller.Instance.Main.Cursor = Cursors.Arrow;
-        }
-
-        async void OnEdit(object sender, RoutedEventArgs e)
+        private async void OnEdit(object sender, RoutedEventArgs e)
         {
             CreateAddOrRenameDialog();
 
@@ -175,7 +185,7 @@ namespace TeamPomodoro.Util
             }
         }
 
-        async void OnDelete(object sender, RoutedEventArgs e)
+        private async void OnDelete(object sender, RoutedEventArgs e)
         {
             _edit.btnEdit.IsEnabled = false;
             try
@@ -201,7 +211,7 @@ namespace TeamPomodoro.Util
             }
         }
 
-        async void OnAdd(object sender, RoutedEventArgs e)
+        private async void OnAdd(object sender, RoutedEventArgs e)
         {
             CreateAddOrRenameDialog();
             _addRename.text.Focus();
@@ -347,4 +357,3 @@ namespace TeamPomodoro.Util
         }
     }
 }
-

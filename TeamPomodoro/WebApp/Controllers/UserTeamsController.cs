@@ -25,7 +25,9 @@ namespace WebApp.Controllers
         {
             UserTeam userTeam = db.UserTeams.Find(id);
             if (userTeam == null)
+            {
                 return NotFound();
+            }
 
             return Ok(userTeam);
         }
@@ -35,7 +37,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PostUserTeam(UserTeam userTeam)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Entry(userTeam).State = EntityState.Modified;
 
@@ -46,7 +50,9 @@ namespace WebApp.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!UserTeamExists(userTeam.UserTeamId))
+                {
                     return NotFound();
+                }
 
                 throw;
             }
@@ -59,7 +65,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PutUserTeam(UserTeam userTeam)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.UserTeams.Add(userTeam);
 
@@ -70,7 +78,9 @@ namespace WebApp.Controllers
             catch (DbUpdateException)
             {
                 if (UserTeamExists(userTeam.UserTeamId))
+                {
                     return Conflict();
+                }
 
                 throw;
             }
@@ -84,7 +94,9 @@ namespace WebApp.Controllers
         {
             UserTeam userTeam = db.UserTeams.Find(id);
             if (userTeam == null)
+            {
                 return NotFound();
+            }
 
             db.UserTeams.Remove(userTeam);
             db.SaveChanges();
@@ -95,7 +107,9 @@ namespace WebApp.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 db.Dispose();
+            }
 
             base.Dispose(disposing);
         }

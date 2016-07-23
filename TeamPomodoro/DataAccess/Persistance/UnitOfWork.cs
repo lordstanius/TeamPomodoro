@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Net;
-using System.Text;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Model;
+using System.Text;
 using DataAccess.Core;
 using DataAccess.Core.Repositories;
 using DataAccess.Persistance.Repositories;
-
+using Model;
+using Newtonsoft.Json;
 
 namespace DataAccess.Persistance
 {
@@ -19,6 +18,8 @@ namespace DataAccess.Persistance
         private Repository<Project> _projectsRepo;
         private Repository<Pomodoro> _pomodoroesRepo;
         private Repository<UserTeam> _userTeamsRepo;
+        private HttpClient _client;
+        private bool _isDisposed;
 
         public UnitOfWork(string uri)
         {
@@ -30,6 +31,11 @@ namespace DataAccess.Persistance
             _projectsRepo = new Repository<Project>(_client, uri + "/projects/");
             _pomodoroesRepo = new Repository<Pomodoro>(_client, uri + "/pomodoroes/");
             _userTeamsRepo = new Repository<UserTeam>(_client, uri + "/userteams/");
+        }
+
+        ~UnitOfWork()
+        {
+            Dispose(false);
         }
 
         public IRepository<Task> Tasks
@@ -92,10 +98,17 @@ namespace DataAccess.Persistance
             get { return _userTeamsRepo; }
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         public int SaveChanges()
         {
             throw new NotImplementedException();
-            // following is not tested
+            
+            //// following is not tested
             ////int count = 0;
             ////count += SaveChanges(_tasksRepo);
             ////count += SaveChanges(_usersRepo);
@@ -106,8 +119,6 @@ namespace DataAccess.Persistance
 
             ////return count;
         }
-
-        HttpClient _client;
 
         public async System.Threading.Tasks.Task<int> SaveChangesAsync()
         {
@@ -122,43 +133,12 @@ namespace DataAccess.Persistance
             return count;
         }
 
-        int SaveChanges<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
-        {
-            throw new NotImplementedException();
-            //// following is not tested
-            ////var task = SaveChangesAsync(repo);
-            ////task.Wait();
-            ////return task.Result;
-        }
-
-        async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
-        {
-            foreach (var entity in repo.Entities)
-            {
-                string content = JsonConvert.SerializeObject(entity);
-                using (HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json"))
-                using (HttpResponseMessage message = await _client.PostAsync(repo.Uri, httpContent))
-                    if (message.StatusCode != HttpStatusCode.NoContent)
-                        throw new ArgumentException(string.Format("Failed to save entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));
-            }
-
-            int changes = repo.Entities.Count;
-            repo.Entities.Clear();
-            return changes;
-        }
-
-        #region DISPOSABLE
-        ~UnitOfWork()
-        {
-            Dispose(false);
-        }
-
-        private bool _isDisposed;
-
         protected virtual void Dispose(bool disposing)
         {
             if (_isDisposed)
+            {
                 return;
+            }
 
             if (disposing)
             {
@@ -172,12 +152,35 @@ namespace DataAccess.Persistance
             _isDisposed = true;
         }
 
-        public void Dispose()
+        private int SaveChanges<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            throw new NotImplementedException();
+            //// following is not tested
+            ////var task = SaveChangesAsync(repo);
+            ////task.Wait();
+            ////return task.Result;
         }
 
-        #endregion
+        private async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
+        {
+            foreach (var entity in repo.Entities)
+            {
+                string content = JsonConvert.SerializeObject(entity);
+                using (HttpContent httpContent = new StringContent(content, Encoding.UTF8, "application/json"))
+                {
+                    using (HttpResponseMessage message = await _client.PostAsync(repo.Uri, httpContent))
+                    {
+                        if (message.StatusCode != HttpStatusCode.NoContent)
+                        {
+                            throw new ArgumentException(string.Format("Failed to save entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));
+                        }
+                    }
+                }
+            }
+
+            int changes = repo.Entities.Count;
+            repo.Entities.Clear();
+            return changes;
+        }
     }
 }

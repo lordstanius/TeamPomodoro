@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Model;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity;
 
 namespace WebApp.Controllers
 {
@@ -25,15 +25,21 @@ namespace WebApp.Controllers
             var user = db.Users.Find(id);
 
             if (user == null)
+            {
                 return NotFound();
+            }
 
             db.Entry(user).Collection("Tasks").Load();
             foreach (var task in user.Tasks)
             {
                 task.User = null;
                 if (task.Pomodoroes != null)
+                {
                     foreach (var pomodoro in task.Pomodoroes)
+                    {
                         pomodoro.Task = null;
+                    }
+                }
             }
 
             return Ok(user);
@@ -44,7 +50,9 @@ namespace WebApp.Controllers
         public IHttpActionResult Post(User user)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Entry(user).State = EntityState.Modified;
 
@@ -55,7 +63,9 @@ namespace WebApp.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!UserExists(user.UserId))
+                {
                     return NotFound();
+                }
 
                 throw;
             }
@@ -68,7 +78,9 @@ namespace WebApp.Controllers
         public IHttpActionResult Put(User user)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Users.Add(user);
 
@@ -79,7 +91,9 @@ namespace WebApp.Controllers
             catch (DbUpdateException)
             {
                 if (UserExists(user.UserId))
+                {
                     return Conflict();
+                }
 
                 throw;
             }
@@ -93,7 +107,9 @@ namespace WebApp.Controllers
         {
             var user = db.Users.Find(id);
             if (user == null)
+            {
                 return NotFound();
+            }
 
             db.Users.Remove(user);
             db.SaveChanges();
@@ -104,7 +120,9 @@ namespace WebApp.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 db.Dispose();
+            }
 
             base.Dispose(disposing);
         }

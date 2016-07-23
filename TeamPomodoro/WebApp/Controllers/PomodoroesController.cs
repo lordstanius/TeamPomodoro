@@ -26,7 +26,9 @@ namespace WebApp.Controllers
             Pomodoro pomodoro = db.Pomodoros.Find(id);
 
             if (pomodoro == null)
+            {
                 return NotFound();
+            }
 
             return Ok(pomodoro);
         }
@@ -36,7 +38,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PostPomodoro(Pomodoro pomodoro)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Entry(pomodoro).State = EntityState.Modified;
 
@@ -47,7 +51,9 @@ namespace WebApp.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!PomodoroExists(pomodoro.PomodoroId))
+                {
                     return NotFound();
+                }
 
                 throw;
             }
@@ -60,7 +66,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PutPomodoro(Pomodoro pomodoro)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Pomodoros.Add(pomodoro);
 
@@ -71,7 +79,9 @@ namespace WebApp.Controllers
             catch (DbUpdateException)
             {
                 if (PomodoroExists(pomodoro.PomodoroId))
+                {
                     return Conflict();
+                }
 
                 throw;
             }
@@ -85,7 +95,9 @@ namespace WebApp.Controllers
         {
             Pomodoro pomodoro = db.Pomodoros.Find(id);
             if (pomodoro == null)
+            {
                 return NotFound();
+            }
 
             db.Pomodoros.Remove(pomodoro);
             db.SaveChanges();
@@ -96,7 +108,9 @@ namespace WebApp.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 db.Dispose();
+            }
 
             base.Dispose(disposing);
         }

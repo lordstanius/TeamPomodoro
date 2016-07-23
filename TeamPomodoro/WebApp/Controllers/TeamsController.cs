@@ -25,7 +25,9 @@ namespace WebApp.Controllers
         {
             Team team = db.Teams.Find(id);
             if (team == null)
+            {
                 return NotFound();
+            }
 
             return Ok(team);
         }
@@ -35,7 +37,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PostTeam(Team team)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Entry(team).State = EntityState.Modified;
 
@@ -46,7 +50,9 @@ namespace WebApp.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!TeamExists(team.TeamId))
+                {
                     return NotFound();
+                }
 
                 throw;
             }
@@ -59,7 +65,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PutTeam(Team team)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Teams.Add(team);
 
@@ -70,7 +78,9 @@ namespace WebApp.Controllers
             catch (DbUpdateException)
             {
                 if (TeamExists(team.TeamId))
+                {
                     return Conflict();
+                }
 
                 throw;
             }
@@ -84,7 +94,9 @@ namespace WebApp.Controllers
         {
             Team team = db.Teams.Find(id);
             if (team == null)
+            {
                 return NotFound();
+            }
 
             db.Teams.Remove(team);
             db.SaveChanges();
@@ -95,7 +107,9 @@ namespace WebApp.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 db.Dispose();
+            }
 
             base.Dispose(disposing);
         }

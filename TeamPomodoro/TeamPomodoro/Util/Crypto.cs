@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Text;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
-using System.Runtime.InteropServices;
+using System.Text;
 
 namespace TeamPomodoro.Util
 {
-    static class Crypto
+    public static class Crypto
     {
         /// <summary>
         /// Returns SHA256 hash as string of 64 hexadecimal digits for the specified SecureString
@@ -18,7 +18,9 @@ namespace TeamPomodoro.Util
             {
                 byte[] hash = sha.ComputeHash(Encoding.Unicode.GetBytes(s.GetString()));
                 foreach (byte b in hash)
+                {
                     sb.Append(b.ToString("X2"));
+                }
             }
 
             return sb.ToString();

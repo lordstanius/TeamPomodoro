@@ -13,19 +13,19 @@ namespace DataAccess.Persistance.Repositories
     public class Repository<TEntity> :
         IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : Model.IEntity
     {
-        internal string Uri { get; private set; }
-        internal List<TEntity> Entities { get; private set; }
-        internal IReadOnlyList<TEntity> AllEntities { get; set; }
-
         private HttpClient _client;
 
-        internal Repository(HttpClient client, string uri)
+        public Repository(HttpClient client, string uri)
         {
             _client = client;
             Uri = uri;
             Entities = new List<TEntity>();
             AllEntities = new List<TEntity>();
         }
+
+        internal string Uri { get; private set; }
+        internal List<TEntity> Entities { get; private set; }
+        internal IReadOnlyList<TEntity> AllEntities { get; set; }
 
         public void Add(TEntity entity)
         {
@@ -56,7 +56,9 @@ namespace DataAccess.Persistance.Repositories
                 using (HttpResponseMessage message = await _client.PutAsync(Uri, httpContent))
                 {
                     if (message.StatusCode != HttpStatusCode.Created)
+                    {
                         throw new ArgumentException(string.Format("Failed to add entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));
+                    }
                 }
             }
         }
@@ -68,7 +70,9 @@ namespace DataAccess.Persistance.Repositories
                 string content = await message.Content.ReadAsStringAsync();
                 TEntity entity = JsonConvert.DeserializeObject<TEntity>(content);
                 if (entity != null)
+                {
                     UpdateEntities(entity);
+                }
                 return entity;
             }
         }
@@ -93,11 +97,13 @@ namespace DataAccess.Persistance.Repositories
             using (HttpResponseMessage message = await _client.DeleteAsync(Uri + entity.GetId()))
             {
                 if (message.StatusCode != HttpStatusCode.OK)
+                {
                     throw new ArgumentException(string.Format("Failed to delete entity with status {0} ({1})", message.StatusCode, (int)message.StatusCode));
+                }
             }
         }
 
-        void UpdateEntities(TEntity entity)
+        private void UpdateEntities(TEntity entity)
         {
             bool updated = false;
 
@@ -111,7 +117,9 @@ namespace DataAccess.Persistance.Repositories
             }
 
             if (!updated)
+            {
                 Entities.Add(entity);
+            }
         }
     }
 }

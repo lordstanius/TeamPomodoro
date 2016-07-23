@@ -22,7 +22,7 @@ namespace TeamPomodoro.UI
             Util.WindowHelper.Move(new WindowInteropHelper(this).Handle);
         }
 
-        async void OnSignInClick(object sender, RoutedEventArgs e)
+        private async void OnSignInClick(object sender, RoutedEventArgs e)
         {
             try
             {

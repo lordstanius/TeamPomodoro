@@ -25,7 +25,10 @@ namespace TeamPomodoro.UI
             set
             {
                 if (value > Maximum || value < Minimum)
+                {
                     return;
+                }
+
                 txtNumVal.Text = value.ToString();
             }
         }
@@ -33,20 +36,26 @@ namespace TeamPomodoro.UI
         public int Minimum { get; set; }
         public int Maximum { get; set; }
 
-        void OnDownClick(object sender, RoutedEventArgs e)
+        private void OnDownClick(object sender, RoutedEventArgs e)
         {
             int val = Number;
             if (val == Minimum)
+            {
                 return;
+            }
+
             --val;
             txtNumVal.Text = val.ToString();
         }
 
-        void OnUpClick(object sender, RoutedEventArgs e)
+        private void OnUpClick(object sender, RoutedEventArgs e)
         {
             int val = Number;
             if (val == Maximum)
+            {
                 return;
+            }
+
             ++val;
             txtNumVal.Text = val.ToString();
         }

@@ -11,15 +11,14 @@ namespace TeamPomodoro.UI
             InitializeComponent();
         }
 
-        void OnMouseDown(object sender, MouseButtonEventArgs e)
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Util.WindowHelper.Move(new WindowInteropHelper(this).Handle);
         }
 
-        void OnSaveClick(object sender, RoutedEventArgs e)
+        private void OnSaveClick(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
         }
     }
 }
-

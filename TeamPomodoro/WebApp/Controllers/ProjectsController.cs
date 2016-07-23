@@ -25,11 +25,17 @@ namespace WebApp.Controllers
         {
             Project project = db.Projects.Find(id);
             if (project == null)
+            {
                 return NotFound();
+            }
 
             if (project.Tasks != null)
+            {
                 foreach (var task in project.Tasks)
+                {
                     task.Project = null;
+                }
+            }
 
             return Ok(project);
         }
@@ -39,7 +45,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PostProject(Project project)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Entry(project).State = EntityState.Modified;
 
@@ -50,7 +58,9 @@ namespace WebApp.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!ProjectExists(project.ProjectId))
+                {
                     return NotFound();
+                }
 
                 throw;
             }
@@ -63,7 +73,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PutProject(Project project)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Projects.Add(project);
 
@@ -74,7 +86,9 @@ namespace WebApp.Controllers
             catch (DbUpdateException)
             {
                 if (ProjectExists(project.ProjectId))
+                {
                     return Conflict();
+                }
 
                 throw;
             }
@@ -88,7 +102,9 @@ namespace WebApp.Controllers
         {
             Project project = db.Projects.Find(id);
             if (project == null)
+            {
                 return NotFound();
+            }
 
             db.Projects.Remove(project);
             db.SaveChanges();
@@ -99,7 +115,9 @@ namespace WebApp.Controllers
         protected override void Dispose(bool disposing)
         {
             if (disposing)
+            {
                 db.Dispose();
+            }
 
             base.Dispose(disposing);
         }

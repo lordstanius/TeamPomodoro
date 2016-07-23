@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
+using NLog;
 using TeamPomodoro.Core;
 using TeamPomodoro.Globalization;
-using NLog;
 
 namespace TeamPomodoro.UI
 {
@@ -13,7 +13,7 @@ namespace TeamPomodoro.UI
     /// </summary>
     public partial class MessageDialog : Window
     {
-        MessageDialog(string message, string caption, bool isYesNo, bool showCancel, bool isError)
+        private MessageDialog(string message, string caption, bool isYesNo, bool showCancel, bool isError)
         {
             InitializeComponent();
 
@@ -34,11 +34,6 @@ namespace TeamPomodoro.UI
             lMessage.Text = message;
         }
 
-        void OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Util.WindowHelper.Move(new WindowInteropHelper(this).Handle);
-        }
-
         public static bool Show(string message, string caption, bool isYesNo, bool showCancel, bool isError)
         {
             var msg = new MessageDialog(message, caption, isYesNo, showCancel, isError)
@@ -57,7 +52,9 @@ namespace TeamPomodoro.UI
         public static bool Show(string message, string caption = null, bool showCancel = false)
         {
             if (caption == null)
+            {
                 caption = Strings.TxtInfo;
+            }
 
             return Show(message, caption, false, showCancel, false);
         }
@@ -70,21 +67,27 @@ namespace TeamPomodoro.UI
         public static bool ShowError(Exception ex, string message, string caption = null, bool showCancel = false)
         {
             if (caption == null)
+            {
                 caption = Strings.TxtError;
+            }
 
             Logger log = LogManager.GetLogger(string.Empty);
             log.Error(ex, ex.Message, null);
 
-            return Show(string.Format("{0}: {1} {2}", message, ex.Message, Strings.TxtSeeLogForDetails),
-                caption, false, showCancel, true);
+            return Show(string.Format("{0}: {1} {2}", message, ex.Message, Strings.TxtSeeLogForDetails), caption, false, showCancel, true);
         }
 
-        void OnCancelClick(object sender, RoutedEventArgs e)
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Util.WindowHelper.Move(new WindowInteropHelper(this).Handle);
+        }
+
+        private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
         }
 
-        void OnOkClick(object sender, RoutedEventArgs e)
+        private void OnOkClick(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
         }

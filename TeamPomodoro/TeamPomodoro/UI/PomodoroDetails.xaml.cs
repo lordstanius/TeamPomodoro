@@ -18,7 +18,7 @@ namespace TeamPomodoro.UI
             InitializeComponent();
         }
 
-        void OnMouseDown(object sender, MouseButtonEventArgs e)
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Util.WindowHelper.Move(new WindowInteropHelper(this).Handle);
         }
@@ -50,7 +50,9 @@ namespace TeamPomodoro.UI
                     DependencyObject child = VisualTreeHelper.GetChild(depencencyObject, i);
                     T result = (child as T) ?? FindVisualChild<T>(child);
                     if (result != null)
+                    {
                         return result;
+                    }
                 }
             }
 

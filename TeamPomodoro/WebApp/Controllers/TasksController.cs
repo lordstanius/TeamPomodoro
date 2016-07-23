@@ -25,16 +25,21 @@ namespace WebApp.Controllers
         {
             Task task = db.Tasks.Find(id);
             if (task == null)
+            {
                 return NotFound();
+            }
 
             db.Entry(task).Collection("Pomodoroes").Load();
             task.Project = null; // unload all of this for serialization
             task.User = null;
             task.Team = null;
             if (task.Pomodoroes != null)
+            {
                 foreach (var pomodoro in task.Pomodoroes)
+                {
                     pomodoro.Task = null;
-
+                }
+            }
             return Ok(task);
         }
 
@@ -43,7 +48,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PostTask(Task task)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Entry(task).State = EntityState.Modified;
 
@@ -54,7 +61,9 @@ namespace WebApp.Controllers
             catch (DbUpdateConcurrencyException)
             {
                 if (!TaskExists(task.TaskId))
+                {
                     return NotFound();
+                }
 
                 throw;
             }
@@ -67,7 +76,9 @@ namespace WebApp.Controllers
         public IHttpActionResult PutTask(Task task)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             db.Tasks.Add(task);
 
@@ -78,7 +89,9 @@ namespace WebApp.Controllers
             catch (DbUpdateException)
             {
                 if (TaskExists(task.TaskId))
+                {
                     return Conflict();
+                }
 
                 throw;
             }
@@ -92,7 +105,9 @@ namespace WebApp.Controllers
         {
             Task task = db.Tasks.Find(id);
             if (task == null)
+            {
                 return NotFound();
+            }
 
             db.Tasks.Remove(task);
             db.SaveChanges();

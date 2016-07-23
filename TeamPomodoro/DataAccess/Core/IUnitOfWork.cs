@@ -1,6 +1,6 @@
-﻿using DataAccess.Core.Repositories;
+﻿using System;
+using DataAccess.Core.Repositories;
 using Model;
-using System;
 
 namespace DataAccess.Core
 {

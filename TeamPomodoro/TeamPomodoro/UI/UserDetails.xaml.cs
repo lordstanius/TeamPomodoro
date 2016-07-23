@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows;
-using TeamPomodoro.Core;
 using Model;
+using TeamPomodoro.Core;
 
 namespace TeamPomodoro.UI
 {
@@ -17,16 +17,18 @@ namespace TeamPomodoro.UI
             InitializeComponent();
         }
 
-        void OnMouseDown(object sender, MouseButtonEventArgs e)
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Util.WindowHelper.Move(new WindowInteropHelper(this).Handle);
         }
 
-        async void OnSaveClick(object sender, RoutedEventArgs e)
+        private async void OnSaveClick(object sender, RoutedEventArgs e)
         {
             if (!(Controller.Instance.ValidateUser(userName.Text) &&
                 Controller.Instance.ValidatePassword(password.SecurePassword)))
+            {
                 return;
+            }
 
             try
             {
@@ -34,7 +36,9 @@ namespace TeamPomodoro.UI
 
                 Guid? teamId = null;
                 if (teams.SelectedItem != null)
+                {
                     teamId = ((Team)teams.SelectedItem).TeamId;
+                }
 
                 // TODO: Take care of password handling
                 await Controller.Instance.UpdateUser(
