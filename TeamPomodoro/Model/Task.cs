@@ -22,12 +22,13 @@ namespace Model
 
         public override bool Equals(object obj)
         {
-            return obj is Task ? ((Task)obj).TaskId == TaskId : false;
+            Task t = obj as Task;
+            return t != null ? t.TaskId == TaskId : false;
         }
 
-        public bool Equals(Task task)
+        public bool Equals(Task other)
         {
-            return task.TaskId == TaskId;
+            return other.TaskId == TaskId;
         }
 
         public override int GetHashCode()

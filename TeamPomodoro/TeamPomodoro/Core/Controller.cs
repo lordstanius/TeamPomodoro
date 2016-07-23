@@ -9,7 +9,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DataAccess.Persistance;
+using DataAccess.Persistence;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -202,7 +202,7 @@ namespace TeamPomodoro.Core
                 {
                     if (User.TeamId != null)
                     {
-                        userDetails.teams.SelectedItem = UnitOfWork.Teams.Get((Guid)User.TeamId);
+                        userDetails.teams.SelectedItem = UnitOfWork.Teams.GetById((Guid)User.TeamId);
                     }
 
                     userDetails.chkShowWarning.IsChecked = User.ShowWarningAfterPomodoroExpires;
@@ -334,7 +334,7 @@ namespace TeamPomodoro.Core
 
             dlg.users.SelectedItem = User;
             dlg.teams.IsEnabled = dlg.teams.Items.Count > 0;
-            dlg.teams.SelectedItem = User.TeamId.HasValue ? UnitOfWork.Teams.Get(User.TeamId.Value) : null;
+            dlg.teams.SelectedItem = User.TeamId.HasValue ? UnitOfWork.Teams.GetById(User.TeamId.Value) : null;
 
             dlg.users.SelectionChanged += (o, e) => UpdateTaskList(dlg);
             dlg.teams.SelectionChanged += (o, e) => UpdateTaskList(dlg);

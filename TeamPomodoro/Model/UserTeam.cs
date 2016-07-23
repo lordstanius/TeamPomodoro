@@ -14,12 +14,13 @@ namespace Model
 
         public override bool Equals(object obj)
         {
-            return obj is UserTeam ? ((UserTeam)obj).UserTeamId == UserTeamId : false;
+            UserTeam u = obj as UserTeam;
+            return u != null ? u.UserTeamId == UserTeamId : false;
         }
 
-        public bool Equals(UserTeam userTeam)
+        public bool Equals(UserTeam other)
         {
-            return userTeam.UserTeamId == UserTeamId;
+            return other.UserTeamId == UserTeamId;
         }
 
         public override int GetHashCode()

@@ -16,12 +16,13 @@ namespace Model
 
         public override bool Equals(object obj)
         {
-            return obj is Team ? ((Team)obj).TeamId == TeamId : false;
+            Team t = obj as Team;
+            return t != null ? t.TeamId == TeamId : false;
         }
 
-        public bool Equals(Team team)
+        public bool Equals(Team other)
         {
-            return team.TeamId == TeamId;
+            return other.TeamId == TeamId;
         }
 
         public override int GetHashCode()

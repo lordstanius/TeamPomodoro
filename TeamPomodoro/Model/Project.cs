@@ -15,12 +15,13 @@ namespace Model
 
         public override bool Equals(object obj)
         {
-            return obj is Project ? ((Project)obj).ProjectId == ProjectId : false;
+            Project p = obj as Project;
+            return p != null ? p.ProjectId == ProjectId : false;
         }
 
-        public bool Equals(Project project)
+        public bool Equals(Project other)
         {
-            return project.ProjectId == ProjectId;
+            return other.ProjectId == ProjectId;
         }
 
         public override int GetHashCode()

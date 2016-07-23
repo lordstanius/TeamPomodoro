@@ -14,12 +14,13 @@ namespace Model
 
         public override bool Equals(object obj)
         {
-            return obj is Pomodoro ? ((Pomodoro)obj).PomodoroId == PomodoroId : false;
+            Pomodoro p = obj as Pomodoro;
+            return p != null ? p.PomodoroId == PomodoroId : false;
         }
 
-        public bool Equals(Pomodoro pomodoro)
+        public bool Equals(Pomodoro other)
         {
-            return pomodoro.PomodoroId == PomodoroId;
+            return other.PomodoroId == PomodoroId;
         }
 
         public override int GetHashCode()

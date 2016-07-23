@@ -4,11 +4,11 @@ using System.Net.Http;
 using System.Text;
 using DataAccess.Core;
 using DataAccess.Core.Repositories;
-using DataAccess.Persistance.Repositories;
+using DataAccess.Persistence.Repositories;
 using Model;
 using Newtonsoft.Json;
 
-namespace DataAccess.Persistance
+namespace DataAccess.Persistence
 {
     public class UnitOfWork : IUnitOfWork
     {

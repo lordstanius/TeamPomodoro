@@ -9,7 +9,7 @@ namespace DataAccess.Core.Repositories
         /// Returns entity with a specified ID. Changes to this object will be tracked
         /// and saved after unit of work is completed.
         /// </summary>
-        TEntity Get(Guid id);
+        TEntity GetById(Guid id);
 
         /// <summary>
         /// Returns read-only collection of entities.

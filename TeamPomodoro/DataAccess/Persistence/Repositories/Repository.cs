@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using DataAccess.Core.Repositories;
 using Newtonsoft.Json;
 
-namespace DataAccess.Persistance.Repositories
+namespace DataAccess.Persistence.Repositories
 {
     public class Repository<TEntity> :
         IRepository<TEntity>, IRepositoryAsync<TEntity> where TEntity : Model.IEntity
@@ -32,7 +32,7 @@ namespace DataAccess.Persistance.Repositories
             AddAsync(entity).Wait();
         }
 
-        public TEntity Get(Guid id)
+        public TEntity GetById(Guid id)
         {
             return AllEntities.Where(e => e.GetId() == id).FirstOrDefault();
         }
