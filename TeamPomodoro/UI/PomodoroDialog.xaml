@@ -1,0 +1,109 @@
+﻿<Window x:Class="TeamPomodoro.UI.PomodoroDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TeamPomodoro.UI"
+        xmlns:g="clr-namespace:ViewModel.Globalization;assembly=ViewModel"
+        mc:Ignorable="d"
+        Title="{x:Static g:Strings.TxtPomodoroes}" Height="340" Width="500"
+        Icon="..\Resources\main.ico"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        MouseDown="OnMouseDown">
+    <Grid Margin="30,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="0,0,0,15">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Static g:Strings.TxtUser}" VerticalAlignment="Center"
+                           Margin="0,0,10,0" MinWidth="30"/>
+                <ComboBox Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}" 
+                          Name="users"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Static g:Strings.TxtDate}" VerticalAlignment="Center"
+                           Margin="40,0,10,0"/>
+                <DatePicker Name="date" Grid.Column="1"
+                            Loaded="DateLoaded"
+                            Height="{x:Static local:Sizes.CommonHeight}"/>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Static g:Strings.TxtTeam}" VerticalAlignment="Center"
+                           Margin="0,0,10,0" MinWidth="30"/>
+                <ComboBox Grid.Column="1"
+                          Height="{x:Static local:Sizes.CommonHeight}"
+                          Name="teams"/>
+                <Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                         Padding="5,0,0,0"
+                         VerticalContentAlignment="Center"
+                         Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                         Visibility="{Binding ElementName=teams, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+                         Height="{x:Static local:Sizes.CommonHeight}"/>
+            </Grid>
+        </Grid>
+        <ListView Grid.Row="1" SelectionMode="Single" Name="list">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="125" DisplayMemberBinding="{Binding TaskName}">
+                        <GridViewColumnHeader Content="{x:Static g:Strings.TxtTaskName}"
+                                              HorizontalContentAlignment="Left" Width="Auto"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="65" DisplayMemberBinding="{Binding Successful}">
+                        <GridViewColumnHeader Content="{x:Static g:Strings.TxtDone}"
+                                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="65" DisplayMemberBinding="{Binding Failed}">
+                        <GridViewColumnHeader Content="{x:Static g:Strings.TxtFailed}"
+                                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="65" DisplayMemberBinding="{Binding Total}">
+                        <GridViewColumnHeader Content="{x:Static g:Strings.TxtPending}"
+                                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="70" DisplayMemberBinding="{Binding Duration}">
+                        <GridViewColumnHeader Content="{x:Static g:Strings.TxtDuration}"
+                                              HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"/>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+            <!--<ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="OnDetailsClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>-->
+        </ListView>
+        <Button Grid.Row="3"
+                  Content="{x:Static g:Strings.TxtDetails}" 
+                  MinWidth="80"
+                  Height="{x:Static local:Sizes.CommonHeight}"
+                  HorizontalAlignment="Right"
+                  Margin="0,10,0,0"
+                  IsEnabled="{Binding ElementName=list, Path=SelectedIndex, Converter={StaticResource IndexToBoolConverter}}"
+                  Click="OnDetailsClick"/>
+    </Grid>
+</Window>
