@@ -6,7 +6,6 @@ using System.Net;
 using System.Security;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Timers;
 using DataAccess.Persistence;
 using NLog;
 using NLog.Config;
@@ -19,16 +18,12 @@ namespace ViewModel
     internal sealed class Controller : IDisposable
     {
         private static Controller _controller = new Controller();
-        private Timer _timer;
+
         private TimeSpan _timeRemaining;
         private Model.Pomodoro _currentPomodoro;
-        private Model.Task _currentTask;
 
         private Controller()
         {
-            _timer = new Timer { Interval = 1000 };
-            _timer.Elapsed += OnTimerElapsed;
-
             // configure log
             var config = new LoggingConfiguration();
             var fileTarget = new FileTarget
@@ -47,106 +42,21 @@ namespace ViewModel
 
         public UnitOfWork UnitOfWork { get; private set; }
 
-        public Model.User User { get; private set; }
+        public Model.User User { get; set; }
+
+        public Model.Task CurrentTask { get; set; }
 
         public NetworkCredential UserCredential { get; private set; }
 
-        //public MainWindow Main { get; set; }
 
         private bool IsTaskCompleted
         {
-            get { return _currentTask.PomodoroCount == _currentTask.Pomodoroes.Count; }
+            get { return CurrentTask.PomodoroCount == CurrentTask.Pomodoroes.Count; }
         }
 
         public void Initialize(string uri)
         {
             UnitOfWork = new UnitOfWork(uri);
-        }
-
-        public void SignOut()
-        {
-            //_timer.Stop();
-            //Main.counter.Text = "00:00";
-            //Main.tasks.IsEnabled = false;
-            //Main.tasks.SelectedItem = null;
-            //Main.pomodoro.Visibility = Visibility.Hidden;
-            //Main.grid.IsEnabled = false;
-            //Main.toggle.IsChecked = false;
-            //Main.Title = Strings.TxtTeamPomodoro;
-
-            //var signIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignIn");
-            //var signOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignOut");
-            //var editTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miEditTasks");
-            //var admin = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miAdmin");
-
-            //admin.Visibility = Visibility.Hidden;
-            //signIn.IsEnabled = true;
-            //signOut.IsEnabled = false;
-            //editTasks.IsEnabled = false;
-
-            //User = null;
-        }
-
-        public async void SignIn()
-        {
-            //if (ShowSignIn())
-            //{
-            //    Main.grid.IsEnabled = true;
-            //    var signIn = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignIn");
-            //    var signOut = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miSignOut");
-            //    var editTasks = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miEditTasks");
-            //    var admin = (MenuItem)LogicalTreeHelper.FindLogicalNode(Main.menu, "miAdmin");
-
-            //    admin.Visibility = User.UserName.Equals("admin") ? Visibility.Visible : Visibility.Collapsed;
-            //    signIn.IsEnabled = false;
-            //    signOut.IsEnabled = true;
-            //    editTasks.IsEnabled = true;
-
-            //    Main.tasks.Items.Clear();
-            //    Main.Cursor = Cursors.Wait;
-            //    try
-            //    {
-            //        foreach (var task in User.Tasks)
-            //        {
-            //            Main.tasks.Items.Add(await UnitOfWork.TasksAsync.GetAsync(task.TaskId));
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageDialog.ShowError(ex, "Controller.SignIn() failed to get tasks for user");
-            //    }
-
-            //    Main.Cursor = Cursors.Arrow;
-            //    Main.tasks.IsEnabled = Main.tasks.Items.Count > 0;
-            //    Main.Title = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, User);
-            //}
-        }
-
-        public bool ShowSignIn()
-        {
-            throw new NotImplementedException();
-            //try
-            //{
-            //    Main.Cursor = Cursors.Wait;
-            //    var signIn = new SignIn
-            //    {
-            //        Owner = Main,
-            //        WindowStartupLocation = WindowStartupLocation.CenterOwner
-            //    };
-
-            //    signIn.userName.Focus();
-
-            //    return (bool)signIn.ShowDialog();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageDialog.ShowError(ex, "Controller.ShowSignIn()");
-            //    return false;
-            //}
-            //finally
-            //{
-            //    Main.Cursor = Cursors.Arrow;
-            //}
         }
 
         /// <summary>
@@ -388,11 +298,6 @@ namespace ViewModel
 
         public void Dispose()
         {
-            if (_timer != null)
-            {
-                _timer.Dispose();
-            }
-
             if (UnitOfWork != null)
             {
                 UnitOfWork.Dispose();
@@ -447,16 +352,6 @@ namespace ViewModel
             //                        Strings.TxtPomodoroXofY,
             //                        _currentTask.Pomodoroes != null ? _currentTask.Pomodoroes.Count : 0, 
             //                        _currentTask.PomodoroCount);
-        }
-
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            //_timeRemaining -= TimeSpan.FromSeconds(1.0);
-            //Main.Dispatcher.Invoke(() => Main.counter.Text = _timeRemaining.ToString("mm\\:ss"));
-            //if (_timeRemaining.TotalSeconds == 0)
-            //{
-            //    Main.Dispatcher.Invoke(() => OnPomodoroCompleted());
-            //}
         }
 
         private void OnPomodoroCompleted()

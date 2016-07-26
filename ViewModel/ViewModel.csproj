@@ -45,7 +45,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomCommand.cs" />
+    <Compile Include="AddOrEditTaskViewModel.cs" />
+    <Compile Include="RelayCommand.cs" />
+    <Compile Include="EditTasksDialogViewModel.cs" />
     <Compile Include="Globalization\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>

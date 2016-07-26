@@ -47,7 +47,13 @@ namespace TeamPomodoro.UI
 
         private void OnSignOut(object sender, RoutedEventArgs e)
         {
-            //Controller.Instance.SignOut();
+            var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
+            
+            // TODO: move these to view model
+            pomodoro.Visibility = Visibility.Hidden;
+            toggle.IsChecked = false;
+
+            viewModel.SignOut();
         }
 
         private async void OnSignInClick(object sender, RoutedEventArgs e)
@@ -66,7 +72,6 @@ namespace TeamPomodoro.UI
                 try
                 {
                     await viewModel.SignIn();
-                    tasks.IsEnabled = tasks.Items.Count > 0;
                 }
                 catch (Exception ex)
                 {
@@ -82,9 +87,13 @@ namespace TeamPomodoro.UI
             await UserDetails.ShowDialog(this, null);
         }
 
-        private void OnEditTasksClick(object sender, RoutedEventArgs e)
+        private async void OnEditTasksClick(object sender, RoutedEventArgs e)
         {
-            //Controller.Instance.ShowEditTasks();
+            await EditTasksDialog.ShowEditDialog(this);
+            {
+                var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
+                await viewModel.GetTasks();
+            }
         }
 
         private void OnSwitchChecked(object sender, RoutedEventArgs e)
@@ -104,7 +113,8 @@ namespace TeamPomodoro.UI
 
         private void OnClosed(object sender, EventArgs e)
         {
-            //Controller.Instance.Dispose();
+            var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
+            viewModel.Dispose();
         }
 
         private void OnPomodorosClick(object sender, RoutedEventArgs e)

@@ -5,12 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeamPomodoro.UI"
         xmlns:g="clr-namespace:ViewModel.Globalization;assembly=ViewModel"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
         Title="{x:Static g:Strings.TxtNewTask}" Height="280" Width="420"
         Icon="..\Resources\main.ico"
         ShowInTaskbar="False"
         ResizeMode="NoResize"
         MouseDown="OnMouseDown">
+    <Window.Resources>
+        <vm:AddOrEditTaskViewModel x:Key="AddOrEditTaskViewModel"/>
+    </Window.Resources>
     <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -26,7 +30,10 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="{x:Static g:Strings.TxtProject}" Margin="0,0,20,0"
                           VerticalAlignment="Center"/>
-            <ComboBox Name="projects" Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"/>
+            <ComboBox Name="projects" Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"
+                      IsEnabled="{Binding IsProjectsEnabled, Source={StaticResource AddOrEditTaskViewModel}}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay, Source={StaticResource AddOrEditTaskViewModel}}"
+                      ItemsSource="{Binding Projects, Mode=TwoWay, Source={StaticResource AddOrEditTaskViewModel}}"/>
             <Label Name="lChoose" Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
                    Padding="5,0,0,0"
@@ -39,7 +46,8 @@
         <TextBlock Grid.Row="1" Text="{x:Static g:Strings.TxtTaskName}" Margin="0,0,20,0"
                    VerticalAlignment="Bottom"/>
         <TextBox Grid.Row="2" 
-                 Name="text"
+                 Name="task"
+                 Text="{Binding TaskName, Mode=TwoWay, Source={StaticResource AddOrEditTaskViewModel}}"
                  Height="{x:Static local:Sizes.CommonHeight}"
                  VerticalContentAlignment="Center"/>
         <Grid Grid.Row="3">
@@ -49,7 +57,9 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="{x:Static g:Strings.TxtNumberOfPomodoros}" Margin="0,0,15,0" 
                        VerticalAlignment="Center" TextWrapping="Wrap"/>
-            <local:UpDownControl x:Name="numPomodoros" Grid.Column="1" Minimum="1" Maximum="20" Number="6"/>
+            <local:UpDownControl x:Name="numPomodoros" Grid.Column="1" 
+                                 Minimum="1" Maximum="24"
+                                 Number="{Binding PomodoroCount, Mode=TwoWay, Source={StaticResource AddOrEditTaskViewModel}}"/>
         </Grid>
         <Button Grid.Row="4" Height="{x:Static local:Sizes.CommonHeight}" 
                 MinWidth="60"

@@ -63,6 +63,8 @@
                      Margin="0,0,20,0"/>
                 <ComboBox Name="tasks" Grid.Column="1" VerticalAlignment="Center" 
                           ItemsSource="{Binding Tasks, Mode=TwoWay, Source={StaticResource MainWindowViewModel}}"
+                          IsEnabled="{Binding IsTasksEnabled, Mode=TwoWay, Source={StaticResource MainWindowViewModel}}"
+                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, Source={StaticResource MainWindowViewModel}}"
                           Height="{x:Static local:Sizes.CommonHeight}"
                           SelectionChanged="OnSelectionChanged"/>
                 <Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"

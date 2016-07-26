@@ -327,4 +327,7 @@
   <data name="MsgPomodoroDone" xml:space="preserve">
     <value>Pomodoro completed successfully.</value>
   </data>
+  <data name="MsgTaskNameIsEmpty" xml:space="preserve">
+    <value>Task name should not be empty.</value>
+  </data>
 </root>

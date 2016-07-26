@@ -97,6 +97,15 @@ namespace ViewModel.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Task name should not be empty..
+        /// </summary>
+        public static string MsgTaskNameIsEmpty {
+            get {
+                return ResourceManager.GetString("MsgTaskNameIsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User cannot be found. Would you like to create account?.
         /// </summary>
         public static string MsgUserCannotBeFound {
