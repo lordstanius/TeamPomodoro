@@ -10,6 +10,7 @@
             <convert:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             <convert:IndexToBoolConverter x:Key="IndexToBoolConverter"/>
             <convert:IntToBoolConverter x:Key="IntToBoolConverter"/>
+            <convert:StringToBoolConverter x:Key="StringToBoolConverter"/>
             <convert:IntToStringConverter x:Key="IntToStringConverter"/>
             <convert:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <vm:MainWindowViewModel x:Key="MainWindowViewModel"/>

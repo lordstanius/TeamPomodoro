@@ -46,8 +46,11 @@ namespace ViewModel
 
         public Model.Task CurrentTask { get; set; }
 
-        public NetworkCredential UserCredential { get; private set; }
+        public Model.Team CurrentTeam { get; set; }
 
+        public Model.Project CurrentProject { get; set; }
+
+        public NetworkCredential UserCredential { get; private set; }
 
         private bool IsTaskCompleted
         {
@@ -118,17 +121,6 @@ namespace ViewModel
             //await editHelper.ShowEditDialog();
             //Main.tasks.SelectedIndex = i;
         }
-
-        //public bool? ValidateTask(AddOrEditTask dialog)
-        //{
-        //    if (dialog.projects.SelectedItem == null && !dialog.IsOfEditType)
-        //    {
-        //        MessageDialog.Show(Strings.MsgAddProjects);
-        //        return null;
-        //    }
-
-        //    return true;
-        //}
 
         public async void ShowPomodoros()
         {

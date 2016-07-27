@@ -30,14 +30,14 @@ namespace TeamPomodoro.UI
             Application.Current.DispatcherUnhandledException += (o, a) => { MessageDialog.ShowError((Exception)a.Exception, "Dipatcher unhandeled exception"); Close(); };
         }
 
-        private void OnEditTeamsClick(object sender, RoutedEventArgs e)
+        private async void OnEditTeamsClick(object sender, RoutedEventArgs e)
         {
-            //Controller.Instance.ShowEditTeams();
+            await EditTeamsDialog.ShowEditDialog(this);
         }
 
-        private void OnEditProjectsClick(object sender, RoutedEventArgs e)
+        private async void OnEditProjectsClick(object sender, RoutedEventArgs e)
         {
-            //Controller.Instance.ShowEditProjets();
+            await EditProjectsDialog.ShowEditDialog(this);
         }
 
         private void OnExitClick(object sender, RoutedEventArgs e)

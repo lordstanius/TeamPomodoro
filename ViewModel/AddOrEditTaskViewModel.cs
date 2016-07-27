@@ -132,7 +132,6 @@ namespace ViewModel
             t.PomodoroCount = PomodoroCount;
             t.ProjectId = ((Model.Project)SelectedItem).ProjectId;
 
-            SelectedItem = t;
             Controller.Instance.CurrentTask = t;
             await Controller.Instance.UnitOfWork.SaveChangesAsync();
         }

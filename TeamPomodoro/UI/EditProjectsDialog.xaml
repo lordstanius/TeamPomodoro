@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeamPomodoro.UI"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         xmlns:g="clr-namespace:ViewModel.Globalization;assembly=ViewModel"
         mc:Ignorable="d"
         Title="{x:Static g:Strings.TxtProjects}" Height="240" Width="350"
@@ -11,34 +12,42 @@
         ShowInTaskbar="False"
         ResizeMode="NoResize"
         MouseDown="OnMouseDown">
+    <Window.Resources>
+        <vm:EditProjectsDialogViewModel x:Key="EditProjectsDialogViewModel"/>
+    </Window.Resources>
     <Grid Margin="30,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox Margin="0,10,0,10" SelectionMode="Single" Name="list"/>
+        <ListBox Margin="0,10,0,10" SelectionMode="Single" Name="list"
+                 SelectedItem="{Binding SelectedItem, Source={StaticResource EditProjectsDialogViewModel}}"
+                 ItemsSource="{Binding Projects, Mode=TwoWay, Source={StaticResource EditProjectsDialogViewModel}}"/>
         <Button Grid.Row="1" Height="{x:Static local:Sizes.CommonHeight}" 
-                  MinWidth="60"
-                  Padding="10,0,10,0"
-                  HorizontalAlignment="Left"
-                  Content="{x:Static g:Strings.TxtAdd}"
-                  Name="btnAdd"
-                  IsDefault="True"
-                  Margin="0,0,20,0"/>
+                MinWidth="60"
+                Padding="10,0,10,0"
+                HorizontalAlignment="Left"
+                Content="{x:Static g:Strings.TxtAdd}"
+                Name="btnAdd"
+                Click="OnAddClick"
+                IsDefault="True"
+                Margin="0,0,20,0"/>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Height="{x:Static local:Sizes.CommonHeight}" 
-                  MinWidth="60"
-                  Padding="10,0,10,0"
-                  Content="{x:Static g:Strings.TxtEdit}"
-                  Name="btnEdit"
-                  IsEnabled="{Binding ElementName=list, Path=SelectedIndex, Converter={StaticResource IndexToBoolConverter}}"
-                  Margin="0,0,20,0"/>
+                    MinWidth="60"
+                    Padding="10,0,10,0"
+                    Content="{x:Static g:Strings.TxtEdit}"
+                    Name="btnEdit"
+                    Click="OnEditClick"
+                    IsEnabled="{Binding CanSelect, Mode=TwoWay, Source={StaticResource EditProjectsDialogViewModel}}"
+                    Margin="0,0,20,0"/>
             <Button Height="{x:Static local:Sizes.CommonHeight}" 
-                  MinWidth="60"
-                  Padding="10,0,10,0"
-                  Name="btnDelete"
-                  IsEnabled="{Binding ElementName=btnEdit, Path=IsEnabled}"
-                  Content="{x:Static g:Strings.TxtDelete}"/>
+                    MinWidth="60"
+                    Padding="10,0,10,0"
+                    Name="btnDelete"
+                    Click="OnDeleteClick"
+                    IsEnabled="{Binding ElementName=btnEdit, Path=IsEnabled}"
+                    Content="{x:Static g:Strings.TxtDelete}"/>
         </StackPanel>
     </Grid>
 </Window>

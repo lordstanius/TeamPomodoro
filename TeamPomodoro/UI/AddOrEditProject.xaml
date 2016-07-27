@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TeamPomodoro.UI"
         xmlns:g="clr-namespace:ViewModel.Globalization;assembly=ViewModel"
+        xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
         Height="170" Width="320"
         Title="{x:Static g:Strings.TxtEditProject}"
@@ -12,6 +13,9 @@
         ShowInTaskbar="False"
         ResizeMode="NoResize"
         MouseDown="OnMouseDown">
+    <Window.Resources>
+        <vm:AddOrEditProjectViewModel x:Key="AddOrEditProjectViewModel"/>
+    </Window.Resources>
     <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -21,6 +25,7 @@
         <TextBlock Name="name" Grid.Row="0" Text="{x:Static g:Strings.TxtProjectName}" Margin="0,0,20,0"
                    VerticalAlignment="Bottom"/>
         <TextBox Name="text" Grid.Row="1" Height="{x:Static local:Sizes.CommonHeight}"
+                 Text="{Binding ProjectName, Mode=TwoWay, Source={StaticResource AddOrEditProjectViewModel}}"
                  VerticalContentAlignment="Center"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -35,6 +40,7 @@
                 VerticalAlignment="Bottom"
                 Click="OnSaveClick"
                 IsDefault="True"
+                IsEnabled="{Binding ElementName=text, Path=Text, Converter={StaticResource StringToBoolConverter}}"
                 Content="{x:Static g:Strings.TxtSave}"/>
     </Grid>
 </Window>
