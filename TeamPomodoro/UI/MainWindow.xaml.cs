@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Media;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ViewModel;
+using ViewModel.Globalization;
 
 namespace TeamPomodoro.UI
 {
@@ -12,9 +15,48 @@ namespace TeamPomodoro.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Timer _timer;
+        private MainWindowViewModel _viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _timer = new Timer { Interval = 1000 };
+            _timer.Elapsed += OnTimerElapsed;
+
+            _viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
+        }
+
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            _viewModel.OnTimer();
+            if (_viewModel.IsTimeExpired)
+            {
+                Dispatcher.Invoke(OnPomodoroCompleted);
+            }
+        }
+
+        private void OnPomodoroCompleted()
+        {
+            toggle.IsChecked = false;
+
+            if (_viewModel.ShouldShowWarning)
+
+            if (!_viewModel.ShouldShowWarning)
+            {
+                return;
+            }
+
+            var sp = new SoundPlayer(Properties.Resources.martian_code_ding);
+            sp.Play();
+
+            MessageDialog.Show(this, Strings.MsgPomodoroDone);
+
+            if (_viewModel.IsTaskCompleted)
+            {
+                MessageDialog.Show(this, Strings.MsgTaskCompleted);
+            }
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -24,8 +66,7 @@ namespace TeamPomodoro.UI
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
-            viewModel.Initialize(Properties.Settings.Default.Uri);
+            _viewModel.Initialize(Properties.Settings.Default.Uri);
             AppDomain.CurrentDomain.UnhandledException += (o, a) => { MessageDialog.ShowError((Exception)a.ExceptionObject, "AppDomain unhandeled exception"); Close(); };
             Application.Current.DispatcherUnhandledException += (o, a) => { MessageDialog.ShowError((Exception)a.Exception, "Dipatcher unhandeled exception"); Close(); };
         }
@@ -47,13 +88,9 @@ namespace TeamPomodoro.UI
 
         private void OnSignOut(object sender, RoutedEventArgs e)
         {
-            var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
-            
-            // TODO: move these to view model
-            pomodoro.Visibility = Visibility.Hidden;
+            _timer.Stop();
             toggle.IsChecked = false;
-
-            viewModel.SignOut();
+            _viewModel.SignOut();
         }
 
         private async void OnSignInClick(object sender, RoutedEventArgs e)
@@ -67,11 +104,10 @@ namespace TeamPomodoro.UI
             signIn.userName.Focus();
             if (signIn.ShowDialog() == true)
             {
-                var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
                 Cursor = Cursors.Wait;
                 try
                 {
-                    await viewModel.SignIn();
+                    await _viewModel.SignIn();
                 }
                 catch (Exception ex)
                 {
@@ -91,19 +127,20 @@ namespace TeamPomodoro.UI
         {
             await EditTasksDialog.ShowEditDialog(this);
             {
-                var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
-                await viewModel.GetTasks();
+                await _viewModel.GetTasks();
             }
         }
 
         private void OnSwitchChecked(object sender, RoutedEventArgs e)
         {
-            //Controller.Instance.StartPomodoro();
+            _viewModel.IsSwitchChecked = true;
+            _timer.Start();
         }
 
         private void OnSwitchUnhecked(object sender, RoutedEventArgs e)
         {
-            //Controller.Instance.StopPomodoro();
+            _timer.Stop();
+            _viewModel.IsSwitchChecked = false;
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -113,8 +150,12 @@ namespace TeamPomodoro.UI
 
         private void OnClosed(object sender, EventArgs e)
         {
-            var viewModel = (MainWindowViewModel)FindResource("MainWindowViewModel");
-            viewModel.Dispose();
+            _viewModel.Dispose();
+
+            if (_timer != null)
+            {
+                _timer.Dispose();
+            }
         }
 
         private void OnPomodorosClick(object sender, RoutedEventArgs e)

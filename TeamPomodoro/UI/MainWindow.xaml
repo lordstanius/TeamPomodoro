@@ -74,8 +74,10 @@
                          Visibility="{Binding ElementName=tasks, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
                          Height="{x:Static local:Sizes.CommonHeight}"/>
             </Grid>
-            <TextBlock Name="pomodoro" Grid.Row="1" Text="Pomodoro # of #" HorizontalAlignment="Left" 
-                       VerticalAlignment="Top" Visibility="Hidden"/>
+            <TextBlock Name="pomodoro" Grid.Row="1" HorizontalAlignment="Left"
+                       Text="{Binding PomodoroXofY, Source={StaticResource MainWindowViewModel}}"
+                       VerticalAlignment="Top" 
+                       Visibility="{Binding ElementName=tasks, Path=SelectedIndex, Converter={StaticResource IndexToVisibilityConverter}}"/>
 
             <TextBlock Name="counter" Grid.Row="2" FontSize="80"
                        Text="{Binding TimeRemaining, Source={StaticResource MainWindowViewModel}}"
@@ -92,7 +94,7 @@
                           BorderBrush="#F57676"
                           Margin="0,0,0,20"
                           HorizontalAlignment="Center"
-                          IsEnabled="False"
+                          IsEnabled="{Binding IsSwitchEnabled, Mode=TwoWay, Source={StaticResource MainWindowViewModel}}"                          
                           Checked="OnSwitchChecked"
                           Unchecked="OnSwitchUnhecked"/>
             <StackPanel Grid.Row="4" Orientation="Horizontal" FlowDirection="RightToLeft" 

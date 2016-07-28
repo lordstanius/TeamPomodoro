@@ -62,6 +62,7 @@
     <Compile Include="UI\AddOrEditProject.xaml.cs">
       <DependentUpon>AddOrEditProject.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Converter\lndexToVisibilityConverter.cs" />
     <Compile Include="UI\Converter\StringToBoolConverter.cs" />
     <Compile Include="UI\Converter\IntToStringConverter.cs" />
     <Compile Include="UI\Converter\BoolToVisibilityConverter.cs" />

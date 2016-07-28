@@ -8,6 +8,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <convert:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <convert:IndexToVisibilityConverter x:Key="IndexToVisibilityConverter"/>
             <convert:IndexToBoolConverter x:Key="IndexToBoolConverter"/>
             <convert:IntToBoolConverter x:Key="IntToBoolConverter"/>
             <convert:StringToBoolConverter x:Key="StringToBoolConverter"/>

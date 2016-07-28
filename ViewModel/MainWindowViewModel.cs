@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
-using System.Timers;
 using System.Threading.Tasks;
 using ViewModel.Globalization;
 using System.Runtime.CompilerServices;
@@ -18,18 +18,14 @@ namespace ViewModel
         private bool _isEditTasksEnabled = false;
         private bool _isAdminVisible = false;
         private bool _isTasksEnabled = false;
+        private bool _isSwitchEnabled = false;
+        private bool _isSwitchChecked = false;
         private List<Model.Task> _tasks;
         private object _selectedItem;
         private string _title = Strings.TxtTeamPomodoro;
-        private Timer _timer;
+        private string _pomodoroXofY;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public MainWindowViewModel()
-        {
-            _timer = new Timer { Interval = 1000 };
-            _timer.Elapsed += OnTimerElapsed;
-        }
 
         public bool IsGridEnabled
         {
@@ -140,6 +136,19 @@ namespace ViewModel
             }
         }
 
+        public string PomodoroXofY
+        {
+            get
+            {
+                return _pomodoroXofY;
+            }
+            set
+            {
+                _pomodoroXofY = value;
+                OnPropertyChanged();
+            }
+        }
+
         public object SelectedItem
         {
             get
@@ -149,51 +158,67 @@ namespace ViewModel
             set
             {
                 _selectedItem = value;
+                Controller.Instance.CurrentTask = (Model.Task)value;
+                PomodoroXofY = Controller.Instance.PomodoroXofY;
+                IsSwitchEnabled = true;
+                SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
                 OnPropertyChanged();
             }
         }
 
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        public bool IsSwitchEnabled
         {
-            _timeRemaining -= TimeSpan.FromSeconds(1.0);
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs("TimeElapsed"));
-
-            if (_timeRemaining.TotalSeconds == 0)
+            get
             {
-                OnPomodoroCompleted();
+                return _isSwitchEnabled;
+            }
+            set
+            {
+                _isSwitchEnabled = value && !Controller.Instance.IsTaskCompleted;
+                OnPropertyChanged();
             }
         }
 
-        private void OnPomodoroCompleted()
+        public bool IsSwitchChecked
         {
-            //StopPomodoro();
+            get
+            {
+                return _isSwitchChecked;
+            }
+            set
+            {
+                _isSwitchChecked = value;
 
-            //if (!User.ShowWarningAfterPomodoroExpires)
-            //{
-            //    return;
-            //}
+                if (value)
+                {
+                    _timeRemaining = TimeSpan.FromSeconds(4);
+                    OnPropertyChanged("TimeRemaining");
+                    //SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
+                    Controller.Instance.CreatePomodoro();
+                    PomodoroXofY = Controller.Instance.PomodoroXofY;
+                    IsTasksEnabled = false;
+                }
+                else
+                {
+                    Controller.Instance.CompletePomodoro(_timeRemaining);
+                    IsTasksEnabled = true;
 
-            //var sp = new SoundPlayer(Resources.martian_code_ding);
-            //sp.Play();
+                    if (IsTaskCompleted)
+                    {
+                        SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
+                        IsSwitchEnabled = false;
+                    }
+                }
+            }
+        }
 
-            //MessageDialog.Show(Strings.MsgPomodoroDone);
-            //if (IsTaskCompleted)
-            //{
-            //    MessageDialog.Show(Strings.TxtTaskCompletedInfo);
-            //}
-
-            //Main.toggle.IsChecked = false;
-            //SetTimeRemaining();
+        public bool IsTimeExpired
+        {
+            get { return _timeRemaining.TotalSeconds == 0.0; }
         }
 
         public void Dispose()
         {
-            if (_timer != null)
-            {
-                _timer.Dispose();
-            }
-
             Controller.Instance.Dispose();
         }
 
@@ -212,24 +237,35 @@ namespace ViewModel
             }
 
             IsTasksEnabled = Tasks.Count > 0;
-            
+
             Title = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, Controller.Instance.User.UserName);
             SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
         }
 
         public async Task GetTasks()
         {
-            Tasks = new List<Model.Task>();
-
+            var tasks = new List<Model.Task>();
             foreach (var task in Controller.Instance.User.Tasks)
             {
-                Tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
+                tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
             }
+
+            if (Controller.Instance.CurrentTask != null)
+            {
+                var task = tasks.FirstOrDefault(t => t.Equals(Controller.Instance.CurrentTask));
+                if (task != null)
+                {
+                    Controller.Instance.CurrentTask = task;
+                    SelectedItem = task;
+                    IsSwitchEnabled = true;
+                }
+            }
+
+            Tasks = tasks;
         }
 
         public void SignOut()
         {
-            _timer.Stop();
             SetTimeRemaining(0);
 
             IsGridEnabled = false;
@@ -248,7 +284,24 @@ namespace ViewModel
             Controller.Instance.Initialize(uri);
         }
 
-        internal void SetTimeRemaining(int durationInMin)
+        public bool IsTaskCompleted
+        {
+            get { return Controller.Instance.IsTaskCompleted; }
+        }
+
+        public bool ShouldShowWarning
+        {
+            get { return Controller.Instance.User.ShowWarningAfterPomodoroExpires; }
+        }
+
+        public void OnTimer()
+        {
+            _timeRemaining -= TimeSpan.FromSeconds(1.0);
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("TimeRemaining"));
+        }
+
+        private void SetTimeRemaining(int durationInMin)
         {
             _timeRemaining = TimeSpan.FromMinutes(durationInMin);
             OnPropertyChanged("TimeRemaining");

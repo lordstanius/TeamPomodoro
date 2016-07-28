@@ -97,6 +97,15 @@ namespace ViewModel.Globalization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This task is completed. Increase the number of pomodoros for this task, or choose another task..
+        /// </summary>
+        public static string MsgTaskCompleted {
+            get {
+                return ResourceManager.GetString("MsgTaskCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Task name should not be empty..
         /// </summary>
         public static string MsgTaskNameIsEmpty {
@@ -570,24 +579,6 @@ namespace ViewModel.Globalization {
         public static string TxtTask {
             get {
                 return ResourceManager.GetString("TxtTask", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Task is completed..
-        /// </summary>
-        public static string TxtTaskCompletedInfo {
-            get {
-                return ResourceManager.GetString("TxtTaskCompletedInfo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to This task is completed. Increase the number of pomodoros for this task, or choose another task..
-        /// </summary>
-        public static string TxtTaskCompletedWarning {
-            get {
-                return ResourceManager.GetString("TxtTaskCompletedWarning", resourceCulture);
             }
         }
         

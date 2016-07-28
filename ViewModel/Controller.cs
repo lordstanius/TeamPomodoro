@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Media;
 using System.Net;
 using System.Security;
 using System.Threading.Tasks;
@@ -18,8 +16,6 @@ namespace ViewModel
     internal sealed class Controller : IDisposable
     {
         private static Controller _controller = new Controller();
-
-        private TimeSpan _timeRemaining;
         private Model.Pomodoro _currentPomodoro;
 
         private Controller()
@@ -50,9 +46,15 @@ namespace ViewModel
 
         public Model.Project CurrentProject { get; set; }
 
+        public Model.Pomodoro CurrentPomodoro
+        {
+            get { return _currentPomodoro; }
+            set { _currentPomodoro = value; }
+        }
+
         public NetworkCredential UserCredential { get; private set; }
 
-        private bool IsTaskCompleted
+        public bool IsTaskCompleted
         {
             get { return CurrentTask.PomodoroCount == CurrentTask.Pomodoroes.Count; }
         }
@@ -113,13 +115,15 @@ namespace ViewModel
             }
         }
 
-        public async void ShowEditTasks()
+        public string PomodoroXofY
         {
-            throw new NotImplementedException();
-            //int i = Main.tasks.SelectedIndex;
-            //var editHelper = new EditHelper(EditHelper.EditType.Task);
-            //await editHelper.ShowEditDialog();
-            //Main.tasks.SelectedIndex = i;
+            get
+            {
+                return string.Format(
+                                 Strings.TxtPomodoroXofY,
+                                 CurrentTask != null ? CurrentTask.Pomodoroes.Count : 0,
+                                 CurrentTask.PomodoroCount);
+            }
         }
 
         public async void ShowPomodoros()
@@ -156,6 +160,26 @@ namespace ViewModel
             //dlg.ShowDialog();
 
             //Main.Cursor = Cursors.Arrow;
+        }
+
+        public void CompletePomodoro(TimeSpan timeRemaining)
+        {
+            CurrentPomodoro.IsSuccessfull = timeRemaining.TotalSeconds < 10.0;
+            CurrentPomodoro.DurationInMin = (int)TimeSpan.FromMinutes(User.PomodoroDurationInMin).Subtract(timeRemaining).TotalMinutes;
+
+            UnitOfWork.PomodoroesAsync.AddAsync(CurrentPomodoro);
+        }
+
+        public void CreatePomodoro()
+        {
+            _currentPomodoro = new Model.Pomodoro
+            {
+                PomodoroId = Guid.NewGuid(),
+                StartTime = DateTime.Now,
+                TaskId = CurrentTask.TaskId,
+            };
+
+            CurrentTask.Pomodoroes.Add(_currentPomodoro);
         }
 
         //public void ShowPomodoroDetails(PomodoroDialog dlg)
@@ -218,65 +242,7 @@ namespace ViewModel
         //        IsSuccessful = pomodoro.IsSuccessfull == true ? Strings.TxtYes : Strings.TxtNo
         //    });
         //}
-        //}
-
-        //public void StartPomodoro()
-        //{
-        //    SetTimeRemaining();
-
-        //    if (IsTaskCompleted)
-        //    {
-        //        MessageDialog.Show(Strings.TxtTaskCompletedWarning);
-        //        return;
-        //    }
-
-        //    Main.tasks.IsEnabled = false;
-        //    var currentTask = (Model.Task)Main.tasks.SelectedItem;
-        //    _currentPomodoro = new Model.Pomodoro
-        //    {
-        //        PomodoroId = Guid.NewGuid(),
-        //        StartTime = DateTime.Now,
-        //        TaskId = currentTask.TaskId,
-        //    };
-
-        //    _currentTask.Pomodoroes.Add(_currentPomodoro);
-        //    SetPomodorosXofY();
-
-        //    _timer.Start();
-        //}
-
-        //public void StopPomodoro()
-        //{
-        //    _timer.Stop();
-        //    Main.tasks.IsEnabled = true;
-        //    _currentPomodoro.IsSuccessfull = _timeRemaining.TotalSeconds < 10.0;
-        //    _currentPomodoro.DurationInMin = (int)TimeSpan.FromMinutes(User.PomodoroDurationInMin).Subtract(_timeRemaining).TotalMinutes;
-
-        //    UnitOfWork.PomodoroesAsync.AddAsync(_currentPomodoro);
-
-        //    Main.toggle.IsEnabled = !IsTaskCompleted;
-        //}
-
-        //public void UpdateGuiOnTaskChanged()
-        //{
-        //    if (Main.tasks.SelectedItem == null)
-        //    {
-        //        return;
-        //    }
-
-        //    _currentTask = (Model.Task)Main.tasks.SelectedItem;
-
-        //    SetPomodorosXofY();
-        //    SetTimeRemaining();
-
-        //    Main.pomodoro.Visibility = Visibility.Visible;
-
-        //    Main.toggle.IsEnabled = !IsTaskCompleted;
-        //    if (IsTaskCompleted)
-        //    {
-        //        MessageDialog.Show(Strings.TxtTaskCompletedWarning);
-        //    }
-        //}
+        //}        
 
         public bool ValidateUserName(string userName)
         {
@@ -337,35 +303,5 @@ namespace ViewModel
         //        MessageDialog.ShowError(ex, "Controller.UpdateList()");
         //    }
         //}
-
-        private void SetPomodorosXofY()
-        {
-            //Main.pomodoro.Text = string.Format(
-            //                        Strings.TxtPomodoroXofY,
-            //                        _currentTask.Pomodoroes != null ? _currentTask.Pomodoroes.Count : 0, 
-            //                        _currentTask.PomodoroCount);
-        }
-
-        private void OnPomodoroCompleted()
-        {
-            //StopPomodoro();
-
-            //if (!User.ShowWarningAfterPomodoroExpires)
-            //{
-            //    return;
-            //}
-
-            //var sp = new SoundPlayer(Resources.martian_code_ding);
-            //sp.Play();
-
-            //MessageDialog.Show(Strings.MsgPomodoroDone);
-            //if (IsTaskCompleted)
-            //{
-            //    MessageDialog.Show(Strings.TxtTaskCompletedInfo);
-            //}
-
-            //Main.toggle.IsChecked = false;
-            //SetTimeRemaining();
-        }
     }
 }

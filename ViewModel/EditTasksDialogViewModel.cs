@@ -80,8 +80,8 @@ namespace ViewModel
         {
             var user = await Controller.Instance.UnitOfWork.UsersAsync.GetAsync(Controller.Instance.User.UserId);
             Tasks = new List<Model.Task>(user.Tasks);
-            // TODO: Find solution for this later...
-            ////SelectedItem = Controller.Instance.Main.tasks.SelectedItem;
+            if (Controller.Instance.CurrentTask != null)
+                SelectedItem = Controller.Instance.CurrentTask;
         }
     }
 }
