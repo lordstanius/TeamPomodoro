@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace ViewModel
 {
     public class AddOrEditTeamViewModel : INotifyPropertyChanged
     {
         private string _teamName;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string TeamName
         {
@@ -23,22 +21,6 @@ namespace ViewModel
             {
                 _teamName = value;
                 OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private async void Save()
-        {
-            Controller.Instance.CurrentTeam.Name = TeamName;
-            await Controller.Instance.UnitOfWork.SaveChangesAsync();
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
@@ -64,6 +46,20 @@ namespace ViewModel
         public void InitializeValues()
         {
             TeamName = Controller.Instance.CurrentTeam.Name;
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private async void Save()
+        {
+            Controller.Instance.CurrentTeam.Name = TeamName;
+            await Controller.Instance.UnitOfWork.SaveChangesAsync();
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Reflection;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ViewModel.Globalization;
-using System.Runtime.CompilerServices;
 
 namespace ViewModel
 {
@@ -191,9 +190,7 @@ namespace ViewModel
 
                 if (value)
                 {
-                    _timeRemaining = TimeSpan.FromSeconds(4);
-                    OnPropertyChanged("TimeRemaining");
-                    //SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
+                    SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
                     Controller.Instance.CreatePomodoro();
                     PomodoroXofY = Controller.Instance.PomodoroXofY;
                     IsTasksEnabled = false;
@@ -215,6 +212,16 @@ namespace ViewModel
         public bool IsTimeExpired
         {
             get { return _timeRemaining.TotalSeconds == 0.0; }
+        }
+
+        public bool IsTaskCompleted
+        {
+            get { return Controller.Instance.IsTaskCompleted; }
+        }
+
+        public bool ShouldShowWarning
+        {
+            get { return Controller.Instance.User.ShowWarningAfterPomodoroExpires; }
         }
 
         public void Dispose()
@@ -284,27 +291,13 @@ namespace ViewModel
             Controller.Instance.Initialize(uri);
         }
 
-        public bool IsTaskCompleted
-        {
-            get { return Controller.Instance.IsTaskCompleted; }
-        }
-
-        public bool ShouldShowWarning
-        {
-            get { return Controller.Instance.User.ShowWarningAfterPomodoroExpires; }
-        }
-
         public void OnTimer()
         {
             _timeRemaining -= TimeSpan.FromSeconds(1.0);
             if (PropertyChanged != null)
+            {
                 PropertyChanged(this, new PropertyChangedEventArgs("TimeRemaining"));
-        }
-
-        private void SetTimeRemaining(int durationInMin)
-        {
-            _timeRemaining = TimeSpan.FromMinutes(durationInMin);
-            OnPropertyChanged("TimeRemaining");
+            }
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -313,6 +306,12 @@ namespace ViewModel
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        private void SetTimeRemaining(int durationInMin)
+        {
+            _timeRemaining = TimeSpan.FromMinutes(durationInMin);
+            OnPropertyChanged("TimeRemaining");
         }
     }
 }

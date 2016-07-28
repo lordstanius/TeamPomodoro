@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ViewModel;
@@ -16,6 +15,27 @@ namespace TeamPomodoro.UI
         public EditTasksDialog()
         {
             InitializeComponent();
+        }
+
+        public static async Task ShowEditDialog(Window owner)
+        {
+            try
+            {
+                var edit = new EditTasksDialog
+                {
+                    Owner = owner,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+
+                var viewModel = (EditTasksDialogViewModel)edit.FindResource("EditTasksDialogViewModel");
+                await viewModel.GetTasks();
+
+                edit.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.ShowError(ex, "EditHelper.ShowEditDialog()");
+            }
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -65,27 +85,6 @@ namespace TeamPomodoro.UI
             catch (Exception ex)
             {
                 MessageDialog.ShowError(ex, "EditHelper.OnAddClick()");
-            }
-        }
-
-        public static async Task ShowEditDialog(Window owner)
-        {
-            try
-            {
-                var edit = new EditTasksDialog
-                {
-                    Owner = owner,
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner
-                };
-
-                var viewModel = (EditTasksDialogViewModel)edit.FindResource("EditTasksDialogViewModel");
-                await viewModel.GetTasks();
-
-                edit.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageDialog.ShowError(ex, "EditHelper.ShowEditDialog()");
             }
         }
     }

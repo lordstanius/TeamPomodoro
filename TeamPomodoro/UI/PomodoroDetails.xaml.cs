@@ -1,8 +1,10 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using ViewModel;
 using ViewModel.Globalization;
 
 namespace TeamPomodoro.UI
@@ -15,6 +17,12 @@ namespace TeamPomodoro.UI
         public PomodoroDetails()
         {
             InitializeComponent();
+        }
+
+        public async Task Initialize()
+        {
+            var viewModel = (PomodoroDetailsViewModel)DataContext;
+            await viewModel.Initialize();
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -56,11 +64,6 @@ namespace TeamPomodoro.UI
             }
 
             return null;
-        }
-
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ////Controller.Instance.UpdatePomodoroList(this);
         }
     }
 }

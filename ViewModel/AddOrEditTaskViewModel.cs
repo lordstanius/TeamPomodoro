@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ViewModel
@@ -15,6 +13,8 @@ namespace ViewModel
         private bool _isProjectsEnabled;
         private string _taskName;
         private int _pomodoroCount = 6;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public List<Model.Project> Projects
         {
@@ -81,16 +81,6 @@ namespace ViewModel
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
         public async Task GetProjects()
         {
             var projects = await Controller.Instance.UnitOfWork.ProjectsAsync.GetAllAsync();
@@ -134,6 +124,14 @@ namespace ViewModel
 
             Controller.Instance.CurrentTask = t;
             await Controller.Instance.UnitOfWork.SaveChangesAsync();
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

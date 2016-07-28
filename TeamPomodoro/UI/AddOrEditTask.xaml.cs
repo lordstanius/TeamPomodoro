@@ -20,6 +20,32 @@ namespace TeamPomodoro.UI
 
         public bool IsEdit { get; set; }
 
+        public static async Task ShowEditDialog(Window owner, bool isEdit)
+        {
+            var edit = new AddOrEditTask
+            {
+                Owner = owner,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                IsEdit = isEdit
+            };
+
+            var viewModel = (AddOrEditTaskViewModel)edit.FindResource("AddOrEditTaskViewModel");
+            await viewModel.GetProjects();
+
+            edit.projects.DropDownClosed += (o, a) => edit.task.Focus();
+            edit.task.Focus();
+
+            if (isEdit)
+            {
+                viewModel.InitializeValues();
+                edit.task.SelectAll();
+
+                edit.numPomodoros.Minimum = viewModel.GetMinPomodoroCount();
+            }
+
+            edit.ShowDialog();
+        }
+
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Helper.WindowHelper.Move(new WindowInteropHelper(this).Handle);
@@ -57,32 +83,6 @@ namespace TeamPomodoro.UI
             }
 
             DialogResult = true;
-        }
-
-        public static async Task ShowEditDialog(Window owner, bool isEdit)
-        {
-            var edit = new AddOrEditTask
-            {
-                Owner = owner,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                IsEdit = isEdit
-            };
-
-            var viewModel = (AddOrEditTaskViewModel)edit.FindResource("AddOrEditTaskViewModel");
-            await viewModel.GetProjects();
-
-            edit.projects.DropDownClosed += (o, a) => edit.task.Focus();
-            edit.task.Focus();
-
-            if (isEdit)
-            {
-                viewModel.InitializeValues();
-                edit.task.SelectAll();
-
-                edit.numPomodoros.Minimum = viewModel.GetMinPomodoroCount();
-            }
-
-            edit.ShowDialog();
         }
     }
 }

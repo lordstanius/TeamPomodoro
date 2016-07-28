@@ -1,22 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Security;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace ViewModel
 {
     public class UserDetailsViewModel : INotifyPropertyChanged
     {
-        //public static readonly DependencyProperty PomodoroDurationProperty = DependencyProperty.Register(
-        //    "PomodoroDuration",
-        //    typeof(int),
-        //    typeof(UserDetailsViewModel),
-        //    new PropertyMetadata(24));
-
         private int _pomodoroDuration = 24;
         private List<Model.Team> _teams;
         private bool _showWarning = true;
@@ -82,7 +72,9 @@ namespace ViewModel
             {
                 return _showWarning;
             }
-            set { _showWarning = value;
+            set
+            {
+                _showWarning = value;
                 if (PropertyChanged != null)
                 {
                     PropertyChanged(this, new PropertyChangedEventArgs("ShowWarning"));

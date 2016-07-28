@@ -18,6 +18,34 @@ namespace TeamPomodoro.UI
             InitializeComponent();
         }
 
+        public static async Task<bool?> ShowDialog(Window owner, string userName)
+        {
+            try
+            {
+                owner.Cursor = Cursors.Arrow;
+
+                var userDetails = new UserDetails
+                {
+                    Owner = owner,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+
+                var viewModel = (UserDetailsViewModel)userDetails.FindResource("UserDetailsViewModel");
+                await viewModel.Initialize(userName);
+                userDetails.passwordBox.Password = viewModel.Password;
+                return userDetails.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.ShowError(ex, "Controller.ShowUserDetails()");
+                return false;
+            }
+            finally
+            {
+                owner.Cursor = Cursors.Arrow;
+            }
+        }
+
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             Helper.WindowHelper.Move(new WindowInteropHelper(this).Handle);
@@ -52,34 +80,6 @@ namespace TeamPomodoro.UI
             finally
             {
                 Cursor = Cursors.Arrow;
-            }
-        }
-
-        public async static Task<bool?> ShowDialog(Window owner, string userName)
-        {
-            try
-            {
-                owner.Cursor = Cursors.Arrow;
-
-                var userDetails = new UserDetails
-                {
-                    Owner = owner,
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner
-                };
-
-                var viewModel = (UserDetailsViewModel)userDetails.FindResource("UserDetailsViewModel");
-                await viewModel.Initialize(userName);
-                userDetails.passwordBox.Password = viewModel.Password;
-                return userDetails.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageDialog.ShowError(ex, "Controller.ShowUserDetails()");
-                return false;
-            }
-            finally
-            {
-                owner.Cursor = Cursors.Arrow;
             }
         }
     }

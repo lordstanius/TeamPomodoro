@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ViewModel;
@@ -16,6 +15,27 @@ namespace TeamPomodoro.UI
         public EditProjectsDialog()
         {
             InitializeComponent();
+        }
+
+        public static async Task ShowEditDialog(Window owner)
+        {
+            try
+            {
+                var edit = new EditProjectsDialog
+                {
+                    Owner = owner,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner
+                };
+
+                var viewModel = (EditProjectsDialogViewModel)edit.FindResource("EditProjectsDialogViewModel");
+                await viewModel.GetProjects();
+
+                edit.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.ShowError(ex, "EditProjectsDialog.ShowEditDialog()");
+            }
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -68,27 +88,6 @@ namespace TeamPomodoro.UI
             }
 
             list.Items.Refresh();
-        }
-
-        public static async Task ShowEditDialog(Window owner)
-        {
-            try
-            {
-                var edit = new EditProjectsDialog
-                {
-                    Owner = owner,
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner
-                };
-
-                var viewModel = (EditProjectsDialogViewModel)edit.FindResource("EditProjectsDialogViewModel");
-                await viewModel.GetProjects();
-
-                edit.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                MessageDialog.ShowError(ex, "EditProjectsDialog.ShowEditDialog()");
-            }
         }
     }
 }

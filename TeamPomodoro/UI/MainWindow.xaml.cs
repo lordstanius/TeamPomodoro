@@ -2,7 +2,6 @@
 using System.Media;
 using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using ViewModel;
@@ -40,8 +39,6 @@ namespace TeamPomodoro.UI
         private void OnPomodoroCompleted()
         {
             toggle.IsChecked = false;
-
-            if (_viewModel.ShouldShowWarning)
 
             if (!_viewModel.ShouldShowWarning)
             {
@@ -143,11 +140,6 @@ namespace TeamPomodoro.UI
             _viewModel.IsSwitchChecked = false;
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //Controller.Instance.UpdateGuiOnTaskChanged();
-        }
-
         private void OnClosed(object sender, EventArgs e)
         {
             _viewModel.Dispose();
@@ -158,9 +150,28 @@ namespace TeamPomodoro.UI
             }
         }
 
-        private void OnPomodorosClick(object sender, RoutedEventArgs e)
+        private async void OnPomodorosClick(object sender, RoutedEventArgs e)
         {
-            //Controller.Instance.ShowPomodoros();
+            Cursor = Cursors.Wait;
+            var dlg = new PomodoroDialog
+            {
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                DataContext = new PomodoroDialogViewModel()
+            };
+            
+            try
+            {
+                await dlg.Initialize();
+            }
+            catch (Exception ex)
+            {
+                MessageDialog.ShowError(ex, "MainWindow.OnPomodorosClick()");
+            }
+
+            dlg.ShowDialog();
+
+            Cursor = Cursors.Arrow;
         }
     }
 }

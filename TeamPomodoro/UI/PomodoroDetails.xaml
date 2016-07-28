@@ -24,12 +24,15 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="{x:Static g:Strings.TxtTaskName}" Margin="0,0,15,0"
                        VerticalAlignment="Center"/>
-            <ComboBox Grid.Column="1" Name="tasks" SelectionChanged="OnSelectionChanged"
+            <ComboBox Grid.Column="1" Name="tasks"
+                      ItemsSource="{Binding Tasks}"
+                      SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                       VerticalAlignment="Center"/>
         </Grid>
         <TextBlock Grid.Row="1"  Text="{x:Static g:Strings.TxtPomodoroes}" Margin="0,20,0,5"
                    VerticalAlignment="Center"/>
-        <ListView Grid.Row="2" Name="list" SelectionMode="Single">
+        <ListView Grid.Row="2" Name="list" SelectionMode="Single"
+                  ItemsSource="{Binding Pomodoros}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="20" DisplayMemberBinding="{Binding No}">

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace TeamPomodoro.UI.View
+namespace ViewModel.View
 {
     public class TaskView
     {

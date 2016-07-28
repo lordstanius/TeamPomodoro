@@ -33,7 +33,9 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{x:Static g:Strings.TxtUser}" VerticalAlignment="Center"
                            Margin="0,0,10,0" MinWidth="30"/>
-                <ComboBox Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}" 
+                <ComboBox Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"
+                          ItemsSource="{Binding Users}"
+                          SelectedItem="{Binding SelectedUserItem}"
                           Name="users"/>
             </Grid>
             <Grid Grid.Column="1">
@@ -45,6 +47,7 @@
                            Margin="40,0,10,0"/>
                 <DatePicker Name="date" Grid.Column="1"
                             Loaded="DateLoaded"
+                            SelectedDate="{Binding SelectedDate}"
                             Height="{x:Static local:Sizes.CommonHeight}"/>
             </Grid>
 
@@ -57,7 +60,9 @@
                            Margin="0,0,10,0" MinWidth="30"/>
                 <ComboBox Grid.Column="1"
                           Height="{x:Static local:Sizes.CommonHeight}"
-                          Name="teams"/>
+                          Name="teams"
+                          ItemsSource="{Binding Teams}"
+                          SelectedItem="{Binding SelectedTeamItem}"/>
                 <Label Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}" HorizontalAlignment="Left" VerticalAlignment="Center"
                          Padding="5,0,0,0"
                          VerticalContentAlignment="Center"
@@ -66,7 +71,9 @@
                          Height="{x:Static local:Sizes.CommonHeight}"/>
             </Grid>
         </Grid>
-        <ListView Grid.Row="1" SelectionMode="Single" Name="list">
+        <ListView Grid.Row="1" SelectionMode="Single" Name="list"
+                  ItemsSource="{Binding Tasks}"
+                  SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="125" DisplayMemberBinding="{Binding TaskName}">

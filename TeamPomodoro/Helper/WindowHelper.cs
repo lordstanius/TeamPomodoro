@@ -6,6 +6,11 @@ namespace TeamPomodoro.Helper
 {
     public static class WindowHelper
     {
+        public static string ApplicationVersion
+        {
+            get { return Strings.TxtTeamPomodoro + " " + Assembly.GetExecutingAssembly().GetName().Version; }
+        }
+
         /// <summary>
         /// Moves window as a response to non-client area mouse click and drag. 
         /// Use this method as a response to MouseMove event for a control to produce the result as if the window Title Bar is moved.
@@ -16,11 +21,6 @@ namespace TeamPomodoro.Helper
         {
             NativeMethods.ReleaseCapture();
             NativeMethods.SendMessage(hwnd, 0xA1, new IntPtr(0x2), IntPtr.Zero);
-        }
-
-        public static string ApplicationVersion
-        {
-            get { return Strings.TxtTeamPomodoro + " " + Assembly.GetExecutingAssembly().GetName().Version; }
         }
     }
 }

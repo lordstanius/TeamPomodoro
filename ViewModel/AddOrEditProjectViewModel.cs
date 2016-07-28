@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace ViewModel
 {
     public class AddOrEditProjectViewModel : INotifyPropertyChanged
     {
         private string _projectName;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string ProjectName
         {
@@ -23,22 +21,6 @@ namespace ViewModel
             {
                 _projectName = value;
                 OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private async void Save()
-        {
-            Controller.Instance.CurrentProject.Name = ProjectName;
-            await Controller.Instance.UnitOfWork.SaveChangesAsync();
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
@@ -64,6 +46,20 @@ namespace ViewModel
         public void InitializeValues()
         {
             ProjectName = Controller.Instance.CurrentProject.Name;
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private async void Save()
+        {
+            Controller.Instance.CurrentProject.Name = ProjectName;
+            await Controller.Instance.UnitOfWork.SaveChangesAsync();
         }
     }
 }

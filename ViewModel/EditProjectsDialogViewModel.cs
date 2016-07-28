@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace ViewModel
 {
@@ -14,6 +10,8 @@ namespace ViewModel
         private List<Model.Project> _projects;
         private object _selectedItem;
         private bool _canSelect;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public object SelectedItem
         {
@@ -56,16 +54,9 @@ namespace ViewModel
             }
         }
 
-        public Model.Project SelectedProject { get { return (Model.Project)_selectedItem; } }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public Model.Project SelectedProject
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            get { return (Model.Project)_selectedItem; }
         }
 
         public async Task DeleteProject()
@@ -79,6 +70,14 @@ namespace ViewModel
         public async Task GetProjects()
         {
             Projects = new List<Model.Project>(await Controller.Instance.UnitOfWork.ProjectsAsync.GetAllAsync());
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

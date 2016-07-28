@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using ViewModel.Globalization;
 using ViewModel;
+using ViewModel.Globalization;
 
 namespace TeamPomodoro.UI
 {

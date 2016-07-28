@@ -97,7 +97,7 @@ namespace ViewModel.Globalization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This task is completed. Increase the number of pomodoros for this task, or choose another task..
+        ///   Looks up a localized string similar to This task is completed. Choose another task, or  increase number of pomodoros for this one..
         /// </summary>
         public static string MsgTaskCompleted {
             get {

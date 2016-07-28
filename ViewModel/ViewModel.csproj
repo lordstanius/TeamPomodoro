@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\ExeCodeAnalysisConfig_V1.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,7 +51,8 @@
     <Compile Include="AddOrEditTaskViewModel.cs" />
     <Compile Include="EditProjectsDialogViewModel.cs" />
     <Compile Include="EditTeamsDialogViewModel.cs" />
-    <Compile Include="RelayCommand.cs" />
+    <Compile Include="PomodoroDetailsViewModel.cs" />
+    <Compile Include="PomodoroDialogViewModel.cs" />
     <Compile Include="EditTasksDialogViewModel.cs" />
     <Compile Include="Globalization\Strings.Designer.cs">
       <DependentUpon>Strings.resx</DependentUpon>
@@ -64,6 +66,7 @@
     <Compile Include="SignInViewModel.cs" />
     <Compile Include="UserDetailsViewModel.cs" />
     <Compile Include="Util\Crypto.cs" />
+    <Compile Include="View\PomodoroView.cs" />
     <Compile Include="View\TaskView.cs" />
   </ItemGroup>
   <ItemGroup>
