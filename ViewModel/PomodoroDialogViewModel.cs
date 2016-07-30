@@ -19,9 +19,9 @@ namespace ViewModel
         private bool _isTeamsEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public event Action UpdateStarted;
-        public event Action UpdateFinished;
-        public event Action<Exception> ExceptionThrown;
+        public event EventHandler UpdateStarted;
+        public event EventHandler UpdateFinished;
+        public event EventHandler<System.IO.ErrorEventArgs> ExceptionThrown;
 
         public ICollection<Model.User> Users
         {
@@ -146,7 +146,7 @@ namespace ViewModel
         {
             if (UpdateStarted != null)
             {
-                UpdateStarted();
+                UpdateStarted(this, EventArgs.Empty);
             }
 
             var user = (Model.User)SelectedUserItem;
@@ -187,14 +187,14 @@ namespace ViewModel
             {
                 if (ExceptionThrown != null)
                 {
-                    ExceptionThrown(ex);
+                    ExceptionThrown(this, new System.IO.ErrorEventArgs(ex));
                 }
             }
 
             OnPropertyChanged("Tasks");
             if (UpdateFinished != null)
             {
-                UpdateFinished();
+                UpdateFinished(this, EventArgs.Empty);
             }
         }
     }
