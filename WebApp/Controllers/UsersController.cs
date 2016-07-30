@@ -49,6 +49,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Post(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

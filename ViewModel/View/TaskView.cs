@@ -5,14 +5,17 @@ namespace ViewModel.View
 {
     public class TaskView
     {
-        public TaskView(Model.Task t)
+        public TaskView(Model.Task task)
         {
-            TaskName = t.Name;
-            Successful = t.Pomodoroes.Count(p => p.IsSuccessfull == true);
-            Failed = t.Pomodoroes.Count(p => p.IsSuccessfull == false);
-            Total = t.PomodoroCount - t.Pomodoroes.Count;
-            Duration = TimeSpan.FromMinutes(t.Pomodoroes.Sum(p => p.DurationInMin)).ToString("mm\\:ss");
-            Task = t;
+            if (task != null)
+            {
+                TaskName = task.Name;
+                Successful = task.Pomodoroes.Count(p => p.IsSuccessfull == true);
+                Failed = task.Pomodoroes.Count(p => p.IsSuccessfull == false);
+                Total = task.PomodoroCount - task.Pomodoroes.Count;
+                Duration = TimeSpan.FromMinutes(task.Pomodoroes.Sum(p => p.DurationInMin)).ToString("mm\\:ss");
+                Task = task;
+            }
         }
 
         public string TaskName { get; private set; }

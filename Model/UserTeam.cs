@@ -20,7 +20,7 @@ namespace Model
 
         public bool Equals(UserTeam other)
         {
-            return other.UserTeamId == UserTeamId;
+            return other != null ? other.UserTeamId == UserTeamId : false;
         }
 
         public override int GetHashCode()
@@ -28,9 +28,9 @@ namespace Model
             return BitConverter.ToInt32(UserTeamId.ToByteArray(), 0);
         }
 
-        public Guid GetId()
+        public Guid Id
         {
-            return UserTeamId;
+            get { return UserTeamId; }
         }
     }
 }

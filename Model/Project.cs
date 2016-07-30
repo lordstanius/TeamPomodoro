@@ -21,7 +21,7 @@ namespace Model
 
         public bool Equals(Project other)
         {
-            return other.ProjectId == ProjectId;
+            return other != null ? other.ProjectId == ProjectId : false;
         }
 
         public override int GetHashCode()
@@ -34,9 +34,9 @@ namespace Model
             return Name;
         }
 
-        public Guid GetId()
+        public Guid Id
         {
-            return ProjectId;
+            get { return ProjectId; }
         }
     }
 }

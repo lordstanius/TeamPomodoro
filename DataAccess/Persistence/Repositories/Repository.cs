@@ -34,7 +34,7 @@ namespace DataAccess.Persistence.Repositories
 
         public TEntity GetById(Guid id)
         {
-            return AllEntities.Where(e => e.GetId() == id).FirstOrDefault();
+            return AllEntities.Where(e => e.Id == id).FirstOrDefault();
         }
 
         public IEnumerable<TEntity> GetAll()
@@ -94,7 +94,7 @@ namespace DataAccess.Persistence.Repositories
         {
             Entities.Remove(entity);
 
-            using (HttpResponseMessage message = await _client.DeleteAsync(Uri + entity.GetId()))
+            using (HttpResponseMessage message = await _client.DeleteAsync(Uri + entity.Id))
             {
                 if (message.StatusCode != HttpStatusCode.OK)
                 {

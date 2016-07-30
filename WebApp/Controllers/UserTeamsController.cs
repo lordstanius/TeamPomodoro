@@ -36,6 +36,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PostUserTeam(UserTeam userTeam)
         {
+            if (userTeam == null)
+            {
+                throw new ArgumentNullException("userTeam");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -64,6 +69,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(UserTeam))]
         public IHttpActionResult PutUserTeam(UserTeam userTeam)
         {
+            if (userTeam != null)
+            {
+                throw new ArgumentNullException("userTeam");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

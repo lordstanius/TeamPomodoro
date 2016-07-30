@@ -36,6 +36,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PostTeam(Team team)
         {
+            if (team == null)
+            {
+                throw new ArgumentNullException("team");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

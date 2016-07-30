@@ -28,7 +28,7 @@ namespace Model
 
         public bool Equals(Task other)
         {
-            return other.TaskId == TaskId;
+            return other != null ? other.TaskId == TaskId : false;
         }
 
         public override int GetHashCode()
@@ -41,9 +41,9 @@ namespace Model
             return Name;
         }
 
-        public Guid GetId()
+        public Guid Id
         {
-            return TaskId;
+            get { return TaskId; }
         }
     }
 }

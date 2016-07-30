@@ -20,7 +20,7 @@ namespace Model
 
         public bool Equals(Pomodoro other)
         {
-            return other.PomodoroId == PomodoroId;
+            return other != null ? other.PomodoroId == PomodoroId : false;
         }
 
         public override int GetHashCode()
@@ -28,9 +28,9 @@ namespace Model
             return BitConverter.ToInt32(PomodoroId.ToByteArray(), 0);
         }
 
-        public Guid GetId()
+        public Guid Id
         {
-            return PomodoroId;
+            get { return PomodoroId; }
         }
     }
 }

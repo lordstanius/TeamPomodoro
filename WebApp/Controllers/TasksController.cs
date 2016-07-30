@@ -47,6 +47,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PostTask(Task task)
         {
+            if (task == null)
+            {
+                throw new ArgumentNullException("task");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -75,6 +80,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(Task))]
         public IHttpActionResult PutTask(Task task)
         {
+            if (task == null)
+            {
+                throw new ArgumentNullException("task");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

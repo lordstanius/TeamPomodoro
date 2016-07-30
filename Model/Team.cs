@@ -22,7 +22,7 @@ namespace Model
 
         public bool Equals(Team other)
         {
-            return other.TeamId == TeamId;
+            return other != null ? other.TeamId == TeamId : false;
         }
 
         public override int GetHashCode()
@@ -35,9 +35,9 @@ namespace Model
             return Name;
         }
 
-        public Guid GetId()
+        public Guid Id
         {
-            return TeamId;
+            get { return TeamId; }
         }
     }
 }

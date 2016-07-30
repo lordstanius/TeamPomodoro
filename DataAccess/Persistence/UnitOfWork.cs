@@ -107,17 +107,6 @@ namespace DataAccess.Persistence
         public int SaveChanges()
         {
             throw new NotImplementedException();
-            
-            //// following is not tested
-            ////int count = 0;
-            ////count += SaveChanges(_tasksRepo);
-            ////count += SaveChanges(_usersRepo);
-            ////count += SaveChanges(_teamsRepo);
-            ////count += SaveChanges(_projectsRepo);
-            ////count += SaveChanges(_pomodoroesRepo);
-            ////count += SaveChanges(_userTeamsRepo);
-
-            ////return count;
         }
 
         public async System.Threading.Tasks.Task<int> SaveChangesAsync()
@@ -150,15 +139,6 @@ namespace DataAccess.Persistence
             }
 
             _isDisposed = true;
-        }
-
-        private int SaveChanges<TEntity>(Repository<TEntity> repo) where TEntity : IEntity
-        {
-            throw new NotImplementedException();
-            //// following is not tested
-            ////var task = SaveChangesAsync(repo);
-            ////task.Wait();
-            ////return task.Result;
         }
 
         private async System.Threading.Tasks.Task<int> SaveChangesAsync<TEntity>(Repository<TEntity> repo) where TEntity : IEntity

@@ -97,8 +97,8 @@ namespace ViewModel
             {
                 _selectedTask = value;
                 Controller.Instance.CurrentTask = 
-                    value == null ?
-                    ((View.TaskView)SelectedTask).Task :
+                    value != null ?
+                    ((View.TaskView)value).Task :
                     null;
 
                 OnPropertyChanged();

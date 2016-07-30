@@ -8,12 +8,12 @@ namespace TeamPomodoro.UI.Converter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString();
+            return value != null ? value.ToString() : string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return int.Parse(value.ToString());
+            return value != null ? int.Parse(value.ToString()) : 0;
         }
     }
 }

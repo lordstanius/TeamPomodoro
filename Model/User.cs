@@ -30,7 +30,7 @@ namespace Model
 
         public bool Equals(User other)
         {
-            return other.UserId == UserId;
+            return other != null ? other.UserId == UserId : false;
         }
 
         public override int GetHashCode()
@@ -43,9 +43,9 @@ namespace Model
             return UserName;
         }
 
-        public Guid GetId()
+        public Guid Id
         {
-            return UserId;
+            get { return UserId; }
         }
     }
 }
