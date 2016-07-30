@@ -37,7 +37,7 @@ namespace TeamPomodoro.UI
                     return;
                 }
 
-                bool? result = await viewModel.GetUser();
+                bool? result = await viewModel.LoadUser();
                 if (result == true)
                 {
                     DialogResult = true;

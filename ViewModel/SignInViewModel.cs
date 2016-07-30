@@ -10,7 +10,7 @@ namespace ViewModel
 
         public SecureString Password { get; set; }
 
-        public Task<bool?> GetUser()
+        public Task<bool?> LoadUser()
         {
             return Controller.Instance.LoadUser(UserName, Password);
         }

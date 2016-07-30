@@ -7,7 +7,7 @@ namespace ViewModel
 {
     public class EditProjectsDialogViewModel : INotifyPropertyChanged
     {
-        private List<Model.Project> _projects;
+        private ICollection<Model.Project> _projects;
         private object _selectedItem;
         private bool _canSelect;
 
@@ -41,7 +41,7 @@ namespace ViewModel
             }
         }
 
-        public List<Model.Project> Projects
+        public ICollection<Model.Project> Projects
         {
             get { return _projects; }
         }
