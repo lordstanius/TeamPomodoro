@@ -51,7 +51,6 @@ namespace ViewModel
         public Model.Pomodoro CurrentPomodoro
         {
             get { return _currentPomodoro; }
-            set { _currentPomodoro = value; }
         }
 
         public NetworkCredential UserCredential { get; private set; }

@@ -55,11 +55,5 @@ namespace ViewModel
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
-        private async void Save()
-        {
-            Controller.Instance.CurrentProject.Name = ProjectName;
-            await Controller.Instance.UnitOfWork.SaveChangesAsync();
-        }
     }
 }
