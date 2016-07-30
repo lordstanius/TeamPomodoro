@@ -30,7 +30,7 @@ namespace TeamPomodoro.UI
             };
 
             var viewModel = (AddOrEditTaskViewModel)edit.FindResource("AddOrEditTaskViewModel");
-            await viewModel.GetProjects();
+            await viewModel.LoadProjects();
 
             edit.projects.DropDownClosed += (o, a) => edit.task.Focus();
             edit.task.Focus();
@@ -40,7 +40,7 @@ namespace TeamPomodoro.UI
                 viewModel.InitializeValues();
                 edit.task.SelectAll();
 
-                edit.numPomodoros.Minimum = viewModel.GetMinPomodoroCount();
+                edit.numPomodoros.Minimum = viewModel.MinPomodoroCount;
             }
 
             edit.ShowDialog();

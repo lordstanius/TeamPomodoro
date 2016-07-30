@@ -46,7 +46,11 @@
     <Compile Include="Persistence\Repositories\Repository.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{47683ce5-c03f-41fc-94ea-dbccc71fefde}</Project>

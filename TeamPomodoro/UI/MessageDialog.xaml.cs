@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -76,9 +77,14 @@ namespace TeamPomodoro.UI
                 caption = Strings.TxtError;
             }
 
+            if (ex == null)
+            {
+                return false;
+            }
+
             var viewModel = new MessageDialogViewModel();
             viewModel.WriteLog(message, ex);
-            return Show(null, string.Format("{0}: {1} {2}", message, ex.Message, Strings.TxtSeeLogForDetails), caption, false, showCancel, true);
+            return Show(null, string.Format(CultureInfo.InvariantCulture, "{0}: {1} {2}", message, ex.Message, Strings.TxtSeeLogForDetails), caption, false, showCancel, true);
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)

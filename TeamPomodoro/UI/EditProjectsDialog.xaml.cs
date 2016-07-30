@@ -28,7 +28,7 @@ namespace TeamPomodoro.UI
                 };
 
                 var viewModel = (EditProjectsDialogViewModel)edit.FindResource("EditProjectsDialogViewModel");
-                await viewModel.GetProjects();
+                await viewModel.LoadProjects();
 
                 edit.ShowDialog();
             }
@@ -64,7 +64,7 @@ namespace TeamPomodoro.UI
             {
                 AddOrEditProject.ShowEditDialog(this, true);
                 var viewModel = (EditProjectsDialogViewModel)FindResource("EditProjectsDialogViewModel");
-                await viewModel.GetProjects();
+                await viewModel.LoadProjects();
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace TeamPomodoro.UI
             {
                 AddOrEditProject.ShowEditDialog(this, false);
                 var viewModel = (EditProjectsDialogViewModel)FindResource("EditProjectsDialogViewModel");
-                await viewModel.GetProjects();
+                await viewModel.LoadProjects();
             }
             catch (Exception ex)
             {

@@ -9,6 +9,7 @@ using NLog.Config;
 using NLog.Targets;
 using ViewModel.Globalization;
 using ViewModel.Util;
+using System.Globalization;
 
 namespace ViewModel
 {
@@ -57,16 +58,30 @@ namespace ViewModel
 
         public bool IsTaskCompleted
         {
-            get { return CurrentTask.PomodoroCount == CurrentTask.Pomodoroes.Count; }
+            get
+            {
+                if (CurrentTask == null || CurrentTask.Pomodoroes == null)
+                {
+                    return false;
+                }
+
+                return CurrentTask.PomodoroCount == CurrentTask.Pomodoroes.Count;
+            }
         }
 
         public string PomodoroXofY
         {
             get
             {
+                if (CurrentTask == null || CurrentTask.Pomodoroes == null)
+                {
+                    return string.Empty;
+                }
+
                 return string.Format(
+                                 CultureInfo.CurrentCulture,
                                  Strings.TxtPomodoroXofY,
-                                 CurrentTask != null ? CurrentTask.Pomodoroes.Count : 0,
+                                 CurrentTask.Pomodoroes.Count,
                                  CurrentTask.PomodoroCount);
             }
         }
@@ -79,7 +94,7 @@ namespace ViewModel
         /// <summary>
         /// Get user and return dialog result to calling dialog.
         /// </summary>
-        public async Task<bool?> GetUser(string userName, SecureString password)
+        public async Task<bool?> LoadUser(string userName, SecureString password)
         {
             foreach (var user in await UnitOfWork.UsersAsync.GetAllAsync())
             {
@@ -163,6 +178,8 @@ namespace ViewModel
             {
                 UnitOfWork.Dispose();
             }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

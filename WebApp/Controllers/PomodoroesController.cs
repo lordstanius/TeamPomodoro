@@ -37,6 +37,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PostPomodoro(Pomodoro pomodoro)
         {
+            if (pomodoro == null)
+            {
+                throw new ArgumentNullException("pomodoro");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -65,6 +70,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(Pomodoro))]
         public IHttpActionResult PutPomodoro(Pomodoro pomodoro)
         {
+            if (pomodoro == null)
+            {
+                throw new ArgumentNullException("pomodoro");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

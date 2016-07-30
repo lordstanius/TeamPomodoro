@@ -33,7 +33,7 @@
             <ComboBox Name="projects" Grid.Column="1" Height="{x:Static local:Sizes.CommonHeight}"
                       IsEnabled="{Binding IsProjectsEnabled, Source={StaticResource AddOrEditTaskViewModel}}"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay, Source={StaticResource AddOrEditTaskViewModel}}"
-                      ItemsSource="{Binding Projects, Mode=TwoWay, Source={StaticResource AddOrEditTaskViewModel}}"/>
+                      ItemsSource="{Binding Projects, Source={StaticResource AddOrEditTaskViewModel}}"/>
             <Label Name="lChoose" Grid.Column="1" Content="{x:Static g:Strings.TxtChoose}"
                    Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
                    Padding="5,0,0,0"

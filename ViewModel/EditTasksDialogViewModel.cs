@@ -7,7 +7,7 @@ namespace ViewModel
 {
     public class EditTasksDialogViewModel : INotifyPropertyChanged
     {
-        private List<Model.Task> _tasks;
+        private ICollection<Model.Task> _tasks;
         private object _selectedItem;
         private bool _canSelect;
 
@@ -41,17 +41,9 @@ namespace ViewModel
             }
         }
 
-        public List<Model.Task> Tasks
+        public ICollection<Model.Task> Tasks
         {
-            get
-            {
-                return _tasks;
-            }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
-            }
+            get { return _tasks; }
         }
 
         public Model.Task SelectedTask
@@ -64,13 +56,15 @@ namespace ViewModel
             var task = (Model.Task)SelectedItem;
             await Controller.Instance.UnitOfWork.TasksAsync.RemoveAsync(task);
 
-            Tasks.Remove(task);
+            _tasks.Remove(task);
+            OnPropertyChanged("Tasks");
         }
 
-        public async Task GetTasks()
+        public async Task LoadTasks()
         {
             var user = await Controller.Instance.UnitOfWork.UsersAsync.GetAsync(Controller.Instance.User.UserId);
-            Tasks = new List<Model.Task>(user.Tasks);
+            _tasks = new List<Model.Task>(user.Tasks);
+            OnPropertyChanged("Tasks");
             if (Controller.Instance.CurrentTask != null)
             {
                 SelectedItem = Controller.Instance.CurrentTask;

@@ -8,23 +8,15 @@ namespace ViewModel
 {
     public class PomodoroDetailsViewModel : INotifyPropertyChanged
     {
-        private List<Model.Task> _tasks;
-        private List<View.PomodoroView> _pomodoros;
+        private ICollection<Model.Task> _tasks = new List<Model.Task>();
+        private ICollection<View.PomodoroView> _pomodoros = new List<View.PomodoroView>();
         private object _selectedItem;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        public List<Model.Task> Tasks
+
+        public ICollection<Model.Task> Tasks
         {
-            get
-            {
-                return _tasks;
-            }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
-            }
+            get { return _tasks; }
         }
 
         public object SelectedItem
@@ -42,31 +34,22 @@ namespace ViewModel
             }
         }
 
-        public List<View.PomodoroView> Pomodoros
+        public ICollection<View.PomodoroView> Pomodoros
         {
-            get
-            {
-                return _pomodoros;
-            }
-
-            set
-            {
-                _pomodoros = value;
-                OnPropertyChanged();
-            }
+            get { return _pomodoros; }
         }
 
         public async Task Initialize()
         {
-            var items = new List<Model.Task>();
+            _tasks.Clear();
             foreach (var item in Controller.Instance.UnitOfWork.Tasks.GetAll())
             {
                 var task = await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(item.TaskId);
-                items.Add(task);
+                _tasks.Add(task);
             }
 
-            Tasks = items;
-            SelectedItem = items.FirstOrDefault(t => t.Equals(Controller.Instance.CurrentTask));
+            SelectedItem = _tasks.FirstOrDefault(t => t.Equals(Controller.Instance.CurrentTask));
+            OnPropertyChanged("Tasks");
 
             if (SelectedItem != null)
             {
@@ -87,14 +70,14 @@ namespace ViewModel
             var task = (Model.Task)SelectedItem;
             Controller.Instance.CurrentTask = task;
 
-            var items = new List<View.PomodoroView>(task.Pomodoroes.Count);
+            _pomodoros.Clear();
             int i = 0;
             foreach (var pomodoro in task.Pomodoroes)
             {
-                items.Add(new View.PomodoroView(pomodoro) { No = ++i });
+                _pomodoros.Add(new View.PomodoroView(pomodoro) { No = ++i });
             }
 
-            Pomodoros = items;
+            OnPropertyChanged("Pomodoros");
         }
     }
 }

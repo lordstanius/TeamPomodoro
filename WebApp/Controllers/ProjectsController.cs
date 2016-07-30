@@ -77,6 +77,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(Project))]
         public IHttpActionResult PutProject(Project project)
         {
+            if (project == null)
+            {
+                throw new ArgumentNullException("project");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

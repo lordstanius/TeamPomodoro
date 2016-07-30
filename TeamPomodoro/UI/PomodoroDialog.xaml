@@ -72,8 +72,8 @@
             </Grid>
         </Grid>
         <ListView Grid.Row="1" SelectionMode="Single" Name="list"
-                  ItemsSource="{Binding Tasks}"
-                  SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
+                  SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
+                  ItemsSource="{Binding Tasks}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="125" DisplayMemberBinding="{Binding TaskName}">

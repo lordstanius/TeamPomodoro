@@ -28,7 +28,7 @@ namespace TeamPomodoro.UI
                 };
 
                 var viewModel = (EditTeamsDialogViewModel)edit.FindResource("EditTeamsDialogViewModel");
-                await viewModel.GetTeams();
+                await viewModel.LoadTeams();
 
                 edit.ShowDialog();
             }
@@ -64,7 +64,7 @@ namespace TeamPomodoro.UI
             {
                 AddOrEditTeam.ShowEditDialog(this, true);
                 var viewModel = (EditTeamsDialogViewModel)FindResource("EditTeamsDialogViewModel");
-                await viewModel.GetTeams();
+                await viewModel.LoadTeams();
             }
             catch (Exception ex)
             {
@@ -80,7 +80,7 @@ namespace TeamPomodoro.UI
             {
                 AddOrEditTeam.ShowEditDialog(this, false);
                 var viewModel = (EditTeamsDialogViewModel)FindResource("EditTeamsDialogViewModel");
-                await viewModel.GetTeams();
+                await viewModel.LoadTeams();
             }
             catch (Exception ex)
             {

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <ListBox Margin="0,10,0,10" SelectionMode="Single" Name="list"
                  SelectedItem="{Binding SelectedItem, Source={StaticResource EditTasksDialogViewModel}}"
-                 ItemsSource="{Binding Tasks, Mode=TwoWay, Source={StaticResource EditTasksDialogViewModel}}"/>
+                 ItemsSource="{Binding Tasks, Source={StaticResource EditTasksDialogViewModel}}"/>
         <Button Grid.Row="1" Height="{x:Static local:Sizes.CommonHeight}" 
                 MinWidth="60"
                 Padding="10,0,10,0"

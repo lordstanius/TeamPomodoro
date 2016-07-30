@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
 
 namespace WebApp
 {
@@ -6,6 +7,9 @@ namespace WebApp
     {
         public static void Register(HttpConfiguration config)
         {
+            if (config == null)
+                throw new ArgumentNullException("config");
+
             // Web API configuration and services
 
             // Web API routes

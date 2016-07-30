@@ -69,6 +69,11 @@ namespace WebApp.Controllers
         [ResponseType(typeof(Team))]
         public IHttpActionResult PutTeam(Team team)
         {
+            if (team == null)
+            {
+                throw new ArgumentNullException("team");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -9,9 +9,9 @@ namespace ViewModel
 {
     public class PomodoroDialogViewModel : INotifyPropertyChanged
     {
-        private List<Model.User> _users;
-        private List<Model.Team> _teams;
-        private List<View.TaskView> _tasks;
+        private ICollection<Model.User> _users;
+        private ICollection<Model.Team> _teams;
+        private ICollection<View.TaskView> _taskViews = new List<View.TaskView>();
         private object _selectedUserItem;
         private object _selectedTeamItem;
         private object _selectedTask;
@@ -19,44 +19,23 @@ namespace ViewModel
         private bool _isTeamsEnabled;
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action UpdateStarted;
+        public event Action UpdateFinished;
+        public event Action<Exception> ExceptionThrown;
 
-        public List<Model.User> Users
+        public ICollection<Model.User> Users
         {
-            get
-            {
-                return _users;
-            }
-            set
-            {
-                _users = value;
-                OnPropertyChanged();
-            }
+            get { return _users; }
         }
 
-        public List<Model.Team> Teams
+        public ICollection<Model.Team> Teams
         {
-            get
-            {
-                return _teams;
-            }
-            set
-            {
-                _teams = value;
-                OnPropertyChanged();
-            }
+            get { return _teams; }
         }
 
-        public List<View.TaskView> Tasks
+        public ICollection<View.TaskView> Tasks
         {
-            get
-            {
-                return _tasks;
-            }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
-            }
+            get { return _taskViews; }
         }
 
         public object SelectedUserItem
@@ -96,7 +75,7 @@ namespace ViewModel
             set
             {
                 _selectedTask = value;
-                Controller.Instance.CurrentTask = 
+                Controller.Instance.CurrentTask =
                     value != null ?
                     ((View.TaskView)value).Task :
                     null;
@@ -134,18 +113,24 @@ namespace ViewModel
 
         public async Task Initialize()
         {
-            Users = new List<Model.User>(await Controller.Instance.UnitOfWork.UsersAsync.GetAllAsync());
-            Teams = new List<Model.Team>(await Controller.Instance.UnitOfWork.TeamsAsync.GetAllAsync());
+            _users = new List<Model.User>(await Controller.Instance.UnitOfWork.UsersAsync.GetAllAsync());
+            _teams = new List<Model.Team>(await Controller.Instance.UnitOfWork.TeamsAsync.GetAllAsync());
+
+            OnPropertyChanged("Users");
+            OnPropertyChanged("Teams");
 
             // pre-load tasks data to speed up filtering
             await Controller.Instance.UnitOfWork.TasksAsync.GetAllAsync();
 
-            SelectedUserItem = Controller.Instance.User;
-            SelectedTeamItem = Controller.Instance.User.TeamId.HasValue ?
+            _selectedUserItem = Controller.Instance.User;
+            _selectedTeamItem = Controller.Instance.User.TeamId.HasValue ?
                                   Controller.Instance.UnitOfWork.Teams.GetById(Controller.Instance.User.TeamId.Value) :
                                   null;
+            OnPropertyChanged("SelectedUserItem");
+            OnPropertyChanged("SelectedTeamItem");
 
             IsTeamsEnabled = Teams.Count > 0;
+
             UpdateTasks();
         }
 
@@ -159,6 +144,11 @@ namespace ViewModel
 
         private async void UpdateTasks()
         {
+            if (UpdateStarted != null)
+            {
+                UpdateStarted();
+            }
+
             var user = (Model.User)SelectedUserItem;
             var team = (Model.Team)SelectedTeamItem;
 
@@ -171,28 +161,41 @@ namespace ViewModel
                         where task.UserId == user.UserId && task.TeamId == team.TeamId
                         select task;
 
-            var items = new List<View.TaskView>(tasks.Count());
+            _taskViews.Clear();
 
-            // TODO: What about exception handling?
-            foreach (var task in tasks)
+            try
             {
-                var t = await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId);
-
-                if (t.Pomodoroes == null || t.Pomodoroes.Count == 0)
+                foreach (var task in tasks)
                 {
-                    continue;
-                }
+                    var t = await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId);
 
-                if (SelectedDate != null &&
-                    t.Pomodoroes.First().StartTime.Value.Date != (DateTime)SelectedDate)
+                    if (t.Pomodoroes == null || t.Pomodoroes.Count == 0)
+                    {
+                        continue;
+                    }
+
+                    if (SelectedDate != null &&
+                        t.Pomodoroes.First().StartTime.Value.Date != (DateTime)SelectedDate)
+                    {
+                        continue;
+                    }
+
+                    _taskViews.Add(new View.TaskView(t));
+                }
+            }
+            catch (Exception ex)
+            {
+                if (ExceptionThrown != null)
                 {
-                    continue;
+                    ExceptionThrown(ex);
                 }
-
-                items.Add(new View.TaskView(t));
             }
 
-            Tasks = items;
+            OnPropertyChanged("Tasks");
+            if (UpdateFinished != null)
+            {
+                UpdateFinished();
+            }
         }
     }
 }

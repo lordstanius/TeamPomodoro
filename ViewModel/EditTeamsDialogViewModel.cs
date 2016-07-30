@@ -7,7 +7,7 @@ namespace ViewModel
 {
     public class EditTeamsDialogViewModel : INotifyPropertyChanged
     {
-        private List<Model.Team> _teams;
+        private ICollection<Model.Team> _teams;
         private object _selectedItem;
         private bool _canSelect;
 
@@ -41,17 +41,9 @@ namespace ViewModel
             }
         }
 
-        public List<Model.Team> Teams
+        public ICollection<Model.Team> Teams
         {
-            get
-            {
-                return _teams;
-            }
-            set
-            {
-                _teams = value;
-                OnPropertyChanged();
-            }
+            get { return _teams; }
         }
 
         public Model.Team SelectedTeam
@@ -64,12 +56,14 @@ namespace ViewModel
             var team = (Model.Team)SelectedItem;
             await Controller.Instance.UnitOfWork.TeamsAsync.RemoveAsync(team);
 
-            Teams.Remove(team);
+            _teams.Remove(team);
+            OnPropertyChanged("Teams");
         }
 
-        public async Task GetTeams()
+        public async Task LoadTeams()
         {
-            Teams = new List<Model.Team>(await Controller.Instance.UnitOfWork.TeamsAsync.GetAllAsync());
+            _teams = new List<Model.Team>(await Controller.Instance.UnitOfWork.TeamsAsync.GetAllAsync());
+            OnPropertyChanged("Teams");
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

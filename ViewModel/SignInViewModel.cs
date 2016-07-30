@@ -12,7 +12,7 @@ namespace ViewModel
 
         public Task<bool?> GetUser()
         {
-            return Controller.Instance.GetUser(UserName, Password);
+            return Controller.Instance.LoadUser(UserName, Password);
         }
 
         public bool ValidateUser(string userName)

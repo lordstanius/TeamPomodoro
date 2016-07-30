@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
@@ -11,35 +12,35 @@ namespace ViewModel.Util
         /// <summary>
         /// Returns SHA256 hash as string of 64 hexadecimal digits for the specified SecureString
         /// </summary>
-        public static string GetHashString(this SecureString s)
+        public static string GetHashString(this SecureString value)
         {
-            return GetHashString(s.GetString());
+            return GetHashString(value.GetString());
         }
 
         /// <summary>
         /// Returns SHA256 hash as string of 64 hexadecimal digits for the specified string
         /// </summary>
-        public static string GetHashString(this string s)
+        public static string GetHashString(this string value)
         {
             StringBuilder sb = new StringBuilder(64);
             using (var sha = new SHA256Managed())
             {
-                byte[] hash = sha.ComputeHash(Encoding.Unicode.GetBytes(s));
+                byte[] hash = sha.ComputeHash(Encoding.Unicode.GetBytes(value));
                 foreach (byte b in hash)
                 {
-                    sb.Append(b.ToString("X2"));
+                    sb.Append(b.ToString("X2", CultureInfo.InvariantCulture));
                 }
             }
 
             return sb.ToString();
         }
 
-        public static string GetString(this SecureString s)
+        public static string GetString(this SecureString value)
         {
             IntPtr ptr = IntPtr.Zero;
             try
             {
-                ptr = Marshal.SecureStringToGlobalAllocUnicode(s);
+                ptr = Marshal.SecureStringToGlobalAllocUnicode(value);
                 return Marshal.PtrToStringUni(ptr);
             }
             finally

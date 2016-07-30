@@ -23,6 +23,17 @@ namespace TeamPomodoro.UI
         public async Task Initialize()
         {
             var viewModel = DataContext as PomodoroDialogViewModel;
+            viewModel.UpdateStarted += ()=> Cursor = Cursors.Wait;
+            viewModel.UpdateFinished += () =>
+            {
+                Cursor = Cursors.Arrow;
+                list.Items.Refresh();
+            };
+            viewModel.ExceptionThrown += (ex) =>
+            {
+                MessageDialog.ShowError(ex, ex.Message);
+            };
+
             await viewModel.Initialize();
         }
 

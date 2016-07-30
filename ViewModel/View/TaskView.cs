@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace ViewModel.View
@@ -13,7 +14,7 @@ namespace ViewModel.View
                 Successful = task.Pomodoroes.Count(p => p.IsSuccessfull == true);
                 Failed = task.Pomodoroes.Count(p => p.IsSuccessfull == false);
                 Total = task.PomodoroCount - task.Pomodoroes.Count;
-                Duration = TimeSpan.FromMinutes(task.Pomodoroes.Sum(p => p.DurationInMin)).ToString("mm\\:ss");
+                Duration = TimeSpan.FromMinutes(task.Pomodoroes.Sum(p => p.DurationInMin)).ToString("mm\\:ss", CultureInfo.CurrentCulture);
                 Task = task;
             }
         }

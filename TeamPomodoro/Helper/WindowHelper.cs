@@ -16,11 +16,11 @@ namespace TeamPomodoro.Helper
         /// Use this method as a response to MouseMove event for a control to produce the result as if the window Title Bar is moved.
         /// This method does not send information about current window position.
         /// </summary>
-        /// <param name="hwnd">Handle to target window</param>
-        public static void Move(IntPtr hwnd)
+        /// <param name="handle">Handle to target window</param>
+        public static void Move(IntPtr handle)
         {
             NativeMethods.ReleaseCapture();
-            NativeMethods.SendMessage(hwnd, 0xA1, new IntPtr(0x2), IntPtr.Zero);
+            NativeMethods.SendMessage(handle, 0xA1, new IntPtr(0x2), IntPtr.Zero);
         }
     }
 }

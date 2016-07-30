@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace ViewModel
 {
     public class AddOrEditTaskViewModel : INotifyPropertyChanged
     {
-        private List<Model.Project> _projects;
+        private ICollection<Model.Project> _projects;
         private object _selectedItem;
         private bool _isProjectsEnabled;
         private string _taskName;
@@ -16,17 +17,9 @@ namespace ViewModel
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public List<Model.Project> Projects
+        public ICollection<Model.Project> Projects
         {
-            get
-            {
-                return _projects;
-            }
-            set
-            {
-                _projects = value;
-                OnPropertyChanged();
-            }
+            get { return _projects; }
         }
 
         public object SelectedItem
@@ -68,6 +61,11 @@ namespace ViewModel
             }
         }
 
+        public int MinPomodoroCount
+        {
+            get { return Controller.Instance.CurrentTask.PomodoroCount; }
+        }
+
         public bool IsProjectsEnabled
         {
             get
@@ -81,16 +79,12 @@ namespace ViewModel
             }
         }
 
-        public async Task GetProjects()
+        public async Task LoadProjects()
         {
             var projects = await Controller.Instance.UnitOfWork.ProjectsAsync.GetAllAsync();
-            Projects = new List<Model.Project>(projects);
-            IsProjectsEnabled = Projects.Count > 0;
-        }
-
-        public int GetMinPomodoroCount()
-        {
-            return Controller.Instance.CurrentTask.PomodoroCount;
+            _projects = new List<Model.Project>(projects);
+            OnPropertyChanged("Projects");
+            IsProjectsEnabled = _projects.Count > 0;
         }
 
         public void InitializeValues()

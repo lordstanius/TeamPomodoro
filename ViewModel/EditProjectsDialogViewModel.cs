@@ -43,15 +43,7 @@ namespace ViewModel
 
         public List<Model.Project> Projects
         {
-            get
-            {
-                return _projects;
-            }
-            set
-            {
-                _projects = value;
-                OnPropertyChanged();
-            }
+            get { return _projects; }
         }
 
         public Model.Project SelectedProject
@@ -64,12 +56,14 @@ namespace ViewModel
             var team = (Model.Project)SelectedItem;
             await Controller.Instance.UnitOfWork.ProjectsAsync.RemoveAsync(team);
 
-            Projects.Remove(team);
+            _projects.Remove(team);
+            OnPropertyChanged("Projects");
         }
 
-        public async Task GetProjects()
+        public async Task LoadProjects()
         {
-            Projects = new List<Model.Project>(await Controller.Instance.UnitOfWork.ProjectsAsync.GetAllAsync());
+            _projects = new List<Model.Project>(await Controller.Instance.UnitOfWork.ProjectsAsync.GetAllAsync());
+            OnPropertyChanged("Projects");
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace ViewModel
@@ -8,7 +9,7 @@ namespace ViewModel
     public class UserDetailsViewModel : INotifyPropertyChanged
     {
         private int _pomodoroDuration = 24;
-        private List<Model.Team> _teams;
+        private ICollection<Model.Team> _teams;
         private bool _showWarning = true;
         private bool _isUserNameEnabled = true;
         private string _userName;
@@ -25,29 +26,15 @@ namespace ViewModel
             set
             {
                 _userName = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("UserName"));
-                }
+                OnPropertyChanged();
             }
         }
 
         public string Password { get; set; }
 
-        public List<Model.Team> Teams
+        public ICollection<Model.Team> Teams
         {
-            get
-            {
-                return _teams;
-            }
-            set
-            {
-                _teams = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("Teams"));
-                }
-            }
+            get { return _teams; }
         }
 
         public int PomodoroDuration
@@ -59,10 +46,7 @@ namespace ViewModel
             set
             {
                 _pomodoroDuration = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("PomodoroDuration"));
-                }
+                OnPropertyChanged();
             }
         }
 
@@ -75,10 +59,7 @@ namespace ViewModel
             set
             {
                 _showWarning = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("ShowWarning"));
-                }
+                OnPropertyChanged();
             }
         }
 
@@ -91,10 +72,7 @@ namespace ViewModel
             set
             {
                 _selectedTeam = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("SelectedTeam"));
-                }
+                OnPropertyChanged();
             }
         }
 
@@ -107,16 +85,13 @@ namespace ViewModel
             set
             {
                 _isUserNameEnabled = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("IsUserNameEnabled"));
-                }
             }
         }
 
         public async Task Initialize(string userName)
         {
-            Teams = new List<Model.Team>(await Controller.Instance.UnitOfWork.TeamsAsync.GetAllAsync());
+            _teams = new List<Model.Team>(await Controller.Instance.UnitOfWork.TeamsAsync.GetAllAsync());
+            OnPropertyChanged("Teams");
 
             if (Controller.Instance.User != null)
             {
@@ -165,6 +140,14 @@ namespace ViewModel
                 teamId);
 
             await Controller.Instance.UnitOfWork.SaveChangesAsync();
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = null)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

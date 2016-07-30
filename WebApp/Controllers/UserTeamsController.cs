@@ -69,7 +69,7 @@ namespace WebApp.Controllers
         [ResponseType(typeof(UserTeam))]
         public IHttpActionResult PutUserTeam(UserTeam userTeam)
         {
-            if (userTeam != null)
+            if (userTeam == null)
             {
                 throw new ArgumentNullException("userTeam");
             }

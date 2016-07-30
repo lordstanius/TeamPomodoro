@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -19,10 +20,10 @@ namespace ViewModel
         private bool _isTasksEnabled = false;
         private bool _isSwitchEnabled = false;
         private bool _isSwitchChecked = false;
-        private List<Model.Task> _tasks;
+        private ICollection<Model.Task> _tasks;
         private object _selectedItem;
         private string _title = Strings.TxtTeamPomodoro;
-        private string _pomodoroXofY;
+        private string _pomodoroXOfY;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -106,20 +107,12 @@ namespace ViewModel
 
         public string TimeRemaining
         {
-            get { return _timeRemaining.ToString("mm\\:ss"); }
+            get { return _timeRemaining.ToString("mm\\:ss", CultureInfo.CurrentCulture); }
         }
 
-        public List<Model.Task> Tasks
+        public ICollection<Model.Task> Tasks
         {
-            get
-            {
-                return _tasks;
-            }
-            set
-            {
-                _tasks = value;
-                OnPropertyChanged();
-            }
+            get { return _tasks; }
         }
 
         public string Title
@@ -135,15 +128,15 @@ namespace ViewModel
             }
         }
 
-        public string PomodoroXofY
+        public string PomodoroXOfY
         {
             get
             {
-                return _pomodoroXofY;
+                return _pomodoroXOfY;
             }
             set
             {
-                _pomodoroXofY = value;
+                _pomodoroXOfY = value;
                 OnPropertyChanged();
             }
         }
@@ -158,9 +151,9 @@ namespace ViewModel
             {
                 _selectedItem = value;
                 Controller.Instance.CurrentTask = (Model.Task)value;
-                PomodoroXofY = Controller.Instance.PomodoroXofY;
+                PomodoroXOfY = Controller.Instance.PomodoroXofY;
                 IsSwitchEnabled = true;
-                SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
+                SetTimeRemaining(value != null ? Controller.Instance.User.PomodoroDurationInMin : 0);
                 OnPropertyChanged();
             }
         }
@@ -192,7 +185,7 @@ namespace ViewModel
                 {
                     SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
                     Controller.Instance.CreatePomodoro();
-                    PomodoroXofY = Controller.Instance.PomodoroXofY;
+                    PomodoroXOfY = Controller.Instance.PomodoroXofY;
                     IsTasksEnabled = false;
                 }
                 else
@@ -226,7 +219,8 @@ namespace ViewModel
 
         public void Dispose()
         {
-            Controller.Instance.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public async Task SignIn()
@@ -236,30 +230,32 @@ namespace ViewModel
             IsSignInEnabled = false;
             IsSignOutEnabled = true;
             IsEditTasksEnabled = true;
-            Tasks = new List<Model.Task>();
+
+            _tasks = new List<Model.Task>();
 
             foreach (var task in Controller.Instance.User.Tasks)
             {
-                Tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
+                _tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
             }
 
-            IsTasksEnabled = Tasks.Count > 0;
+            IsTasksEnabled = _tasks.Count > 0;
+            OnPropertyChanged("Tasks");
 
             Title = string.Format("{0}: {1}", Strings.TxtTeamPomodoro, Controller.Instance.User.UserName);
             SetTimeRemaining(Controller.Instance.User.PomodoroDurationInMin);
         }
 
-        public async Task GetTasks()
+        public async Task LoadTasks()
         {
-            var tasks = new List<Model.Task>();
+            _tasks.Clear();
             foreach (var task in Controller.Instance.User.Tasks)
             {
-                tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
+                _tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
             }
 
             if (Controller.Instance.CurrentTask != null)
             {
-                var task = tasks.FirstOrDefault(t => t.Equals(Controller.Instance.CurrentTask));
+                var task = _tasks.FirstOrDefault(t => t.Equals(Controller.Instance.CurrentTask));
                 if (task != null)
                 {
                     Controller.Instance.CurrentTask = task;
@@ -268,13 +264,11 @@ namespace ViewModel
                 }
             }
 
-            Tasks = tasks;
+            OnPropertyChanged("Tasks");
         }
 
         public void SignOut()
         {
-            SetTimeRemaining(0);
-
             IsGridEnabled = false;
             Title = Strings.TxtTeamPomodoro;
             SelectedItem = null;
@@ -305,6 +299,14 @@ namespace ViewModel
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Controller.Instance.Dispose();
             }
         }
 
