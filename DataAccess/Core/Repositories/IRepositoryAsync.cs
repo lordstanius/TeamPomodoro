@@ -15,6 +15,7 @@ namespace DataAccess.Core.Repositories
         /// <summary>
         /// Returns read-only collection of entities after the asynchronous task is completed.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         Task<IEnumerable<TEntity>> GetAllAsync();
 
         /// <summary>

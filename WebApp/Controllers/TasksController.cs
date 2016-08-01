@@ -14,14 +14,14 @@ namespace WebApp.Controllers
         private PomodoroContext db = new PomodoroContext();
 
         // GET: api/Tasks
-        public IQueryable<Task> GetTasks()
+        public IQueryable<Task> Get()
         {
             return db.Tasks;
         }
 
         // GET: api/Tasks/5
         [ResponseType(typeof(Task))]
-        public IHttpActionResult GetTask(Guid id)
+        public IHttpActionResult Get(Guid id)
         {
             Task task = db.Tasks.Find(id);
             if (task == null)

@@ -14,14 +14,16 @@ namespace WebApp.Controllers
         private PomodoroContext db = new PomodoroContext();
 
         // GET: api/UserTeams
-        public IQueryable<UserTeam> GetUserTeams()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        // Name is suggested by the WebAPI, and in the form of function
+        public IQueryable<UserTeam> Get()
         {
             return db.UserTeams;
         }
 
         // GET: api/UserTeams/5
         [ResponseType(typeof(UserTeam))]
-        public IHttpActionResult GetUserTeam(Guid id)
+        public IHttpActionResult Get(Guid id)
         {
             UserTeam userTeam = db.UserTeams.Find(id);
             if (userTeam == null)

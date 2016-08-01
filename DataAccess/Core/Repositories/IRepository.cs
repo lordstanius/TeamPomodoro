@@ -14,6 +14,7 @@ namespace DataAccess.Core.Repositories
         /// <summary>
         /// Returns read-only collection of entities.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         IEnumerable<TEntity> GetAll();
 
         /// <summary>
