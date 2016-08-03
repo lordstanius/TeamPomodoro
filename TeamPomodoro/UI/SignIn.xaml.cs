@@ -51,7 +51,18 @@ namespace TeamPomodoro.UI
                     // result is null, which means user is not found
                     if (MessageDialog.ShowYesNo(this, Strings.MsgUserCannotBeFound))
                     {
-                        if (await UserDetails.ShowDialog(this, userName.Text) == true)
+                        var userDetails = new UserDetails
+                        {
+                            Owner = this,
+                            WindowStartupLocation = WindowStartupLocation.CenterOwner
+                        };
+
+                        var userDetailsViewModel = (UserDetailsViewModel)userDetails.FindResource("UserDetailsViewModel");
+                        await userDetailsViewModel.Initialize(userName.Text);
+                        userDetails.passwordBox.Password = userDetailsViewModel.Password;
+                        result = (bool)userDetails.ShowDialog();
+
+                        if (result == true)
                         {
                             DialogResult = true;
                         }

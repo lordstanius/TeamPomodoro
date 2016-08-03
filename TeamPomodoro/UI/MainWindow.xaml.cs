@@ -117,15 +117,23 @@ namespace TeamPomodoro.UI
 
         private async void OnUserSettingsClick(object sender, RoutedEventArgs e)
         {
-            await UserDetails.ShowDialog(this, null);
+            var userDetails = new UserDetails
+            {
+                Owner = this,
+                WindowStartupLocation = WindowStartupLocation.CenterOwner
+            };
+
+            var userDetailsViewModel = (UserDetailsViewModel)userDetails.FindResource("UserDetailsViewModel");
+            await userDetailsViewModel.Initialize(null);
+            userDetails.passwordBox.Password = userDetailsViewModel.Password;
+            userDetails.ShowDialog();
         }
 
         private async void OnEditTasksClick(object sender, RoutedEventArgs e)
         {
             await EditTasksDialog.ShowEditDialog(this);
-            {
-                await _viewModel.LoadTasks();
-            }
+            await _viewModel.LoadTasks();
+
         }
 
         private void OnSwitchChecked(object sender, RoutedEventArgs e)
@@ -159,7 +167,7 @@ namespace TeamPomodoro.UI
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 DataContext = new PomodoroDialogViewModel()
             };
-            
+
             try
             {
                 await dlg.Initialize();

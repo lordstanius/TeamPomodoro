@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Security;
@@ -9,7 +10,6 @@ using NLog.Config;
 using NLog.Targets;
 using ViewModel.Globalization;
 using ViewModel.Util;
-using System.Globalization;
 
 namespace ViewModel
 {

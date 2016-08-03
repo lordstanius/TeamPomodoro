@@ -64,6 +64,20 @@ namespace ViewModel
         {
             var user = await Controller.Instance.UnitOfWork.UsersAsync.GetAsync(Controller.Instance.User.UserId);
             _tasks = new List<Model.Task>(user.Tasks);
+            
+            if (Controller.Instance.User.Tasks == null)
+            {
+                Controller.Instance.User.Tasks = new List<Model.Task>(user.Tasks);
+            }
+            else
+            {
+                Controller.Instance.User.Tasks.Clear();
+                foreach (var task in _tasks)
+                {
+                    Controller.Instance.User.Tasks.Add(task);
+                }
+            }
+
             OnPropertyChanged("Tasks");
             if (Controller.Instance.CurrentTask != null)
             {

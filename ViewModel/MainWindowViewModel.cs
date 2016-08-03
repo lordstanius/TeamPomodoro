@@ -233,9 +233,12 @@ namespace ViewModel
 
             _tasks = new List<Model.Task>();
 
-            foreach (var task in Controller.Instance.User.Tasks)
+            if (Controller.Instance.User.Tasks != null)
             {
-                _tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
+                foreach (var task in Controller.Instance.User.Tasks)
+                {
+                    _tasks.Add(await Controller.Instance.UnitOfWork.TasksAsync.GetAsync(task.TaskId));
+                }
             }
 
             IsTasksEnabled = _tasks.Count > 0;
@@ -264,6 +267,7 @@ namespace ViewModel
                 }
             }
 
+            IsTasksEnabled = _tasks.Count > 0;
             OnPropertyChanged("Tasks");
         }
 
